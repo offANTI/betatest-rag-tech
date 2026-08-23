@@ -1,0 +1,5 @@
+pathlib
+requests
+time
+bs4
+urllib.parse
