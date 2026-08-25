@@ -1,7 +1,6 @@
 import json
 import re
 from pathlib import Path
-from unittest import result
 from itertools import zip_longest
 
 from utils.logger import get_project_logger
