@@ -1,5 +1,8 @@
+import json
 import re
 from pathlib import Path
+from unittest import result
+from itertools import zip_longest
 
 from utils.logger import get_project_logger
 
@@ -13,39 +16,85 @@ CHUNKS_FILE = PROJECT_ROOT / "data" / "chunks" / "python_docs.json"
 
 MAX_CHUNK_SIZE = 1000
 
-def split_headings (markdown_text: str) -> list[tuple[str,str]]:
+
+def split_headings(markdown_text: str) -> list[tuple[str, str]]:
     parts = re.split(r'^##\s+(.+)$', markdown_text, flags=re.M)
-    result = []
+    headings = parts[1::2]
+    contents = parts[2::2]
 
-    intro = parts[0].strip()
-    if intro:
-        result.append(("Introduction",intro))
+    sections = [("Introduction", parts[0].strip())] if parts[0].strip() else []
+    sections += [(h.strip(), c.strip() if c else "")
+                 for h, c in zip_longest(headings, contents, fillvalue="")]
+    return sections
 
-    for i in range(1, len(parts), 2):
-        title = parts[i].strip()
-        content = parts[i + 1].strip() if i + 1 < len(parts) else ""
-        result.append((title, content))
+def split_by_size(text: str, max_size: int) -> list[str]:
+    if len(text) <= max_size:
+        return [text]
+    paragraphs = text.split("\n\n")
+    chunks = []
+    current_chunk = ""
+    for paragraph in paragraphs:
+        if current_chunk and (len(current_chunk) + len(paragraph) + 1 > max_size):
+            chunks.append(current_chunk)
+            current_chunk = paragraph
+        else:
+            current_chunk += "\n" + paragraph if current_chunk else paragraph
 
-    return result
+    if current_chunk:
+        chunks.append(current_chunk)
+
+    return chunks
+
+def chunk_one_file(md_path: Path) -> list[dict]:
+    text = md_path.read_text(encoding="utf-8")
+    sections = split_headings(text)
+
+    chunks = []
+    for i, (heading, section_text) in enumerate(sections):
+        pieces = split_by_size(section_text, MAX_CHUNK_SIZE)
+        for j, piece in enumerate(pieces):
+            chunks.append({
+                "chunk_id": f"{md_path.stem}_{i:03d}_{j:03d}",
+                "source_file": md_path.name,
+                "heading": heading,
+                "text": piece.strip(),
+            })
+    return chunks
+
+
+def chunk_all():
+    all_chunks = []
+    md_files = list(PROCESSED_DIR.glob("*.md"))
+    logger.info(f"Chunking {len(md_files)} files")
+
+    for md_path in md_files:
+        all_chunks.extend(chunk_one_file(md_path))
+
+    CHUNKS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    CHUNKS_FILE.write_text(json.dumps(all_chunks, ensure_ascii=False, indent=2), encoding="utf-8")
+    logger.info(f"Saved {len(all_chunks)} chunks to {CHUNKS_FILE}")
 
 
 if __name__ == "__main__":
-    script_dir = Path(__file__).parent.parent.parent
-    file_path = script_dir / "data" / "processed" / "python_docs" / "3_library_intro.md"
+    chunk_all()
 
-    try:
-        with open(file_path, "r", encoding="utf-8") as file:
-            test_text = file.read()
-
-
-        parsed_sections = split_headings(test_text)
-
-
-        print(f"Test file: {file_path}")
-        print(f"Found chunks: {len(parsed_sections)}\n")
-        for title, content in parsed_sections:
-            print(f"=== Title: {title} ===")
-            print(content)
-            print("-" * 30)
-    except FileNotFoundError:
-        print(f"Error: file '{file_path}'not found.")
+# if __name__ == "__main__":
+#     script_dir = Path(__file__).parent.parent.parent
+#     file_path = script_dir / "data" / "processed" / "python_docs" / "3_library_intro.md"
+#
+#     try:
+#         with open(file_path, "r", encoding="utf-8") as file:
+#             test_text = file.read()
+#
+#
+#         parsed_sections = split_headings(test_text)
+#
+#
+#         print(f"Test file: {file_path}")
+#         print(f"Found chunks: {len(parsed_sections)}\n")
+#         for title, content in parsed_sections:
+#             print(f"=== Title: {title} ===")
+#             print(content)
+#             print("-" * 30)
+#     except FileNotFoundError:
+#         print(f"Error: file '{file_path}'not found.")
