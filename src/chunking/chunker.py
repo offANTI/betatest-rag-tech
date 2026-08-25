@@ -47,6 +47,7 @@ def split_by_size(text: str, max_size: int) -> list[str]:
 def chunk_one_file(md_path: Path) -> list[dict]:
     text = md_path.read_text(encoding="utf-8")
     sections = split_headings(text)
+    logger.debug(f"{md_path.name}: found {len(sections)} sections")
 
     chunks = []
     for i, (heading, section_text) in enumerate(sections):
@@ -58,6 +59,12 @@ def chunk_one_file(md_path: Path) -> list[dict]:
                 "heading": heading,
                 "text": piece.strip(),
             })
+
+    if not chunks:
+        logger.warning(f"{md_path.name}: produced 0 chunks")
+    else:
+        logger.info(f"{md_path.name}: {len(chunks)} chunks")
+
     return chunks
 
 
@@ -71,7 +78,7 @@ def chunk_all():
 
     CHUNKS_FILE.parent.mkdir(parents=True, exist_ok=True)
     CHUNKS_FILE.write_text(json.dumps(all_chunks, ensure_ascii=False, indent=2), encoding="utf-8")
-    logger.info(f"Saved {len(all_chunks)} chunks to {CHUNKS_FILE}")
+    logger.info(f"Saved {len(all_chunks)} chunks from {len(md_files)} files to {CHUNKS_FILE}")
 
 
 if __name__ == "__main__":
