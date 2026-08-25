@@ -26,21 +26,65 @@ def split_headings(markdown_text: str) -> list[tuple[str, str]]:
                  for h, c in zip_longest(headings, contents, fillvalue="")]
     return sections
 
-def split_by_size(text: str, max_size: int) -> list[str]:
-    if len(text) <= max_size:
-        return [text]
-    paragraphs = text.split("\n\n")
-    chunks = []
-    current_chunk = ""
-    for paragraph in paragraphs:
-        if current_chunk and (len(current_chunk) + len(paragraph) + 1 > max_size):
-            chunks.append(current_chunk)
-            current_chunk = paragraph
-        else:
-            current_chunk += "\n" + paragraph if current_chunk else paragraph
+def split_long_paragraph(paragraph: str, max_size: int) -> list[str]:
+    paragraph = (paragraph or "").strip()
+    if not paragraph:
+        return []
 
-    if current_chunk:
-        chunks.append(current_chunk)
+    if len(paragraph) <= max_size:
+        return [paragraph]
+
+    words = paragraph.split(" ")
+    chunks: list[str] = []
+    current = ""
+
+    for w in words:
+        if not w:
+            continue
+
+        if current:
+            if len(current) + 1 + len(w) <= max_size:
+                current += " " + w
+                continue
+            else:
+                chunks.append(current)
+
+        if len(w) <= max_size:
+            current = w
+        else:
+            start = 0
+            while start < len(w):
+                part = w[start:start + max_size]
+                chunks.append(part)
+                start += max_size
+            current = ""
+
+    if current:
+        chunks.append(current)
+
+    return chunks
+
+
+def split_by_size(text: str, max_size: int) -> list[str]:
+    text = text or ""
+    if not text.strip():
+        return []
+
+    if len(text) <= max_size:
+        return [text.strip()]
+
+    raw_paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+    chunks: list[str] = []
+
+    for paragraph in raw_paragraphs:
+        pieces = split_long_paragraph(paragraph, max_size)
+        for piece in pieces:
+            if not piece:
+                continue
+            if chunks and len(chunks[-1]) + 2 + len(piece) <= max_size:
+                chunks[-1] = chunks[-1] + "\n\n" + piece
+            else:
+                chunks.append(piece)
 
     return chunks
 
