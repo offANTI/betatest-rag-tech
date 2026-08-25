@@ -59,12 +59,3 @@ rag-tech-docs/
 └── utils/
     └── logger.py
 ```
-
-## Notes from along the way
-
-A few things I tripped on that are worth remembering:
-
-- **sitemap.xml isn't always granular.** Python docs' sitemap only lists release versions, not pages — had to switch to following links instead.
-- **URLs with `#anchors` are duplicates.** `stdtypes.html#comparisons` and `stdtypes.html` are the same page — strip the fragment before the URL hits the queue, not after.
-- **`requests` sometimes guesses encoding wrong.** Without explicit `response.encoding = "utf-8"`, special characters turned into garbage.
-- **Build paths from `__file__`, not the working directory.** Otherwise you end up with the same folder created in two different places — happened once already.
