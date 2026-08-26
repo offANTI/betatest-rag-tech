@@ -1,8 +1,8 @@
-from pathlib import Path
 import json
 import numpy as np
 from utils.logger import get_project_logger
-
+from sentence_transformers import SentenceTransformer
+from pathlib import Path
 logger = get_project_logger(__name__)
 
 CURRENT_FILE = Path(__file__)
@@ -29,4 +29,30 @@ def cosine_similarity(query_vec: np.ndarray, all_vecs: np.ndarray) -> np.ndarray
     similarities = numerator / denominator
     return similarities
 
+def search(query: str, model: SentenceTransformer, chunks: list[dict], embeddings: np.ndarray) -> list[dict]:
+    query_vec = model.encode([query])[0]
+    scores = cosine_similarity(query_vec, embeddings)
+    top_indices = np.argsort(scores)[-TOP_K:][::-1]
+    results = []
+    for i in top_indices:
+        chunk = chunks[i]
+        results.append({
+            "score": float(scores[i]),
+            "heading": chunk["heading"],
+            "text": chunk["text"],
+            "source_file": chunk["source_file"],
+        })
+    return results
 
+
+
+
+if __name__ == "__main__":
+    chunks, embeddings = load_data()
+    model = SentenceTransformer(MODEL_NAME)
+
+    query = "how to check if a variable is a list"
+    results = search(query, model, chunks, embeddings)
+
+    for r in results:
+        logger.info(f"[{r['heading']}] {r['text'][:150]}...")
