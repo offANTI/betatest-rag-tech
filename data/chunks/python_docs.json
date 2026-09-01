@@ -1533,7 +1533,7 @@
     "chunk_id": "3_library_difflib_000_000",
     "source_file": "3_library_difflib.md",
     "heading": "Introduction",
-    "text": "# difflib — Helpers for computing deltas\n\nSource code: Lib/difflib.py\n\nThis module provides classes and functions for comparing sequences.\nMost of them compare sequences of text lines (for example lists of strings,\nor file objects) and\nproduce diffs – reports on the differences.\nDiffs can be produced in in various formats, including HTML and context\nand unified diffs – formats produced by tools like\ndiff and git diff.\n\nComparisons are done using a matching algorithm implemented in\nSequenceMatcher – a flexible class for comparing pairs of sequences\nof any type, not just text, so long as the sequence elements are\nhashable."
+    "text": "# difflib — Helpers for computing deltas\n\nSource code: Lib/difflib.py\n\nThis module provides classes and functions for comparing sequences.\nMost of them compare sequences of text lines (for example lists of strings,\nor file objects) and\nproduce diffs – reports on the differences.\nDiffs can be produced in various formats, including HTML and context\nand unified diffs – formats produced by tools like\ndiff and git diff.\n\nComparisons are done using a matching algorithm implemented in\nSequenceMatcher – a flexible class for comparing pairs of sequences\nof any type, not just text, so long as the sequence elements are\nhashable."
   },
   {
     "chunk_id": "3_library_difflib_001_000",
@@ -1545,7 +1545,7 @@
     "chunk_id": "3_library_difflib_001_001",
     "source_file": "3_library_difflib.md",
     "heading": "Junk heuristic",
-    "text": "Depending on your data, you should consider turning this heuristic off\n(setting SequenceMatcher’s autojunk argument to  to False)\nor tuning it (using the isjunk argument, perhaps to one of the\npredefined functions)."
+    "text": "Depending on your data, you should consider turning this heuristic off\n(setting SequenceMatcher’s autojunk argument to False)\nor tuning it (using the isjunk argument, perhaps to one of the\npredefined functions)."
   },
   {
     "chunk_id": "3_library_difflib_002_000",

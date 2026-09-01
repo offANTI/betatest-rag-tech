@@ -1,14 +1,14 @@
+import argparse
 from pathlib import Path
 from bs4 import BeautifulSoup
 from utils.logger import get_project_logger
+from common.config import load_source_config
 
 logger = get_project_logger(__name__)
 
 CURRENT_FILE = Path(__file__)
 PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
 
-RAW_DIR = PROJECT_ROOT / "data" / "raw" / "python_docs"
-PROCESSED_DIR = PROJECT_ROOT / "data" / "processed" / "python_docs"
 
 def html_to_markdown(main_content) -> str:
     lines = []
@@ -25,33 +25,46 @@ def html_to_markdown(main_content) -> str:
             lines.append("```\n" + tag.get_text() + "\n```")
     return "\n\n".join(lines)
 
-def extract_one_file(html_path: Path) -> str | None:
+
+def extract_one_file(html_path: Path, selector: dict) -> str | None:
     html = html_path.read_text(encoding="utf-8")
     soup = BeautifulSoup(html, "html.parser")
 
-    main_content = soup.find("div", {"role": "main"})
+    main_content = soup.find(selector["tag"], selector["attrs"])
     if main_content is None:
         logger.warning(f"No main content found in {html_path.name}")
         return None
 
     return html_to_markdown(main_content)
 
-def save_markdown(html_path: Path, markdown_text: str) -> None:
-    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
-    output_path = PROCESSED_DIR / html_path.with_suffix(".md").name
+
+def save_markdown(html_path: Path, markdown_text: str, processed_dir: Path) -> None:
+    processed_dir.mkdir(parents=True, exist_ok=True)
+    output_path = processed_dir / html_path.with_suffix(".md").name
     output_path.write_text(markdown_text, encoding="utf-8")
 
-def extract_all():
-    html_files = list(RAW_DIR.glob("*.html"))
-    logger.info(f"Found {len(html_files)} HTML files to process")
+
+def extract_all(source_name: str):
+    config = load_source_config(source_name)
+    selector = config["main_content_selector"]
+
+    raw_dir = PROJECT_ROOT / "data" / "raw" / source_name
+    processed_dir = PROJECT_ROOT / "data" / "processed" / source_name
+
+    html_files = list(raw_dir.glob("*.html"))
+    logger.info(f"[{source_name}] Found {len(html_files)} HTML files to process")
 
     for html_path in html_files:
-        markdown_text = extract_one_file(html_path)
+        markdown_text = extract_one_file(html_path, selector)
         if markdown_text is None:
             continue
-        save_markdown(html_path, markdown_text)
-        logger.info(f"Processed: {html_path.name}")
+        save_markdown(html_path, markdown_text, processed_dir)
+        logger.info(f"[{source_name}] Processed: {html_path.name}")
 
 
 if __name__ == "__main__":
-    extract_all()
+    parser = argparse.ArgumentParser(description="Extract markdown from a crawled documentation source")
+    parser.add_argument("source", help="Source name from config/sources.yaml, e.g. python_docs")
+    args = parser.parse_args()
+
+    extract_all(args.source)

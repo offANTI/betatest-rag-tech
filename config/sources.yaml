@@ -1,0 +1,8 @@
+python_docs:
+  start_url: "https://docs.python.org/3/library/index.html"
+  allowed_prefix: "https://docs.python.org/3/"
+  blacklist: ["genindex", "py-modindex", "bugs.html", "search.html", "copyright.html"]
+  main_content_selector:
+    tag: "div"
+    attrs:
+      role: "main"

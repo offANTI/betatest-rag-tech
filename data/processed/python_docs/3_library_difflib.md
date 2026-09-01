@@ -6,7 +6,7 @@ This module provides classes and functions for comparing sequences.
 Most of them compare sequences of text lines (for example lists of strings,
 or file objects) and
 produce diffs – reports on the differences.
-Diffs can be produced in in various formats, including HTML and context
+Diffs can be produced in various formats, including HTML and context
 and unified diffs – formats produced by tools like
 diff and git diff.
 
@@ -38,7 +38,7 @@ By default, if the second input sequence is at least 200 items long, items
 that account for more than 1% it are considered junk.
 
 Depending on your data, you should consider turning this heuristic off
-(setting SequenceMatcher’s autojunk argument to  to False)
+(setting SequenceMatcher’s autojunk argument to False)
 or tuning it (using the isjunk argument, perhaps to one of the
 predefined functions).
 

@@ -1,31 +1,28 @@
+import argparse
 import time
-import requests
 import os
+import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin
-from utils.logger import get_project_logger
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 from pathlib import Path
-
-CURRENT_FILE = Path(__file__)
-
-PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
+from utils.logger import get_project_logger
+from common.config import load_source_config
 
 logger = get_project_logger(__name__)
 
+CURRENT_FILE = Path(__file__)
+PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
 
-START_URL = "https://docs.python.org/3/library/index.html"
-ALLOWED_PREFIX = "https://docs.python.org/3/"
-BLACKLIST = ["genindex", "py-modindex", "bugs.html", "search.html", "copyright.html"]
 MAX_PAGES = 30
 REQUEST_DELAY = 0.5
 
-def valid_url(url: str, visited: set, queue: list) -> bool:
-    if not url.startswith(ALLOWED_PREFIX):
+
+def valid_url(url: str, allowed_prefix: str, blacklist: list, visited: set, queue: list) -> bool:
+    if not url.startswith(allowed_prefix):
         return False
     if url in visited or url in queue:
         return False
-    if any(bad in url for bad in BLACKLIST):
+    if any(bad in url for bad in blacklist):
         return False
     return True
 
@@ -43,10 +40,11 @@ def extract_links(html: str, base_url: str) -> list[str]:
 def fetch_page(url: str) -> requests.Response | None:
     try:
         response = requests.get(url)
-        response.encoding = "utf-8"
     except requests.exceptions.RequestException as e:
         logger.error(f"Request failed for {url}: {e}")
         return None
+
+    response.encoding = "utf-8"
 
     if response.status_code != 200:
         logger.warning(f"Bad status {response.status_code} for {url}")
@@ -54,11 +52,12 @@ def fetch_page(url: str) -> requests.Response | None:
 
     return response
 
-def save_html(url: str, html: str) -> None:
+
+def save_html(url: str, html: str, source_name: str) -> None:
     parsed = urlparse(url)
     filename = parsed.path[1:].replace("/", "_")
 
-    output_dir = PROJECT_ROOT / "data" / "raw" / "python_docs"
+    output_dir = PROJECT_ROOT / "data" / "raw" / source_name
     os.makedirs(output_dir, exist_ok=True)
     filepath = os.path.join(output_dir, filename)
 
@@ -66,10 +65,15 @@ def save_html(url: str, html: str) -> None:
         f.write(html)
 
 
-def crawl():
+def crawl(source_name: str):
+    config = load_source_config(source_name)
+    start_url = config["start_url"]
+    allowed_prefix = config["allowed_prefix"]
+    blacklist = config["blacklist"]
+
     visited = set()
-    queue = [START_URL]
-    logger.info(f"Starting crawl from {START_URL}")
+    queue = [start_url]
+    logger.info(f"[{source_name}] Starting crawl from {start_url}")
 
     while queue and len(visited) < MAX_PAGES:
         url = queue.pop(0)
@@ -81,17 +85,21 @@ def crawl():
             continue
 
         visited.add(url)
-        save_html(url, response.text)
+        save_html(url, response.text, source_name)
 
-        for link in extract_links(response.text, START_URL):
-            if valid_url(link, visited, queue):
+        for link in extract_links(response.text, start_url):
+            if valid_url(link, allowed_prefix, blacklist, visited, queue):
                 queue.append(link)
 
-        logger.info(f"[{len(visited)}/{MAX_PAGES}] Visited: {url}")
+        logger.info(f"[{source_name}] [{len(visited)}/{MAX_PAGES}] Visited: {url}")
         time.sleep(REQUEST_DELAY)
 
     return visited
 
 
 if __name__ == "__main__":
-    crawl()
+    parser = argparse.ArgumentParser(description="Crawl a documentation source")
+    parser.add_argument("source", help="Source name from config/sources.yaml, e.g. python_docs")
+    args = parser.parse_args()
+
+    crawl(args.source)
