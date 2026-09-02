@@ -14,7 +14,7 @@ def chunk_ranks(scores: np.ndarray) -> np.ndarray:
     scores = np.asarray(scores)
     if scores.ndim != 1:
         raise ValueError("scores must be a 1-D array")
-    # np.argsort(np.argsort(-scores)) даёт 0 для наибольшего значения
+
     return np.argsort(np.argsort(-scores))
 
 
@@ -94,7 +94,7 @@ def hybrid_search(
         logger.info("No candidates found")
         return []
 
-    # Compute aggregated scores for all candidates
+    
     eps = 1e-8
     scores = np.zeros(n, dtype=float)
 

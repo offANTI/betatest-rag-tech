@@ -23,7 +23,7 @@ def split_headings_new(markdown_text: str):
         return [("Introduction", markdown_text.strip())] if markdown_text.strip() else []
 
     sections = []
-    # preamble before first heading
+    
     if matches[0].start() > 0:
         pre = markdown_text[:matches[0].start()].strip()
         if pre:
@@ -181,7 +181,7 @@ def compare_and_report(old_chunks, new_chunks, old_per_file_counts, new_per_file
     else:
         print("\nNo per-file chunk count differences detected.")
 
-    # sample differences: show first few chunks where heading differs for same chunk_id (best-effort)
+
     print("\nSample new chunks (up to %d):" % show_samples)
     for i, c in enumerate(new_chunks[:show_samples]):
         print(f"  - [{c['chunk_id']}] {c['source_file']} | heading: {c['heading'][:80]!s} | text_snippet: {c['text'][:60]!s}...")

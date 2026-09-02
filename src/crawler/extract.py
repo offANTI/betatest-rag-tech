@@ -1,82 +1,116 @@
-import argparse
+import sys
 from pathlib import Path
-from bs4 import BeautifulSoup
-from utils.logger import get_project_logger
-from common.config import load_source_config
+from unittest.mock import MagicMock
 
-logger = get_project_logger(__name__)
+import numpy as np
 
-CURRENT_FILE = Path(__file__)
-PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from src.retrieval.hybrid import hybrid_search, chunk_ranks
 
 
-def html_to_markdown(main_content) -> str:
-    lines = []
-    tags = main_content.find_all(
-        ["h1", "h2", "h3", "h4", "h5", "h6", "p", "pre", "dt", "dd"]
+def _fake_chunks():
+    return [
+        {"text": "isinstance checks if object is an instance of a class"},
+        {"text": "type() returns the type of an object"},
+        {"text": "list is a mutable sequence type"},
+        {"text": "dict is a mapping type with key-value pairs"},
+        {"text": "str represents immutable text sequences"},
+    ]
+
+
+def test_hybrid_search_returns_top_k():
+    chunks = _fake_chunks()
+    n = len(chunks)
+
+
+    fake_model = MagicMock()
+    fake_model.encode.return_value = np.array([[1.0, 0.0, 0.0]])
+
+
+    dense_embeddings = np.array([
+        [1.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0],
+        [0.0, 0.0, 1.0],
+        [0.5, 0.5, 0.0],
+        [0.0, 0.5, 0.5],
+    ])
+
+
+    fake_bm25 = MagicMock()
+    fake_bm25.get_scores.return_value = np.array([5.0, 1.0, 0.5, 0.3, 0.1])
+
+    results = hybrid_search(
+        query="check instance type",
+        model=fake_model,
+        chunks=chunks,
+        dense_embeddings=dense_embeddings,
+        bm25=fake_bm25,
+        top_k=3,
     )
-    for tag in tags:
-        if tag.name == "p" and tag.find_parent("dd"):
-            continue
 
-        if tag.name.startswith("h"):
-            level = int(tag.name[1])
-            for headerlink in tag.find_all("a", class_="headerlink"):
-                headerlink.decompose()
-            lines.append("#" * level + " " + tag.get_text())
-        elif tag.name == "dt":
-            for headerlink in tag.find_all("a", class_="headerlink"):
-                headerlink.decompose()
-            lines.append("#### " + tag.get_text())
-        elif tag.name == "dd":
-            lines.append(tag.get_text())
-        elif tag.name == "p":
-            lines.append(tag.get_text())
-        elif tag.name == "pre":
-            lines.append("```\n" + tag.get_text() + "\n```")
+    assert len(results) == 3
 
-    return "\n\n".join(lines)
+    assert results[0]["chunk_idx"] == 0
+    assert results[0]["dense_rank"] == 0
+    assert results[0]["bm25_rank"] == 0
 
 
-def extract_one_file(html_path: Path, selector: dict) -> str | None:
-    html = html_path.read_text(encoding="utf-8")
-    soup = BeautifulSoup(html, "html.parser")
+def test_hybrid_search_calls_model_and_bm25_correctly():
+    chunks = _fake_chunks()
 
-    main_content = soup.find(selector["tag"], selector["attrs"])
-    if main_content is None:
-        logger.warning(f"No main content found in {html_path.name}")
-        return None
+    fake_model = MagicMock()
+    fake_model.encode.return_value = np.array([[1.0, 0.0, 0.0]])
 
-    return html_to_markdown(main_content)
+    dense_embeddings = np.random.rand(5, 3)
 
+    fake_bm25 = MagicMock()
+    fake_bm25.get_scores.return_value = np.random.rand(5)
 
-def save_markdown(html_path: Path, markdown_text: str, processed_dir: Path) -> None:
-    processed_dir.mkdir(parents=True, exist_ok=True)
-    output_path = processed_dir / html_path.with_suffix(".md").name
-    output_path.write_text(markdown_text, encoding="utf-8")
-
-
-def extract_all(source_name: str):
-    config = load_source_config(source_name)
-    selector = config["main_content_selector"]
-
-    raw_dir = PROJECT_ROOT / "data" / "raw" / source_name
-    processed_dir = PROJECT_ROOT / "data" / "processed" / source_name
-
-    html_files = list(raw_dir.glob("*.html"))
-    logger.info(f"[{source_name}] Found {len(html_files)} HTML files to process")
-
-    for html_path in html_files:
-        markdown_text = extract_one_file(html_path, selector)
-        if markdown_text is None:
-            continue
-        save_markdown(html_path, markdown_text, processed_dir)
-        logger.info(f"[{source_name}] Processed: {html_path.name}")
+    hybrid_search(
+        query="my test query",
+        model=fake_model,
+        chunks=chunks,
+        dense_embeddings=dense_embeddings,
+        bm25=fake_bm25,
+        top_k=2,
+    )
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Extract markdown from a crawled documentation source")
-    parser.add_argument("source", help="Source name from config/sources.yaml, e.g. python_docs")
-    args = parser.parse_args()
+    fake_model.encode.assert_called_once_with(["my test query"])
 
-    extract_all(args.source)
+    fake_bm25.get_scores.assert_called_once()
+
+
+def test_hybrid_search_result_structure():
+    chunks = _fake_chunks()
+    fake_model = MagicMock()
+    fake_model.encode.return_value = np.array([[1.0, 0.0, 0.0]])
+    dense_embeddings = np.random.rand(5, 3)
+    fake_bm25 = MagicMock()
+    fake_bm25.get_scores.return_value = np.random.rand(5)
+
+    results = hybrid_search(
+        "query", fake_model, chunks, dense_embeddings, fake_bm25, top_k=1
+    )
+
+    result = results[0]
+
+
+    expected_keys = {
+        "chunk_idx",
+        "text",
+        "score",
+        "dense_rank",
+        "bm25_rank",
+        "dense_score",
+        "bm25_score",
+        "rrf_score",
+    }
+
+
+    assert expected_keys.issubset(set(result.keys()))
+    assert isinstance(result["text"], str)
+    assert isinstance(result["rrf_score"], float)
+    assert isinstance(result["dense_score"], float)
+    assert isinstance(result["bm25_score"], float)

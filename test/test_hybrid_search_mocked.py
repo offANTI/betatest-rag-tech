@@ -95,6 +95,20 @@ def test_hybrid_search_result_structure():
     )
 
     result = results[0]
-    assert set(result.keys()) == {"chunk_idx", "text", "score", "dense_rank", "bm25_rank"}
+
+
+    expected_keys = {
+        "chunk_idx",
+        "text",
+        "score",
+        "dense_rank",
+        "bm25_rank",
+        "dense_score",
+        "bm25_score",
+    }
+
+    assert expected_keys.issubset(set(result.keys()))
     assert isinstance(result["text"], str)
-    assert isinstance(result["rrf_score"], float)
+    assert isinstance(result["score"], float)
+    assert isinstance(result["dense_score"], float)
+    assert isinstance(result["bm25_score"], float)
