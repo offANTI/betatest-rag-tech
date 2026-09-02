@@ -33,18 +33,39 @@ interactive mode.  Unless Python is run with the
 On platforms without readline, the Completer class defined by
 this module can still be used for custom purposes.
 
+#### 
+class rlcompleter.Completer
+
 Completer objects have the following method:
 
-Return the next possible completion for text.
 
+complete(text, state)¶
+Return the next possible completion for text.
 When called by the readline module, this method is called
 successively with state == 0, 1, 2, ... until the method returns
 None.
-
 If called for text that doesn’t include a period character ('.'), it will
 complete from names currently defined in __main__, builtins and
 keywords (as defined by the keyword module).
+If called for a dotted name, it will try to evaluate anything without obvious
+side-effects (functions will not be evaluated, but it can generate calls to
+__getattr__()) up to the last part, and find matches for the
+rest via the dir() function.  Any exception raised during the
+evaluation of the expression is caught, silenced and None is
+returned.
 
+
+
+#### 
+complete(text, state)
+
+Return the next possible completion for text.
+When called by the readline module, this method is called
+successively with state == 0, 1, 2, ... until the method returns
+None.
+If called for text that doesn’t include a period character ('.'), it will
+complete from names currently defined in __main__, builtins and
+keywords (as defined by the keyword module).
 If called for a dotted name, it will try to evaluate anything without obvious
 side-effects (functions will not be evaluated, but it can generate calls to
 __getattr__()) up to the last part, and find matches for the

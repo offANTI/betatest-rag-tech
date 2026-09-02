@@ -15,21 +15,30 @@ bytes.
 The module defines the following functions for encoding and decoding with
 any codec:
 
-Encodes obj using the codec registered for encoding.
+#### 
+codecs.encode(obj, encoding='utf-8', errors='strict')
 
+Encodes obj using the codec registered for encoding.
 Errors may be given to set the desired error handling scheme. The
 default error handler is 'strict' meaning that encoding errors raise
 ValueError (or a more codec specific subclass, such as
 UnicodeEncodeError). Refer to Codec Base Classes for more
 information on codec error handling.
 
-Decodes obj using the codec registered for encoding.
 
+#### 
+codecs.decode(obj, encoding='utf-8', errors='strict')
+
+Decodes obj using the codec registered for encoding.
 Errors may be given to set the desired error handling scheme. The
 default error handler is 'strict' meaning that decoding errors raise
 ValueError (or a more codec specific subclass, such as
 UnicodeDecodeError). Refer to Codec Base Classes for more
 information on codec error handling.
+
+
+#### 
+codecs.charmap_build(string)
 
 Return a mapping suitable for encoding with a custom single-byte encoding.
 Given a str string of up to 256 characters representing a
@@ -37,20 +46,74 @@ decoding table, returns either a compact internal mapping object
 EncodingMap or a dictionary mapping character ordinals
 to byte values. Raises a TypeError on invalid input.
 
+
 The full details for each codec can also be looked up directly:
+
+#### 
+codecs.lookup(encoding, /)
 
 Looks up the codec info in the Python codec registry and returns a
 CodecInfo object as defined below.
-
 Encodings are first looked up in the registry’s cache. If not found, the list of
 registered search functions is scanned. If no CodecInfo object is
 found, a LookupError is raised. Otherwise, the CodecInfo object
 is stored in the cache and returned to the caller.
 
+
+#### 
+class codecs.CodecInfo(encode, decode, streamreader=None, streamwriter=None, incrementalencoder=None, incrementaldecoder=None, name=None)
+
 Codec details when looking up the codec registry. The constructor
 arguments are stored in attributes of the same name:
 
+
+name¶
 The name of the encoding.
+
+
+
+encode¶
+
+decode¶
+The stateless encoding and decoding functions. These must be
+functions or methods which have the same interface as
+the encode() and decode() methods of Codec
+instances (see Codec Interface).
+The functions or methods are expected to work in a stateless mode.
+
+
+
+incrementalencoder¶
+
+incrementaldecoder¶
+Incremental encoder and decoder classes or factory functions.
+These have to provide the interface defined by the base classes
+IncrementalEncoder and IncrementalDecoder,
+respectively. Incremental codecs can maintain state.
+
+
+
+streamwriter¶
+
+streamreader¶
+Stream writer and reader classes or factory functions. These have to
+provide the interface defined by the base classes
+StreamWriter and StreamReader, respectively.
+Stream codecs can maintain state.
+
+
+
+#### 
+name
+
+The name of the encoding.
+
+
+#### 
+encode
+
+#### 
+decode
 
 The stateless encoding and decoding functions. These must be
 functions or methods which have the same interface as
@@ -58,51 +121,87 @@ the encode() and decode() methods of Codec
 instances (see Codec Interface).
 The functions or methods are expected to work in a stateless mode.
 
+
+#### 
+incrementalencoder
+
+#### 
+incrementaldecoder
+
 Incremental encoder and decoder classes or factory functions.
 These have to provide the interface defined by the base classes
 IncrementalEncoder and IncrementalDecoder,
 respectively. Incremental codecs can maintain state.
+
+
+#### 
+streamwriter
+
+#### 
+streamreader
 
 Stream writer and reader classes or factory functions. These have to
 provide the interface defined by the base classes
 StreamWriter and StreamReader, respectively.
 Stream codecs can maintain state.
 
+
 To simplify access to the various codec components, the module provides
 these additional functions which use lookup() for the codec lookup:
 
-Look up the codec for the given encoding and return its encoder function.
+#### 
+codecs.getencoder(encoding)
 
+Look up the codec for the given encoding and return its encoder function.
 Raises a LookupError in case the encoding cannot be found.
+
+
+#### 
+codecs.getdecoder(encoding)
 
 Look up the codec for the given encoding and return its decoder function.
-
 Raises a LookupError in case the encoding cannot be found.
+
+
+#### 
+codecs.getincrementalencoder(encoding)
 
 Look up the codec for the given encoding and return its incremental encoder
 class or factory function.
-
 Raises a LookupError in case the encoding cannot be found or the codec
 doesn’t support an incremental encoder.
 
+
+#### 
+codecs.getincrementaldecoder(encoding)
+
 Look up the codec for the given encoding and return its incremental decoder
 class or factory function.
-
 Raises a LookupError in case the encoding cannot be found or the codec
 doesn’t support an incremental decoder.
 
+
+#### 
+codecs.getreader(encoding)
+
 Look up the codec for the given encoding and return its StreamReader
 class or factory function.
-
 Raises a LookupError in case the encoding cannot be found.
+
+
+#### 
+codecs.getwriter(encoding)
 
 Look up the codec for the given encoding and return its StreamWriter
 class or factory function.
-
 Raises a LookupError in case the encoding cannot be found.
+
 
 Custom codecs are made available by registering a suitable codec search
 function:
+
+#### 
+codecs.register(search_function, /)
 
 Register a codec search function. Search functions are expected to take one
 argument, being the encoding name in all lower case letters with hyphens
@@ -112,22 +211,31 @@ None.
 
 Changed in version 3.9: Hyphens and spaces are converted to underscore.
 
+
+
+#### 
+codecs.unregister(search_function, /)
+
 Unregister a codec search function and clear the registry’s cache.
 If the search function is not registered, do nothing.
 
 Added in version 3.10.
+
+
 
 While the builtin open() and the associated io module are the
 recommended approach for working with encoded text files, this module
 provides additional utility functions and classes that allow the use of a
 wider range of codecs when working with binary files:
 
+#### 
+codecs.open(filename, mode='r', encoding=None, errors='strict', buffering=-1)
+
 Open an encoded file using the given mode and return an instance of
 StreamReaderWriter, providing transparent encoding/decoding.
 The default file mode is 'r', meaning to open the file in read mode.
 
 Note
-
 If encoding is not None, then the
 underlying encoded files are always opened in binary mode.
 No automatic conversion of '\n' is done on reading and writing.
@@ -137,57 +245,72 @@ open() function; the 'b' is automatically added.
 encoding specifies the encoding which is to be used for the file.
 Any encoding that encodes to and decodes from bytes is allowed, and
 the data types supported by the file methods depend on the codec used.
-
 errors may be given to define the error handling. It defaults to 'strict'
 which causes a ValueError to be raised in case an encoding error occurs.
-
 buffering has the same meaning as for the built-in open() function.
 It defaults to -1 which means that the default buffer size will be used.
 
 Changed in version 3.11: The 'U' mode has been removed.
 
+
 Deprecated since version 3.14: codecs.open() has been superseded by open().
+
+
+
+#### 
+codecs.EncodedFile(file, data_encoding, file_encoding=None, errors='strict')
 
 Return a StreamRecoder instance, a wrapped version of file
 which provides transparent transcoding. The original file is closed
 when the wrapped version is closed.
-
 Data written to the wrapped file is decoded according to the given
 data_encoding and then written to the original file as bytes using
 file_encoding. Bytes read from the original file are decoded
 according to file_encoding, and the result is encoded
 using data_encoding.
-
 If file_encoding is not given, it defaults to data_encoding.
-
 errors may be given to define the error handling. It defaults to
 'strict', which causes ValueError to be raised in case an encoding
 error occurs.
+
+
+#### 
+codecs.iterencode(iterator, encoding, errors='strict', **kwargs)
 
 Uses an incremental encoder to iteratively encode the input provided by
 iterator. iterator must yield str objects.
 This function is a generator. The errors argument (as well as any
 other keyword argument) is passed through to the incremental encoder.
-
 This function requires that the codec accept text str objects
 to encode. Therefore it does not support bytes-to-bytes encoders such as
 base64_codec.
+
+
+#### 
+codecs.iterdecode(iterator, encoding, errors='strict', **kwargs)
 
 Uses an incremental decoder to iteratively decode the input provided by
 iterator. iterator must yield bytes objects.
 This function is a generator. The errors argument (as well as any
 other keyword argument) is passed through to the incremental decoder.
-
 This function requires that the codec accept bytes objects
 to decode. Therefore it does not support text-to-text encoders such as
 rot_13, although rot_13 may be used equivalently with
 iterencode().
 
+
+#### 
+codecs.readbuffer_encode(buffer, errors=None, /)
+
 Return a tuple containing the raw bytes of buffer, a
 buffer-compatible object or str
 (encoded to UTF-8 before processing), and their length in bytes.
-
 The errors argument is ignored.
+>>> codecs.readbuffer_encode(b"Zito")
+(b'Zito', 4)
+
+
+
 
 ```
 >>> codecs.readbuffer_encode(b"Zito")
@@ -198,6 +321,36 @@ The errors argument is ignored.
 The module also provides the following constants which are useful for reading
 and writing to platform dependent files:
 
+#### 
+codecs.BOM
+
+#### 
+codecs.BOM_BE
+
+#### 
+codecs.BOM_LE
+
+#### 
+codecs.BOM_UTF8
+
+#### 
+codecs.BOM_UTF16
+
+#### 
+codecs.BOM_UTF16_BE
+
+#### 
+codecs.BOM_UTF16_LE
+
+#### 
+codecs.BOM_UTF32
+
+#### 
+codecs.BOM_UTF32_BE
+
+#### 
+codecs.BOM_UTF32_LE
+
 These constants define various byte sequences,
 being Unicode byte order marks (BOMs) for several encodings. They are
 used in UTF-16 and UTF-32 data streams to indicate the byte order used,
@@ -207,6 +360,7 @@ native byte order, BOM is an alias for BOM_UTF16,
 BOM_LE for BOM_UTF16_LE and BOM_BE for
 BOM_UTF16_BE. The others represent the BOM in UTF-8 and UTF-32
 encodings.
+
 
 ## Codec Base Classes
 
@@ -336,10 +490,12 @@ translating.
 The set of allowed values can be extended by registering a new named error
 handler:
 
+#### 
+codecs.register_error(name, error_handler, /)
+
 Register the error handling function error_handler under the name name.
 The error_handler argument will be called during encoding and decoding
 in case of an error, when name is specified as the errors parameter.
-
 For encoding, error_handler will be called with a UnicodeEncodeError
 instance, which contains information about the location of the error. The
 error handler must either raise this or a different exception, or return a
@@ -351,37 +507,51 @@ encode the replacement. Encoding continues on original input at the
 specified position. Negative position values will be treated as being
 relative to the end of the input string. If the resulting position is out of
 bound an IndexError will be raised.
-
 Decoding and translating works similarly, except UnicodeDecodeError or
 UnicodeTranslateError will be passed to the handler and that the
 replacement from the error handler will be put into the output directly.
 
+
 Previously registered error handlers (including the standard error handlers)
 can be looked up by name:
 
-Return the error handler previously registered under the name name.
+#### 
+codecs.lookup_error(name, /)
 
+Return the error handler previously registered under the name name.
 Raises a LookupError in case the handler cannot be found.
+
 
 The following standard error handlers are also made available as module level
 functions:
 
-Implements the 'strict' error handling.
+#### 
+codecs.strict_errors(exception)
 
+Implements the 'strict' error handling.
 Each encoding or decoding error raises a UnicodeError.
 
-Implements the 'ignore' error handling.
 
+#### 
+codecs.ignore_errors(exception)
+
+Implements the 'ignore' error handling.
 Malformed data is ignored; encoding or decoding is continued without
 further notice.
 
-Implements the 'replace' error handling.
 
+#### 
+codecs.replace_errors(exception)
+
+Implements the 'replace' error handling.
 Substitutes ? (ASCII character) for encoding errors or � (U+FFFD,
 the official REPLACEMENT CHARACTER) for decoding errors.
 
-Implements the 'backslashreplace' error handling.
 
+#### 
+codecs.backslashreplace_errors(exception)
+
+Implements the 'backslashreplace' error handling.
 Malformed data is replaced by a backslashed escape sequence.
 On encoding, use the hexadecimal form of Unicode code point with formats
 \xhh \uxxxx \Uxxxxxxxx.
@@ -390,16 +560,23 @@ byte value with format \xhh.
 
 Changed in version 3.5: Works with decoding and translating.
 
+
+
+#### 
+codecs.xmlcharrefreplace_errors(exception)
+
 Implements the 'xmlcharrefreplace' error handling (for encoding within
 text encoding only).
-
 The unencodable character is replaced by an appropriate XML/HTML numeric
 character reference, which is a decimal form of Unicode code point with
 format &#num; .
 
+
+#### 
+codecs.namereplace_errors(exception)
+
 Implements the 'namereplace' error handling (for encoding within
 text encoding only).
-
 The unencodable character is replaced by a \N{...} escape sequence. The
 set of characters that appear in the braces is the Name property from
 Unicode Character Database. For example, the German lowercase letter 'ß'
@@ -407,44 +584,85 @@ will be converted to byte sequence \N{LATIN SMALL LETTER SHARP S} .
 
 Added in version 3.5.
 
+
+
 ### Stateless Encoding and Decoding
 
 The base Codec class defines these methods which also define the
 function interfaces of the stateless encoder and decoder:
 
+#### 
+class codecs.Codec
+
+
+
+encode(input, errors='strict')¶
 Encodes the object input and returns a tuple (output object, length consumed).
 For instance, text encoding converts
 a string object to a bytes object using a particular
 character set encoding (e.g., cp1252 or iso-8859-1).
-
 The errors argument defines the error handling to apply.
 It defaults to 'strict' handling.
-
 The method may not store state in the Codec instance. Use
 StreamWriter for codecs which have to keep state in order to make
 encoding efficient.
-
 The encoder must be able to handle zero length input and return an empty object
 of the output object type in this situation.
+
+
+
+decode(input, errors='strict')¶
+Decodes the object input and returns a tuple (output object, length
+consumed). For instance, for a text encoding, decoding converts
+a bytes object encoded using a particular
+character set encoding to a string object.
+For text encodings and bytes-to-bytes codecs,
+input must be a bytes object or one which provides the read-only
+buffer interface – for example, buffer objects and memory mapped files.
+The errors argument defines the error handling to apply.
+It defaults to 'strict' handling.
+The method may not store state in the Codec instance. Use
+StreamReader for codecs which have to keep state in order to make
+decoding efficient.
+The decoder must be able to handle zero length input and return an empty object
+of the output object type in this situation.
+
+
+
+#### 
+encode(input, errors='strict')
+
+Encodes the object input and returns a tuple (output object, length consumed).
+For instance, text encoding converts
+a string object to a bytes object using a particular
+character set encoding (e.g., cp1252 or iso-8859-1).
+The errors argument defines the error handling to apply.
+It defaults to 'strict' handling.
+The method may not store state in the Codec instance. Use
+StreamWriter for codecs which have to keep state in order to make
+encoding efficient.
+The encoder must be able to handle zero length input and return an empty object
+of the output object type in this situation.
+
+
+#### 
+decode(input, errors='strict')
 
 Decodes the object input and returns a tuple (output object, length
 consumed). For instance, for a text encoding, decoding converts
 a bytes object encoded using a particular
 character set encoding to a string object.
-
 For text encodings and bytes-to-bytes codecs,
 input must be a bytes object or one which provides the read-only
 buffer interface – for example, buffer objects and memory mapped files.
-
 The errors argument defines the error handling to apply.
 It defaults to 'strict' handling.
-
 The method may not store state in the Codec instance. Use
 StreamReader for codecs which have to keep state in order to make
 decoding efficient.
-
 The decoder must be able to handle zero length input and return an empty object
 of the output object type in this situation.
+
 
 ### Incremental Encoding and Decoding
 
@@ -467,28 +685,69 @@ The IncrementalEncoder class is used for encoding an input in multiple
 steps. It defines the following methods which every incremental encoder must
 define in order to be compatible with the Python codec registry.
 
-Constructor for an IncrementalEncoder instance.
+#### 
+class codecs.IncrementalEncoder(errors='strict')
 
+Constructor for an IncrementalEncoder instance.
 All incremental encoders must provide this constructor interface. They are free
 to add additional keyword arguments, but only the ones defined here are used by
 the Python codec registry.
-
 The IncrementalEncoder may implement different error handling schemes
 by providing the errors keyword argument. See Error Handlers for
 possible values.
-
 The errors argument will be assigned to an attribute of the same name.
 Assigning to this attribute makes it possible to switch between different error
 handling strategies during the lifetime of the IncrementalEncoder
 object.
 
+
+encode(object, final=False)¶
 Encodes object (taking the current state of the encoder into account)
 and returns the resulting encoded object. If this is the last call to
 encode() final must be true (the default is false).
 
+
+
+reset()¶
 Reset the encoder to the initial state. The output is discarded: call
 .encode(object, final=True), passing an empty byte or text string
 if necessary, to reset the encoder and to get the output.
+
+
+
+getstate()¶
+Return the current state of the encoder which must be an integer. The
+implementation should make sure that 0 is the most common
+state. (States that are more complicated than integers can be converted
+into an integer by marshaling/pickling the state and encoding the bytes
+of the resulting string into an integer.)
+
+
+
+setstate(state)¶
+Set the state of the encoder to state. state must be an encoder state
+returned by getstate().
+
+
+
+#### 
+encode(object, final=False)
+
+Encodes object (taking the current state of the encoder into account)
+and returns the resulting encoded object. If this is the last call to
+encode() final must be true (the default is false).
+
+
+#### 
+reset()
+
+Reset the encoder to the initial state. The output is discarded: call
+.encode(object, final=True), passing an empty byte or text string
+if necessary, to reset the encoder and to get the output.
+
+
+#### 
+getstate()
 
 Return the current state of the encoder which must be an integer. The
 implementation should make sure that 0 is the most common
@@ -496,8 +755,13 @@ state. (States that are more complicated than integers can be converted
 into an integer by marshaling/pickling the state and encoding the bytes
 of the resulting string into an integer.)
 
+
+#### 
+setstate(state)
+
 Set the state of the encoder to state. state must be an encoder state
 returned by getstate().
+
 
 #### IncrementalDecoder Objects
 
@@ -505,20 +769,61 @@ The IncrementalDecoder class is used for decoding an input in multiple
 steps. It defines the following methods which every incremental decoder must
 define in order to be compatible with the Python codec registry.
 
-Constructor for an IncrementalDecoder instance.
+#### 
+class codecs.IncrementalDecoder(errors='strict')
 
+Constructor for an IncrementalDecoder instance.
 All incremental decoders must provide this constructor interface. They are free
 to add additional keyword arguments, but only the ones defined here are used by
 the Python codec registry.
-
 The IncrementalDecoder may implement different error handling schemes
 by providing the errors keyword argument. See Error Handlers for
 possible values.
-
 The errors argument will be assigned to an attribute of the same name.
 Assigning to this attribute makes it possible to switch between different error
 handling strategies during the lifetime of the IncrementalDecoder
 object.
+
+
+decode(object, final=False)¶
+Decodes object (taking the current state of the decoder into account)
+and returns the resulting decoded object. If this is the last call to
+decode() final must be true (the default is false). If final is
+true the decoder must decode the input completely and must flush all
+buffers. If this isn’t possible (e.g. because of incomplete byte sequences
+at the end of the input) it must initiate error handling just like in the
+stateless case (which might raise an exception).
+
+
+
+reset()¶
+Reset the decoder to the initial state.
+
+
+
+getstate()¶
+Return the current state of the decoder. This must be a tuple with two
+items, the first must be the buffer containing the still undecoded
+input. The second must be an integer and can be additional state
+info. (The implementation should make sure that 0 is the most common
+additional state info.) If this additional state info is 0 it must be
+possible to set the decoder to the state which has no input buffered and
+0 as the additional state info, so that feeding the previously
+buffered input to the decoder returns it to the previous state without
+producing any output. (Additional state info that is more complicated than
+integers can be converted into an integer by marshaling/pickling the info
+and encoding the bytes of the resulting string into an integer.)
+
+
+
+setstate(state)¶
+Set the state of the decoder to state. state must be a decoder state
+returned by getstate().
+
+
+
+#### 
+decode(object, final=False)
 
 Decodes object (taking the current state of the decoder into account)
 and returns the resulting decoded object. If this is the last call to
@@ -528,7 +833,15 @@ buffers. If this isn’t possible (e.g. because of incomplete byte sequences
 at the end of the input) it must initiate error handling just like in the
 stateless case (which might raise an exception).
 
+
+#### 
+reset()
+
 Reset the decoder to the initial state.
+
+
+#### 
+getstate()
 
 Return the current state of the decoder. This must be a tuple with two
 items, the first must be the buffer containing the still undecoded
@@ -542,8 +855,13 @@ producing any output. (Additional state info that is more complicated than
 integers can be converted into an integer by marshaling/pickling the info
 and encoding the bytes of the resulting string into an integer.)
 
+
+#### 
+setstate(state)
+
 Set the state of the decoder to state. state must be a decoder state
 returned by getstate().
+
 
 ### Stream Encoding and Decoding
 
@@ -557,35 +875,67 @@ The StreamWriter class is a subclass of Codec and defines the
 following methods which every stream writer must define in order to be
 compatible with the Python codec registry.
 
-Constructor for a StreamWriter instance.
+#### 
+class codecs.StreamWriter(stream, errors='strict')
 
+Constructor for a StreamWriter instance.
 All stream writers must provide this constructor interface. They are free to add
 additional keyword arguments, but only the ones defined here are used by the
 Python codec registry.
-
 The stream argument must be a file-like object open for writing
 text or binary data, as appropriate for the specific codec.
-
 The StreamWriter may implement different error handling schemes by
 providing the errors keyword argument. See Error Handlers for
 the standard error handlers the underlying stream codec may support.
-
 The errors argument will be assigned to an attribute of the same name.
 Assigning to this attribute makes it possible to switch between different error
 handling strategies during the lifetime of the StreamWriter object.
 
+
+write(object)¶
 Writes the object’s contents encoded to the stream.
+
+
+
+writelines(list)¶
+Writes the concatenated iterable of strings to the stream (possibly by reusing
+the write() method). Infinite or
+very large iterables are not supported. The standard bytes-to-bytes codecs
+do not support this method.
+
+
+
+reset()¶
+Resets the codec buffers used for keeping internal state.
+Calling this method should ensure that the data on the output is put into
+a clean state that allows appending of new fresh data without having to
+rescan the whole stream to recover state.
+
+
+
+#### 
+write(object)
+
+Writes the object’s contents encoded to the stream.
+
+
+#### 
+writelines(list)
 
 Writes the concatenated iterable of strings to the stream (possibly by reusing
 the write() method). Infinite or
 very large iterables are not supported. The standard bytes-to-bytes codecs
 do not support this method.
 
-Resets the codec buffers used for keeping internal state.
 
+#### 
+reset()
+
+Resets the codec buffers used for keeping internal state.
 Calling this method should ensure that the data on the output is put into
 a clean state that allows appending of new fresh data without having to
 rescan the whole stream to recover state.
+
 
 In addition to the above methods, the StreamWriter must also inherit
 all other methods and attributes from the underlying stream.
@@ -596,70 +946,124 @@ The StreamReader class is a subclass of Codec and defines the
 following methods which every stream reader must define in order to be
 compatible with the Python codec registry.
 
-Constructor for a StreamReader instance.
+#### 
+class codecs.StreamReader(stream, errors='strict')
 
+Constructor for a StreamReader instance.
 All stream readers must provide this constructor interface. They are free to add
 additional keyword arguments, but only the ones defined here are used by the
 Python codec registry.
-
 The stream argument must be a file-like object open for reading
 text or binary data, as appropriate for the specific codec.
-
 The StreamReader may implement different error handling schemes by
 providing the errors keyword argument. See Error Handlers for
 the standard error handlers the underlying stream codec may support.
-
 The errors argument will be assigned to an attribute of the same name.
 Assigning to this attribute makes it possible to switch between different error
 handling strategies during the lifetime of the StreamReader object.
-
 The set of allowed values for the errors argument can be extended with
 register_error().
 
-Decodes data from the stream and returns the resulting object.
 
+read(size=-1, chars=-1, firstline=False)¶
+Decodes data from the stream and returns the resulting object.
 The chars argument indicates the number of decoded
 code points or bytes to return. The read() method will
 never return more data than requested, but it might return less,
 if there is not enough available.
-
 The size argument indicates the approximate maximum
 number of encoded bytes or code points to read
 for decoding. The decoder can modify this setting as
 appropriate. The default value -1 indicates to read and decode as much as
 possible. This parameter is intended to
 prevent having to decode huge files in one step.
-
 The firstline flag indicates that
 it would be sufficient to only return the first
 line, if there are decoding errors on later lines.
-
 The method should use a greedy read strategy meaning that it should read
 as much data as is allowed within the definition of the encoding and the
 given size, e.g.  if optional encoding endings or state markers are
 available on the stream, these should be read too.
 
-Read one line from the input stream and return the decoded data.
 
+
+readline(size=None, keepends=True)¶
+Read one line from the input stream and return the decoded data.
 size, if given, is passed as size argument to the stream’s
 read() method.
-
 If keepends is false line-endings will be stripped from the lines
 returned.
 
+
+
+readlines(sizehint=None, keepends=True)¶
 Read all lines available on the input stream and return them as a list of
 lines.
-
 Line-endings are implemented using the codec’s decode() method and
 are included in the list entries if keepends is true.
-
 sizehint, if given, is passed as the size argument to the stream’s
 read() method.
 
-Resets the codec buffers used for keeping internal state.
 
+
+reset()¶
+Resets the codec buffers used for keeping internal state.
 Note that no stream repositioning should take place. This method is
 primarily intended to be able to recover from decoding errors.
+
+
+
+#### 
+read(size=-1, chars=-1, firstline=False)
+
+Decodes data from the stream and returns the resulting object.
+The chars argument indicates the number of decoded
+code points or bytes to return. The read() method will
+never return more data than requested, but it might return less,
+if there is not enough available.
+The size argument indicates the approximate maximum
+number of encoded bytes or code points to read
+for decoding. The decoder can modify this setting as
+appropriate. The default value -1 indicates to read and decode as much as
+possible. This parameter is intended to
+prevent having to decode huge files in one step.
+The firstline flag indicates that
+it would be sufficient to only return the first
+line, if there are decoding errors on later lines.
+The method should use a greedy read strategy meaning that it should read
+as much data as is allowed within the definition of the encoding and the
+given size, e.g.  if optional encoding endings or state markers are
+available on the stream, these should be read too.
+
+
+#### 
+readline(size=None, keepends=True)
+
+Read one line from the input stream and return the decoded data.
+size, if given, is passed as size argument to the stream’s
+read() method.
+If keepends is false line-endings will be stripped from the lines
+returned.
+
+
+#### 
+readlines(sizehint=None, keepends=True)
+
+Read all lines available on the input stream and return them as a list of
+lines.
+Line-endings are implemented using the codec’s decode() method and
+are included in the list entries if keepends is true.
+sizehint, if given, is passed as the size argument to the stream’s
+read() method.
+
+
+#### 
+reset()
+
+Resets the codec buffers used for keeping internal state.
+Note that no stream repositioning should take place. This method is
+primarily intended to be able to recover from decoding errors.
+
 
 In addition to the above methods, the StreamReader must also inherit
 all other methods and attributes from the underlying stream.
@@ -672,10 +1076,14 @@ streams which work in both read and write modes.
 The design is such that one can use the factory functions returned by the
 lookup() function to construct the instance.
 
+#### 
+class codecs.StreamReaderWriter(stream, Reader, Writer, errors='strict')
+
 Creates a StreamReaderWriter instance. stream must be a file-like
 object. Reader and Writer must be factory functions or classes providing the
 StreamReader and StreamWriter interface resp. Error handling
 is done in the same way as defined for the stream readers and writers.
+
 
 StreamReaderWriter instances define the combined interfaces of
 StreamReader and StreamWriter classes. They inherit all other
@@ -689,24 +1097,24 @@ which is sometimes useful when dealing with different encoding environments.
 The design is such that one can use the factory functions returned by the
 lookup() function to construct the instance.
 
+#### 
+class codecs.StreamRecoder(stream, encode, decode, Reader, Writer, errors='strict')
+
 Creates a StreamRecoder instance which implements a two-way conversion:
 encode and decode work on the frontend — the data visible to
 code calling read() and write(),
 while Reader and Writer
 work on the backend — the data in stream.
-
 You can use these objects to do transparent transcodings, e.g., from Latin-1
 to UTF-8 and back.
-
 The stream argument must be a file-like object.
-
 The encode and decode arguments must
 adhere to the Codec interface. Reader and
 Writer must be factory functions or classes providing objects of the
 StreamReader and StreamWriter interface respectively.
-
 Error handling is done in the same way as defined for the stream readers and
 writers.
+
 
 StreamRecoder instances define the combined interfaces of
 StreamReader and StreamWriter classes. They inherit all other
@@ -1676,20 +2084,24 @@ but are not available as named codecs through codecs.encode() or codecs.decode()
 They are used internally (for example, by pickle) and behave similarly to the
 string_escape codec that was removed in Python 3.
 
+#### 
+codecs.escape_encode(input, errors=None)
+
 Encode input using escape sequences. Similar to how repr() on bytes
 produces escaped byte values.
-
 input must be a bytes object.
-
 Returns a tuple (output, length) where output is a bytes
 object and length is the number of bytes consumed.
+
+
+#### 
+codecs.escape_decode(input, errors=None)
 
 Decode input from escape sequences back to the original bytes.
-
 input must be a bytes-like object.
-
 Returns a tuple (output, length) where output is a bytes
 object and length is the number of bytes consumed.
+
 
 ### Text Transforms
 
@@ -1719,45 +2131,58 @@ Changed in version 3.4: Restoration of the rot13 alias.
 
 This module implements the following functions:
 
-Normalize encoding name encoding.
+#### 
+encodings.normalize_encoding(encoding)
 
+Normalize encoding name encoding.
 Normalization works as follows: all non-alphanumeric characters except the
 dot used for Python package names are collapsed and replaced with a single
 underscore, leading and trailing underscores are removed.
 For example, '  -;#' becomes '_'.
-
 Note that encoding should be ASCII only.
+
 
 Note
 
 The following functions should not be used directly, except for testing
 purposes; codecs.lookup() should be used instead.
 
+#### 
+encodings.search_function(encoding)
+
 Search for the codec module corresponding to the given encoding name
 encoding.
-
 This function first normalizes the encoding using
 normalize_encoding(), then looks for a corresponding alias.
 It attempts to import a codec module from the encodings package using either
 the alias or the normalized name. If the module is found and defines a valid
 getregentry() function that returns a codecs.CodecInfo object,
 the codec is cached and returned.
-
 If the codec module defines a getaliases() function any returned aliases
 are registered for future use.
 
-Search for a Windows code page encoding encoding of the form cpXXXX.
 
+#### 
+encodings.win32_code_page_search_function(encoding)
+
+Search for a Windows code page encoding encoding of the form cpXXXX.
 If the code page is valid and supported, return a codecs.CodecInfo
 object for it.
 
 Availability: Windows.
 
+
 Added in version 3.14.
+
+
 
 This module implements the following exception:
 
+#### 
+exception encodings.CodecRegistryError
+
 Raised when a codec is invalid or incompatible.
+
 
 ## encodings.idna — Internationalized Domain Names in Applications
 
@@ -1802,13 +2227,25 @@ performs certain normalizations on host names, to achieve case-insensitivity of
 international domain names, and to unify similar characters. The nameprep
 functions can be used directly if desired.
 
+#### 
+encodings.idna.nameprep(label)
+
 Return the nameprepped version of label. The implementation currently assumes
 query strings, so AllowUnassigned is true.
+
+
+#### 
+encodings.idna.ToASCII(label)
 
 Convert a label to ASCII, as specified in RFC 3490. UseSTD3ASCIIRules is
 assumed to be false.
 
+
+#### 
+encodings.idna.ToUnicode(label)
+
 Convert a label to Unicode, as specified in RFC 3490.
+
 
 ## encodings.mbcs — Windows ANSI codepage
 

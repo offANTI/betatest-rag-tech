@@ -12,11 +12,17 @@ first-party tzdata package available on PyPI.
 
 See also
 
+#### Module: datetime
+
 Provides the time and datetime
 types with which the ZoneInfo class is designed to be used.
 
+
+#### Package tzdata
+
 First-party package maintained by the CPython core developers to supply
 time zone data via PyPI.
+
 
 Availability: not WASI.
 
@@ -137,6 +143,9 @@ reset_tzpath() is called with no arguments), the zoneinfo module will
 use the environment variable PYTHONTZPATH, if it exists, to set the search
 path.
 
+#### 
+PYTHONTZPATH
+
 This is an os.pathsep-separated string containing the time zone
 search path to use. It must consist of only absolute rather than relative
 paths. Relative components specified in PYTHONTZPATH will not be used,
@@ -144,6 +153,7 @@ but otherwise the behavior when a relative path is specified is
 implementation-defined; CPython will raise InvalidTZPathWarning, but
 other implementations are free to silently ignore the erroneous component
 or raise an exception.
+
 
 To set the system to ignore the system data and use the tzdata package
 instead, set PYTHONTZPATH="".
@@ -157,11 +167,25 @@ specific time zone path (or require disabling access to the system time zones).
 
 ## The ZoneInfo class
 
+#### 
+class zoneinfo.ZoneInfo(key)
+
 A concrete datetime.tzinfo subclass that represents an IANA time
 zone specified by the string key. Calls to the primary constructor will
 always return objects that compare identically; put another way, barring
 cache invalidation via ZoneInfo.clear_cache(), for all values of
 key, the following assertion will always be true:
+a = ZoneInfo(key)
+b = ZoneInfo(key)
+assert a is b
+
+
+key must be in the form of a relative, normalized POSIX path, with no
+up-level references. The constructor will raise ValueError if a
+non-conforming key is passed.
+If no file matching key is found, the constructor will raise
+ZoneInfoNotFoundError.
+
 
 ```
 a = ZoneInfo(key)
@@ -170,75 +194,78 @@ assert a is b
 
 ```
 
-key must be in the form of a relative, normalized POSIX path, with no
-up-level references. The constructor will raise ValueError if a
-non-conforming key is passed.
-
-If no file matching key is found, the constructor will raise
-ZoneInfoNotFoundError.
-
 The ZoneInfo class has two alternate constructors:
+
+#### 
+classmethod ZoneInfo.from_file(file_obj, /, key=None)
 
 Constructs a ZoneInfo object from a file-like object returning bytes
 (e.g. a file opened in binary mode or an io.BytesIO object).
 Unlike the primary constructor, this always constructs a new object.
-
 The key parameter sets the name of the zone for the purposes of
 __str__() and __repr__().
-
 Objects created via this constructor cannot be pickled (see pickling).
-
 ValueError is raised if the data read from file_obj is not a valid
 TZif file.
+
+
+#### 
+classmethod ZoneInfo.no_cache(key)
 
 An alternate constructor that bypasses the constructor’s cache. It is
 identical to the primary constructor, but returns a new object on each
 call. This is most likely to be useful for testing or demonstration
 purposes, but it can also be used to create a system with a different cache
 invalidation strategy.
-
 Objects created via this constructor will also bypass the cache of a
 deserializing process when unpickled.
 
 Caution
-
 Using this constructor may change the semantics of your datetimes in
 surprising ways, only use it if you know that you need to.
 
+
+
 The following class methods are also available:
+
+#### 
+classmethod ZoneInfo.clear_cache(*, only_keys=None)
 
 A method for invalidating the cache on the ZoneInfo class. If no
 arguments are passed, all caches are invalidated and the next call to
 the primary constructor for each key will return a new instance.
-
 If an iterable of key names is passed to the only_keys parameter, only
 the specified keys will be removed from the cache. Keys passed to
 only_keys but not found in the cache are ignored.
 
 Warning
-
 Invoking this function may change the semantics of datetimes using
 ZoneInfo in surprising ways; this modifies module state
 and thus may have wide-ranging effects. Only use it if you know that you
 need to.
 
+
+
 The class has one attribute:
+
+#### 
+ZoneInfo.key
 
 This is a read-only attribute that returns the value of key
 passed to the constructor, which should be a lookup key in the IANA time
 zone database (e.g. America/New_York, Europe/Paris or
 Asia/Tokyo).
-
 For zones constructed from file without specifying a key parameter,
 this will be set to None.
 
 Note
-
 Although it is a somewhat common practice to expose these to end users,
 these values are designed to be primary keys for representing the
 relevant zones and not necessarily user-facing elements.  Projects like
 CLDR (the Unicode Common Locale Data Repository) can be used to get
 more user-friendly strings from these keys.
+
+
 
 ### String representations
 
@@ -316,61 +343,74 @@ pickled in an environment with a different version of the time zone data.
 
 ## Functions
 
+#### 
+zoneinfo.available_timezones()
+
 Get a set containing all the valid keys for IANA time zones available
 anywhere on the time zone path. This is recalculated on every call to the
 function.
-
 This function only includes canonical zone names and does not include
 “special” zones such as those under the posix/ and right/
 directories, or the posixrules zone.
 
 Caution
-
 This function may open a large number of files, as the best way to
 determine if a file on the time zone path is a valid time zone is to
 read the “magic string” at the beginning.
 
-Note
 
+Note
 These values are not designed to be exposed to end-users; for user
 facing elements, applications should use something like CLDR (the
 Unicode Common Locale Data Repository) to get more user-friendly
 strings. See also the cautionary note on ZoneInfo.key.
 
+
+
+#### 
+zoneinfo.reset_tzpath(to=None)
+
 Sets or resets the time zone search path (TZPATH) for the module.
 When called with no arguments, TZPATH is set to the default value.
-
 Calling reset_tzpath will not invalidate the ZoneInfo cache,
 and so calls to the primary ZoneInfo constructor will only use the new
 TZPATH in the case of a cache miss.
-
 The to parameter must be a sequence of strings or
 os.PathLike and not a string, all of which must be absolute paths.
 ValueError will be raised if something other than an absolute path
 is passed.
 
+
 ## Globals
+
+#### 
+zoneinfo.TZPATH
 
 A read-only sequence representing the time zone search path – when
 constructing a ZoneInfo from a key, the key is joined to each entry in
 the TZPATH, and the first file found is used.
-
 TZPATH may contain only absolute paths, never relative paths,
 regardless of how it is configured.
-
 The object that zoneinfo.TZPATH points to may change in response to a
 call to reset_tzpath(), so it is recommended to use
 zoneinfo.TZPATH rather than importing TZPATH from zoneinfo or
 assigning a long-lived variable to zoneinfo.TZPATH.
-
 For more information on configuring the time zone search path, see
 Configuring the data sources.
 
+
 ## Exceptions and warnings
+
+#### 
+exception zoneinfo.ZoneInfoNotFoundError
 
 Raised when construction of a ZoneInfo object fails because the
 specified key could not be found on the system. This is a subclass of
 KeyError.
+
+
+#### 
+exception zoneinfo.InvalidTZPathWarning
 
 Raised when PYTHONTZPATH contains an invalid component that will
 be filtered out, such as a relative path.

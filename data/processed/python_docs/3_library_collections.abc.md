@@ -327,19 +327,36 @@ whether an object is iterable is to call iter(obj).
 
 ## Collections Abstract Base Classes – Detailed Descriptions
 
+#### 
+class collections.abc.Container
+
 ABC for classes that provide the __contains__() method.
+
+
+#### 
+class collections.abc.Hashable
 
 ABC for classes that provide the __hash__() method.
 
+
+#### 
+class collections.abc.Sized
+
 ABC for classes that provide the __len__() method.
 
-ABC for classes that provide the __call__() method.
 
+#### 
+class collections.abc.Callable
+
+ABC for classes that provide the __call__() method.
 See Annotating callable objects for details on how to use
 Callable in type annotations.
 
-ABC for classes that provide the __iter__() method.
 
+#### 
+class collections.abc.Iterable
+
+ABC for classes that provide the __iter__() method.
 Checking isinstance(obj, Iterable) detects classes that are registered
 as Iterable or that have an __iter__() method,
 but it does
@@ -347,31 +364,58 @@ not detect classes that iterate with the __getitem__() method.
 The only reliable way to determine whether an object is iterable
 is to call iter(obj).
 
+
+#### 
+class collections.abc.Collection
+
 ABC for sized iterable container classes.
 
 Added in version 3.6.
 
+
+
+#### 
+class collections.abc.Iterator
+
 ABC for classes that provide the __iter__() and
 __next__() methods.  See also the definition of
 iterator.
+
+
+#### 
+class collections.abc.Reversible
 
 ABC for iterable classes that also provide the __reversed__()
 method.
 
 Added in version 3.6.
 
+
+
+#### 
+class collections.abc.Generator
+
 ABC for generator classes that implement the protocol defined in
 PEP 342 that extends iterators with the
 send(),
 throw() and close() methods.
-
 See Annotating generators and coroutines
 for details on using Generator in type annotations.
 
 Added in version 3.5.
 
-ABCs for read-only and mutable sequences.
 
+
+#### 
+class collections.abc.Sequence
+
+#### 
+class collections.abc.MutableSequence
+
+#### 
+class collections.abc.ByteString
+
+ABCs for read-only and mutable sequences.
 Implementation note: Some of the mixin methods, such as
 __iter__(), __reversed__(),
 and index() make repeated calls to the underlying
@@ -382,23 +426,23 @@ however, if the underlying method is linear (as it would be with a
 linked list), the mixins will have quadratic performance and will
 likely need to be overridden.
 
+
+index(value, start=0, stop=None)¶
 Return first index of value.
-
 Raises ValueError if the value is not present.
-
 Supporting the start and stop arguments is optional, but recommended.
 
 Changed in version 3.5: The index() method gained support for
 the stop and start arguments.
 
-Deprecated since version 3.12, will be removed in version 3.17: The ByteString ABC has been deprecated.
 
+
+Deprecated since version 3.12, will be removed in version 3.17: The ByteString ABC has been deprecated.
 Use isinstance(obj, collections.abc.Buffer) to test if obj
 implements the buffer protocol at runtime. For use
 in type annotations, either use Buffer or a union that
 explicitly specifies the types your code supports (e.g.,
 bytes | bytearray | memoryview).
-
 ByteString was originally intended to be an abstract class that
 would serve as a supertype of both bytes and bytearray.
 However, since the ABC never had any methods, knowing that an object was
@@ -406,31 +450,78 @@ an instance of ByteString never actually told you anything
 useful about the object. Other common buffer types such as
 memoryview were also never understood as subtypes of
 ByteString (either at runtime or by static type checkers).
-
 See PEP 688 for more details.
+
+
+
+#### 
+index(value, start=0, stop=None)
+
+Return first index of value.
+Raises ValueError if the value is not present.
+Supporting the start and stop arguments is optional, but recommended.
+
+Changed in version 3.5: The index() method gained support for
+the stop and start arguments.
+
+
+
+#### 
+class collections.abc.Set
+
+#### 
+class collections.abc.MutableSet
 
 ABCs for read-only and mutable sets.
 
+
+#### 
+class collections.abc.Mapping
+
+#### 
+class collections.abc.MutableMapping
+
 ABCs for read-only and mutable mappings.
 
+
+#### 
+class collections.abc.MappingView
+
+#### 
+class collections.abc.ItemsView
+
+#### 
+class collections.abc.KeysView
+
+#### 
+class collections.abc.ValuesView
+
 ABCs for mapping, items, keys, and values views.
+
+
+#### 
+class collections.abc.Awaitable
 
 ABC for awaitable objects, which can be used in await
 expressions.  Custom implementations must provide the
 __await__() method.
-
 Coroutine objects and instances of the
 Coroutine ABC are all instances of this ABC.
 
 Note
-
 In CPython, generator-based coroutines (generators
 decorated with @types.coroutine) are
 awaitables, even though they do not have an __await__() method.
 Using isinstance(gencoro, Awaitable) for them will return False.
 Use inspect.isawaitable() to detect them.
 
+
 Added in version 3.5.
+
+
+
+#### 
+class collections.abc.Coroutine
 
 ABC for coroutine compatible classes.  These implement the
 following methods, defined in Coroutine Objects:
@@ -440,7 +531,6 @@ __await__().  All Coroutine instances are also
 instances of Awaitable.
 
 Note
-
 In CPython, generator-based coroutines (generators
 decorated with @types.coroutine) are
 awaitables, even though they do not have an __await__() method.
@@ -454,28 +544,49 @@ Generator.
 
 Added in version 3.5.
 
+
+
+#### 
+class collections.abc.AsyncIterable
+
 ABC for classes that provide an __aiter__ method.  See also the
 definition of asynchronous iterable.
 
 Added in version 3.5.
+
+
+
+#### 
+class collections.abc.AsyncIterator
 
 ABC for classes that provide __aiter__ and __anext__
 methods.  See also the definition of asynchronous iterator.
 
 Added in version 3.5.
 
+
+
+#### 
+class collections.abc.AsyncGenerator
+
 ABC for asynchronous generator classes that implement the protocol
 defined in PEP 525 and PEP 492.
-
 See Annotating generators and coroutines
 for details on using AsyncGenerator in type annotations.
 
 Added in version 3.6.
 
+
+
+#### 
+class collections.abc.Buffer
+
 ABC for classes that provide the __buffer__() method,
 implementing the buffer protocol. See PEP 688.
 
 Added in version 3.12.
+
+
 
 ## Examples and Recipes
 

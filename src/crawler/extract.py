@@ -12,17 +12,29 @@ PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
 
 def html_to_markdown(main_content) -> str:
     lines = []
-    tags = main_content.find_all(["h1", "h2", "h3", "h4", "h5", "h6", "p", "pre"])
+    tags = main_content.find_all(
+        ["h1", "h2", "h3", "h4", "h5", "h6", "p", "pre", "dt", "dd"]
+    )
     for tag in tags:
+        if tag.name == "p" and tag.find_parent("dd"):
+            continue
+
         if tag.name.startswith("h"):
             level = int(tag.name[1])
             for headerlink in tag.find_all("a", class_="headerlink"):
                 headerlink.decompose()
             lines.append("#" * level + " " + tag.get_text())
+        elif tag.name == "dt":
+            for headerlink in tag.find_all("a", class_="headerlink"):
+                headerlink.decompose()
+            lines.append("#### " + tag.get_text())
+        elif tag.name == "dd":
+            lines.append(tag.get_text())
         elif tag.name == "p":
             lines.append(tag.get_text())
         elif tag.name == "pre":
             lines.append("```\n" + tag.get_text() + "\n```")
+
     return "\n\n".join(lines)
 
 

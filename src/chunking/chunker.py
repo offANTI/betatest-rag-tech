@@ -17,7 +17,7 @@ MAX_CHUNK_SIZE = 1000
 
 
 def split_headings(markdown_text: str) -> list[tuple[str, str]]:
-    parts = re.split(r'^##\s+(.+)$', markdown_text, flags=re.M)
+    parts = re.split(r'^(?:##|####)\s+(.+)$', markdown_text, flags=re.M)
     headings = parts[1::2]
     contents = parts[2::2]
 

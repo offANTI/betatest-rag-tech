@@ -52,28 +52,90 @@ a new dictionary and running multiple update() calls.
 
 The class can be used to simulate nested scopes and is useful in templating.
 
+#### 
+class collections.ChainMap(*maps)
+
 A ChainMap groups multiple dicts or other mappings together to
 create a single, updateable view.  If no maps are specified, a single empty
 dictionary is provided so that a new chain always has at least one mapping.
-
 The underlying mappings are stored in a list.  That list is public and can
 be accessed or updated using the maps attribute.  There is no other state.
-
 Lookups search the underlying mappings successively until a key is found.  In
 contrast, writes, updates, and deletions only operate on the first mapping.
-
 A ChainMap incorporates the underlying mappings by reference.  So, if
 one of the underlying mappings gets updated, those changes will be reflected
 in ChainMap.
-
 All of the usual dictionary methods are supported.  In addition, there is a
 maps attribute, a method for creating new subcontexts, and a property for
 accessing all but the first mapping:
+
+
+maps¶
+A user updateable list of mappings.  The list is ordered from
+first-searched to last-searched.  It is the only stored state and can
+be modified to change which mappings are searched.  The list should
+always contain at least one mapping.
+
+
+
+new_child(m=None, **kwargs)¶
+Returns a new ChainMap containing a new map followed by
+all of the maps in the current instance.  If m is specified,
+it becomes the new map at the front of the list of mappings; if not
+specified, an empty dict is used, so that a call to d.new_child()
+is equivalent to: ChainMap({}, *d.maps). If any keyword arguments
+are specified, they update passed map or new empty dict. This method
+is used for creating subcontexts that can be updated without altering
+values in any of the parent mappings.
+
+Changed in version 3.4: The optional m parameter was added.
+
+
+Changed in version 3.10: Keyword arguments support was added.
+
+
+
+
+parents¶
+Property returning a new ChainMap containing all of the maps in
+the current instance except the first one.  This is useful for skipping
+the first map in the search.  Use cases are similar to those for the
+nonlocal keyword used in nested scopes.  The use cases also parallel those for the built-in
+super() function.  A reference to d.parents is equivalent to:
+ChainMap(*d.maps[1:]).
+
+Note, the iteration order of a ChainMap is determined by
+scanning the mappings last to first:
+>>> baseline = {'music': 'bach', 'art': 'rembrandt'}
+>>> adjustments = {'art': 'van gogh', 'opera': 'carmen'}
+>>> list(ChainMap(adjustments, baseline))
+['music', 'art', 'opera']
+
+
+This gives the same ordering as a series of dict.update() calls
+starting with the last mapping:
+>>> combined = baseline.copy()
+>>> combined.update(adjustments)
+>>> list(combined)
+['music', 'art', 'opera']
+
+
+
+Changed in version 3.9: Added support for | and |= operators, specified in PEP 584.
+
+
+
+#### 
+maps
 
 A user updateable list of mappings.  The list is ordered from
 first-searched to last-searched.  It is the only stored state and can
 be modified to change which mappings are searched.  The list should
 always contain at least one mapping.
+
+
+#### 
+new_child(m=None, **kwargs)
 
 Returns a new ChainMap containing a new map followed by
 all of the maps in the current instance.  If m is specified,
@@ -86,7 +148,13 @@ values in any of the parent mappings.
 
 Changed in version 3.4: The optional m parameter was added.
 
+
 Changed in version 3.10: Keyword arguments support was added.
+
+
+
+#### 
+parents
 
 Property returning a new ChainMap containing all of the maps in
 the current instance except the first one.  This is useful for skipping
@@ -95,8 +163,6 @@ nonlocal keyword used in nested scopes.  The use cases also parallel those for t
 super() function.  A reference to d.parents is equivalent to:
 ChainMap(*d.maps[1:]).
 
-Note, the iteration order of a ChainMap is determined by
-scanning the mappings last to first:
 
 ```
 >>> baseline = {'music': 'bach', 'art': 'rembrandt'}
@@ -106,9 +172,6 @@ scanning the mappings last to first:
 
 ```
 
-This gives the same ordering as a series of dict.update() calls
-starting with the last mapping:
-
 ```
 >>> combined = baseline.copy()
 >>> combined.update(adjustments)
@@ -116,8 +179,6 @@ starting with the last mapping:
 ['music', 'art', 'opera']
 
 ```
-
-Changed in version 3.9: Added support for | and |= operators, specified in PEP 584.
 
 See also
 
@@ -246,43 +307,44 @@ Counter({'blue': 3, 'red': 2, 'green': 1})
 
 ```
 
+#### 
+class collections.Counter(**kwargs)
+
+#### 
+class collections.Counter(iterable, /, **kwargs)
+
+#### 
+class collections.Counter(mapping, /, **kwargs)
+
 A Counter is a dict subclass for counting hashable objects.
 It is a collection where elements are stored as dictionary keys
 and their counts are stored as dictionary values.  Counts are allowed to be
 any integer value including zero or negative counts.  The Counter
 class is similar to bags or multisets in other languages.
-
 Elements are counted from an iterable or initialized from another
 mapping (or counter):
-
-```
 >>> c = Counter()                           # a new, empty counter
 >>> c = Counter('gallahad')                 # a new counter from an iterable
 >>> c = Counter({'red': 4, 'blue': 2})      # a new counter from a mapping
 >>> c = Counter(cats=4, dogs=8)             # a new counter from keyword args
 
-```
 
 Counter objects have a dictionary interface except that they return a zero
 count for missing items instead of raising a KeyError:
-
-```
 >>> c = Counter(['eggs', 'ham'])
 >>> c['bacon']                              # count of a missing element is zero
 0
 
-```
 
 Setting a count to zero does not remove an element from a counter.
 Use del to remove it entirely:
-
-```
 >>> c['sausage'] = 0                        # counter entry with a zero count
 >>> del c['sausage']                        # del actually removes the entry
 
-```
+
 
 Added in version 3.1.
+
 
 Changed in version 3.7: As a dict subclass, Counter
 inherited the capability to remember insertion order.  Math operations
@@ -293,9 +355,117 @@ and then by the order encountered in the right operand.
 Counter objects support additional methods beyond those available for all
 dictionaries:
 
+
+elements()¶
 Return an iterator over elements repeating each as many times as its
 count.  Elements are returned in the order first encountered. If an
 element’s count is less than one, elements() will ignore it.
+>>> c = Counter(a=4, b=2, c=0, d=-2)
+>>> sorted(c.elements())
+['a', 'a', 'a', 'a', 'b', 'b']
+
+
+
+
+
+most_common(n=None)¶
+Return a list of the n most common elements and their counts from the
+most common to the least.  If n is omitted or None,
+most_common() returns all elements in the counter.
+Elements with equal counts are ordered in the order first encountered:
+>>> Counter('abracadabra').most_common(3)
+[('a', 5), ('b', 2), ('r', 2)]
+
+
+
+
+
+subtract(**kwargs)¶
+
+subtract(iterable, /, **kwargs)
+
+subtract(mapping, /, **kwargs)
+Elements are subtracted from an iterable or from another mapping
+(or counter).  Like dict.update() but subtracts counts instead
+of replacing them.  Both inputs and outputs may be zero or negative.
+>>> c = Counter(a=4, b=2, c=0, d=-2)
+>>> d = Counter(a=1, b=2, c=3, d=4)
+>>> c.subtract(d)
+>>> c
+Counter({'a': 3, 'b': 0, 'c': -3, 'd': -6})
+
+
+
+Added in version 3.2.
+
+
+
+
+total()¶
+Compute the sum of the counts.
+>>> c = Counter(a=10, b=5, c=0)
+>>> c.total()
+15
+
+
+
+Added in version 3.10.
+
+
+The usual dictionary methods are available for Counter objects
+except for two which work differently for counters.
+
+
+fromkeys(iterable)¶
+This class method is not implemented for Counter objects.
+
+
+
+update(**kwargs)¶
+
+update(iterable, /, **kwargs)
+
+update(mapping, /, **kwargs)
+Elements are counted from an iterable or added-in from another
+mapping (or counter).  Like dict.update() but adds counts
+instead of replacing them.  Also, the iterable is expected to be a
+sequence of elements, not a sequence of (key, value) pairs.
+
+
+
+```
+>>> c = Counter()                           # a new, empty counter
+>>> c = Counter('gallahad')                 # a new counter from an iterable
+>>> c = Counter({'red': 4, 'blue': 2})      # a new counter from a mapping
+>>> c = Counter(cats=4, dogs=8)             # a new counter from keyword args
+
+```
+
+```
+>>> c = Counter(['eggs', 'ham'])
+>>> c['bacon']                              # count of a missing element is zero
+0
+
+```
+
+```
+>>> c['sausage'] = 0                        # counter entry with a zero count
+>>> del c['sausage']                        # del actually removes the entry
+
+```
+
+#### 
+elements()
+
+Return an iterator over elements repeating each as many times as its
+count.  Elements are returned in the order first encountered. If an
+element’s count is less than one, elements() will ignore it.
+>>> c = Counter(a=4, b=2, c=0, d=-2)
+>>> sorted(c.elements())
+['a', 'a', 'a', 'a', 'b', 'b']
+
+
+
 
 ```
 >>> c = Counter(a=4, b=2, c=0, d=-2)
@@ -304,10 +474,18 @@ element’s count is less than one, elements() will ignore it.
 
 ```
 
+#### 
+most_common(n=None)
+
 Return a list of the n most common elements and their counts from the
 most common to the least.  If n is omitted or None,
 most_common() returns all elements in the counter.
 Elements with equal counts are ordered in the order first encountered:
+>>> Counter('abracadabra').most_common(3)
+[('a', 5), ('b', 2), ('r', 2)]
+
+
+
 
 ```
 >>> Counter('abracadabra').most_common(3)
@@ -315,9 +493,29 @@ Elements with equal counts are ordered in the order first encountered:
 
 ```
 
+#### 
+subtract(**kwargs)
+
+#### 
+subtract(iterable, /, **kwargs)
+
+#### 
+subtract(mapping, /, **kwargs)
+
 Elements are subtracted from an iterable or from another mapping
 (or counter).  Like dict.update() but subtracts counts instead
 of replacing them.  Both inputs and outputs may be zero or negative.
+>>> c = Counter(a=4, b=2, c=0, d=-2)
+>>> d = Counter(a=1, b=2, c=3, d=4)
+>>> c.subtract(d)
+>>> c
+Counter({'a': 3, 'b': 0, 'c': -3, 'd': -6})
+
+
+
+Added in version 3.2.
+
+
 
 ```
 >>> c = Counter(a=4, b=2, c=0, d=-2)
@@ -328,9 +526,19 @@ Counter({'a': 3, 'b': 0, 'c': -3, 'd': -6})
 
 ```
 
-Added in version 3.2.
+#### 
+total()
 
 Compute the sum of the counts.
+>>> c = Counter(a=10, b=5, c=0)
+>>> c.total()
+15
+
+
+
+Added in version 3.10.
+
+
 
 ```
 >>> c = Counter(a=10, b=5, c=0)
@@ -339,17 +547,26 @@ Compute the sum of the counts.
 
 ```
 
-Added in version 3.10.
-
-The usual dictionary methods are available for Counter objects
-except for two which work differently for counters.
+#### 
+fromkeys(iterable)
 
 This class method is not implemented for Counter objects.
+
+
+#### 
+update(**kwargs)
+
+#### 
+update(iterable, /, **kwargs)
+
+#### 
+update(mapping, /, **kwargs)
 
 Elements are counted from an iterable or added-in from another
 mapping (or counter).  Like dict.update() but adds counts
 instead of replacing them.  Also, the iterable is expected to be a
 sequence of elements, not a sequence of (key, value) pairs.
+
 
 Counters support rich comparison operators for equality, subset, and
 superset relationships: ==, !=, <, <=, >, >=.
@@ -468,19 +685,19 @@ map(Counter, combinations_with_replacement('ABC', 2)) # --> AA AB AC BB BC CC
 
 ## deque objects
 
+#### 
+class collections.deque([iterable[, maxlen]])
+
 Returns a new deque object initialized left-to-right (using append()) with
 data from iterable.  If iterable is not specified, the new deque is empty.
-
 Deques are a generalization of stacks and queues (the name is pronounced “deck”
 and is short for “double-ended queue”).  Deques support thread-safe, memory
 efficient appends and pops from either side of the deque with approximately the
 same O(1) performance in either direction.
-
 Though list objects support similar operations, they are optimized for
 fast fixed-length operations and incur O(n) memory movement costs for
 pop(0) and insert(0, v) operations which change both the size and
 position of the underlying data representation.
-
 If maxlen is not specified or is None, deques may grow to an
 arbitrary length.  Otherwise, the deque is bounded to the specified maximum
 length.  Once a bounded length deque is full, when new items are added, a
@@ -488,31 +705,171 @@ corresponding number of items are discarded from the opposite end.  Bounded
 length deques provide functionality similar to the tail filter in
 Unix. They are also useful for tracking transactions and other pools of data
 where only the most recent activity is of interest.
-
 Deques are generic over the type of their contents.
-
 Deque objects support the following methods:
+
+
+append(item, /)¶
+Add item to the right side of the deque.
+
+
+
+appendleft(item, /)¶
+Add item to the left side of the deque.
+
+
+
+clear()¶
+Remove all elements from the deque leaving it with length 0.
+
+
+
+copy()¶
+Create a shallow copy of the deque.
+
+Added in version 3.5.
+
+
+
+
+count(value, /)¶
+Count the number of deque elements equal to value.
+
+Added in version 3.2.
+
+
+
+
+extend(iterable, /)¶
+Extend the right side of the deque by appending elements from the iterable
+argument.
+
+
+
+extendleft(iterable, /)¶
+Extend the left side of the deque by appending elements from iterable.
+Note, the series of left appends results in reversing the order of
+elements in the iterable argument.
+
+
+
+index(value[, start[, stop]])¶
+Return the position of value in the deque (at or after index start
+and before index stop).  Returns the first match or raises
+ValueError if not found.
+
+Added in version 3.5.
+
+
+
+
+insert(index, value, /)¶
+Insert value into the deque at position index.
+If the insertion would cause a bounded deque to grow beyond maxlen,
+an IndexError is raised.
+
+Added in version 3.5.
+
+
+
+
+pop()¶
+Remove and return an element from the right side of the deque. If no
+elements are present, raises an IndexError.
+
+
+
+popleft()¶
+Remove and return an element from the left side of the deque. If no
+elements are present, raises an IndexError.
+
+
+
+remove(value, /)¶
+Remove the first occurrence of value.  If not found, raises a
+ValueError.
+
+
+
+reverse()¶
+Reverse the elements of the deque in-place and then return None.
+
+Added in version 3.2.
+
+
+
+
+rotate(n=1, /)¶
+Rotate the deque n steps to the right.  If n is negative, rotate
+to the left.
+When the deque is not empty, rotating one step to the right is equivalent
+to d.appendleft(d.pop()), and rotating one step to the left is
+equivalent to d.append(d.popleft()).
+
+Deque objects also provide one read-only attribute:
+
+
+maxlen¶
+Maximum size of a deque or None if unbounded.
+
+Added in version 3.1.
+
+
+
+
+#### 
+append(item, /)
 
 Add item to the right side of the deque.
 
+
+#### 
+appendleft(item, /)
+
 Add item to the left side of the deque.
 
+
+#### 
+clear()
+
 Remove all elements from the deque leaving it with length 0.
+
+
+#### 
+copy()
 
 Create a shallow copy of the deque.
 
 Added in version 3.5.
 
+
+
+#### 
+count(value, /)
+
 Count the number of deque elements equal to value.
 
 Added in version 3.2.
 
+
+
+#### 
+extend(iterable, /)
+
 Extend the right side of the deque by appending elements from the iterable
 argument.
+
+
+#### 
+extendleft(iterable, /)
 
 Extend the left side of the deque by appending elements from iterable.
 Note, the series of left appends results in reversing the order of
 elements in the iterable argument.
+
+
+#### 
+index(value[, start[, stop]])
 
 Return the position of value in the deque (at or after index start
 and before index stop).  Returns the first match or raises
@@ -520,38 +877,67 @@ ValueError if not found.
 
 Added in version 3.5.
 
-Insert value into the deque at position index.
 
+
+#### 
+insert(index, value, /)
+
+Insert value into the deque at position index.
 If the insertion would cause a bounded deque to grow beyond maxlen,
 an IndexError is raised.
 
 Added in version 3.5.
 
+
+
+#### 
+pop()
+
 Remove and return an element from the right side of the deque. If no
 elements are present, raises an IndexError.
+
+
+#### 
+popleft()
 
 Remove and return an element from the left side of the deque. If no
 elements are present, raises an IndexError.
 
+
+#### 
+remove(value, /)
+
 Remove the first occurrence of value.  If not found, raises a
 ValueError.
+
+
+#### 
+reverse()
 
 Reverse the elements of the deque in-place and then return None.
 
 Added in version 3.2.
 
+
+
+#### 
+rotate(n=1, /)
+
 Rotate the deque n steps to the right.  If n is negative, rotate
 to the left.
-
 When the deque is not empty, rotating one step to the right is equivalent
 to d.appendleft(d.pop()), and rotating one step to the left is
 equivalent to d.append(d.popleft()).
 
-Deque objects also provide one read-only attribute:
+
+#### 
+maxlen
 
 Maximum size of a deque or None if unbounded.
 
 Added in version 3.1.
+
+
 
 In addition to the above, deques support iteration, pickling, len(d),
 reversed(d), copy.copy(d), copy.deepcopy(d), membership testing with
@@ -694,36 +1080,40 @@ rot, and roll.
 
 ## defaultdict objects
 
+#### 
+class collections.defaultdict(default_factory=None, /, **kwargs)
+
+#### 
+class collections.defaultdict(default_factory, mapping, /, **kwargs)
+
+#### 
+class collections.defaultdict(default_factory, iterable, /, **kwargs)
+
 Return a new dictionary-like object.  defaultdict is a subclass of the
 built-in dict class.  It overrides one method and adds one writable
 instance variable.  The remaining functionality is the same as for the
 dict class and is not documented here.
-
 The first argument provides the initial value for the default_factory
 attribute; it defaults to None. All remaining arguments are treated the same
 as if they were passed to the dict constructor, including keyword
 arguments.
-
 defaultdicts are generic over two types,
 signifying (respectively) the types of the dictionary’s keys and values.
-
 defaultdict objects support the following method in addition to the
 standard dict operations:
 
+
+__missing__(key, /)¶
 If the default_factory attribute is None, this raises a
 KeyError exception with the key as argument.
-
 If default_factory is not None, it is called without arguments
 to provide a default value for the given key, this value is inserted in
 the dictionary for the key, and returned.
-
 If calling default_factory raises an exception this exception is
 propagated unchanged.
-
 This method is called by the __getitem__() method of the
 dict class when the requested key is not found; whatever it
 returns or raises is then returned or raised by __getitem__().
-
 Note that __missing__() is not called for any operations besides
 __getitem__(). This means that get() will, like
 normal dictionaries, return None as a default rather than using
@@ -731,12 +1121,44 @@ default_factory.
 
 defaultdict objects support the following instance variable:
 
+
+default_factory¶
 This attribute is used by the __missing__() method;
 it is initialized from the first argument to the constructor, if present,
 or to None, if absent.
 
+
 Changed in version 3.9: Added merge (|) and update (|=) operators, specified in
 PEP 584.
+
+
+
+#### 
+__missing__(key, /)
+
+If the default_factory attribute is None, this raises a
+KeyError exception with the key as argument.
+If default_factory is not None, it is called without arguments
+to provide a default value for the given key, this value is inserted in
+the dictionary for the key, and returned.
+If calling default_factory raises an exception this exception is
+propagated unchanged.
+This method is called by the __getitem__() method of the
+dict class when the requested key is not found; whatever it
+returns or raises is then returned or raised by __getitem__().
+Note that __missing__() is not called for any operations besides
+__getitem__(). This means that get() will, like
+normal dictionaries, return None as a default rather than using
+default_factory.
+
+
+#### 
+default_factory
+
+This attribute is used by the __missing__() method;
+it is initialized from the first argument to the constructor, if present,
+or to None, if absent.
+
 
 ### defaultdict Examples
 
@@ -827,55 +1249,57 @@ Named tuples assign meaning to each position in a tuple and allow for more reada
 self-documenting code.  They can be used wherever regular tuples are used, and
 they add the ability to access fields by name instead of position index.
 
+#### 
+collections.namedtuple(typename, field_names, *, rename=False, defaults=None, module=None)
+
 Returns a new tuple subclass named typename.  The new subclass is used to
 create tuple-like objects that have fields accessible by attribute lookup as
 well as being indexable and iterable.  Instances of the subclass also have a
 helpful docstring (with typename and field_names) and a helpful
 __repr__() method which lists the tuple contents in a name=value
 format.
-
 The field_names are a sequence of strings such as ['x', 'y'].
 Alternatively, field_names can be a single string with each fieldname
 separated by whitespace and/or commas, for example 'x y' or 'x, y'.
-
 Any valid Python identifier may be used for a fieldname except for names
 starting with an underscore.  Valid identifiers consist of letters, digits,
 and underscores but do not start with a digit or underscore and cannot be
 a keyword such as class, for, return, global, pass,
 or raise.
-
 If rename is true, invalid fieldnames are automatically replaced
 with positional names.  For example, ['abc', 'def', 'ghi', 'abc'] is
 converted to ['abc', '_1', 'ghi', '_3'], eliminating the keyword
 def and the duplicate fieldname abc.
-
 defaults can be None or an iterable of default values.
 Since fields with a default value must come after any fields without a
 default, the defaults are applied to the rightmost parameters.  For
 example, if the fieldnames are ['x', 'y', 'z'] and the defaults are
 (1, 2), then x will be a required argument, y will default to
 1, and z will default to 2.
-
 If module is defined, the __module__ attribute of the
 named tuple is set to that value.
-
 Named tuple instances do not have per-instance dictionaries, so they are
 lightweight and require no more memory than regular tuples.
-
 To support pickling, the named tuple class should be assigned to a variable
 that matches typename.
 
 Changed in version 3.1: Added support for rename.
 
+
 Changed in version 3.6: The verbose and rename parameters became
 keyword-only arguments.
 
+
 Changed in version 3.6: Added the module parameter.
+
 
 Changed in version 3.7: Removed the verbose parameter and the _source attribute.
 
+
 Changed in version 3.7: Added the defaults parameter and the _field_defaults
 attribute.
+
+
 
 ```
 >>> # Basic example
@@ -916,7 +1340,16 @@ In addition to the methods inherited from tuples, named tuples support
 three additional methods and two attributes.  To prevent conflicts with
 field names, the method and attribute names start with an underscore.
 
+#### 
+classmethod somenamedtuple._make(iterable, /)
+
 Class method that makes a new instance from an existing sequence or iterable.
+>>> t = [11, 22]
+>>> Point._make(t)
+Point(x=11, y=22)
+
+
+
 
 ```
 >>> t = [11, 22]
@@ -925,8 +1358,27 @@ Point(x=11, y=22)
 
 ```
 
+#### 
+somenamedtuple._asdict()
+
 Return a new dict which maps field names to their corresponding
 values:
+>>> p = Point(x=11, y=22)
+>>> p._asdict()
+{'x': 11, 'y': 22}
+
+
+
+Changed in version 3.1: Returns an OrderedDict instead of a regular dict.
+
+
+Changed in version 3.8: Returns a regular dict instead of an OrderedDict.
+As of Python 3.7, regular dicts are guaranteed to be ordered.  If the
+extra features of OrderedDict are required, the suggested
+remediation is to cast the result to the desired type:
+OrderedDict(nt._asdict()).
+
+
 
 ```
 >>> p = Point(x=11, y=22)
@@ -935,16 +1387,25 @@ values:
 
 ```
 
-Changed in version 3.1: Returns an OrderedDict instead of a regular dict.
-
-Changed in version 3.8: Returns a regular dict instead of an OrderedDict.
-As of Python 3.7, regular dicts are guaranteed to be ordered.  If the
-extra features of OrderedDict are required, the suggested
-remediation is to cast the result to the desired type:
-OrderedDict(nt._asdict()).
+#### 
+somenamedtuple._replace(**kwargs)
 
 Return a new instance of the named tuple replacing specified fields with new
 values:
+>>> p = Point(x=11, y=22)
+>>> p._replace(x=33)
+Point(x=33, y=22)
+
+>>> for partnum, record in inventory.items():
+...     inventory[partnum] = record._replace(price=newprices[partnum], timestamp=time.now())
+
+
+Named tuples are also supported by generic function copy.replace().
+
+Changed in version 3.13: Raise TypeError instead of ValueError for invalid
+keyword arguments.
+
+
 
 ```
 >>> p = Point(x=11, y=22)
@@ -956,13 +1417,21 @@ Point(x=33, y=22)
 
 ```
 
-Named tuples are also supported by generic function copy.replace().
-
-Changed in version 3.13: Raise TypeError instead of ValueError for invalid
-keyword arguments.
+#### 
+somenamedtuple._fields
 
 Tuple of strings listing the field names.  Useful for introspection
 and for creating new named tuple types from existing named tuples.
+>>> p._fields            # view the field names
+('x', 'y')
+
+>>> Color = namedtuple('Color', 'red green blue')
+>>> Pixel = namedtuple('Pixel', Point._fields + Color._fields)
+>>> Pixel(11, 22, 128, 255, 0)
+Pixel(x=11, y=22, red=128, green=255, blue=0)
+
+
+
 
 ```
 >>> p._fields            # view the field names
@@ -975,7 +1444,18 @@ Pixel(x=11, y=22, red=128, green=255, blue=0)
 
 ```
 
+#### 
+somenamedtuple._field_defaults
+
 Dictionary mapping field names to default values.
+>>> Account = namedtuple('Account', ['type', 'balance'], defaults=[0])
+>>> Account._field_defaults
+{'balance': 0}
+>>> Account('premium')
+Account(type='premium', balance=0)
+
+
+
 
 ```
 >>> Account = namedtuple('Account', ['type', 'balance'], defaults=[0])
@@ -1119,20 +1599,79 @@ and its associated value to the leftmost (first) position.
 
 Until Python 3.8, dict lacked a __reversed__() method.
 
+#### 
+class collections.OrderedDict(**kwargs)
+
+#### 
+class collections.OrderedDict(mapping, /, **kwargs)
+
+#### 
+class collections.OrderedDict(iterable, /, **kwargs)
+
 Return an instance of a dict subclass that has methods
 specialized for rearranging dictionary order.
 
 Added in version 3.1.
+
+
+
+popitem(last=True)¶
+The popitem() method for ordered dictionaries returns and removes a
+(key, value) pair.  The pairs are returned in
+LIFO order if last is true
+or FIFO order if false.
+
+
+
+move_to_end(key, last=True)¶
+Move an existing key to either end of an ordered dictionary.  The item
+is moved to the right end if last is true (the default) or to the
+beginning if last is false.  Raises KeyError if the key does
+not exist:
+>>> d = OrderedDict.fromkeys('abcde')
+>>> d.move_to_end('b')
+>>> ''.join(d)
+'acdeb'
+>>> d.move_to_end('b', last=False)
+>>> ''.join(d)
+'bacde'
+
+
+
+Added in version 3.2.
+
+
+
+
+#### 
+popitem(last=True)
 
 The popitem() method for ordered dictionaries returns and removes a
 (key, value) pair.  The pairs are returned in
 LIFO order if last is true
 or FIFO order if false.
 
+
+#### 
+move_to_end(key, last=True)
+
 Move an existing key to either end of an ordered dictionary.  The item
 is moved to the right end if last is true (the default) or to the
 beginning if last is false.  Raises KeyError if the key does
 not exist:
+>>> d = OrderedDict.fromkeys('abcde')
+>>> d.move_to_end('b')
+>>> ''.join(d)
+'acdeb'
+>>> d.move_to_end('b', last=False)
+>>> ''.join(d)
+'bacde'
+
+
+
+Added in version 3.2.
+
+
 
 ```
 >>> d = OrderedDict.fromkeys('abcde')
@@ -1144,8 +1683,6 @@ not exist:
 'bacde'
 
 ```
-
-Added in version 3.2.
 
 In addition to the usual mapping methods, ordered dictionaries also support
 reverse iteration using reversed().
@@ -1259,16 +1796,35 @@ subclass directly from dict; however, this class can be easier
 to work with because the underlying dictionary is accessible as an
 attribute.
 
+#### 
+class collections.UserDict(**kwargs)
+
+#### 
+class collections.UserDict(mapping, /, **kwargs)
+
+#### 
+class collections.UserDict(iterable, /, **kwargs)
+
 Class that simulates a dictionary.  The instance’s contents are kept in a
 regular dictionary, which is accessible via the data attribute of
 UserDict instances.  If arguments are provided, they are used to
 initialize data, like a regular dictionary.
-
 In addition to supporting the methods and operations of mappings,
 UserDict instances provide the following attribute:
 
+
+data¶
 A real dictionary used to store the contents of the UserDict
 class.
+
+
+
+#### 
+data
+
+A real dictionary used to store the contents of the UserDict
+class.
+
 
 ## UserList objects
 
@@ -1281,17 +1837,30 @@ The need for this class has been partially supplanted by the ability to
 subclass directly from list; however, this class can be easier
 to work with because the underlying list is accessible as an attribute.
 
+#### 
+class collections.UserList([list])
+
 Class that simulates a list.  The instance’s contents are kept in a regular
 list, which is accessible via the data attribute of UserList
 instances.  The instance’s contents are initially set to a copy of list,
 defaulting to the empty list [].  list can be any iterable, for
 example a real Python list or a UserList object.
-
 In addition to supporting the methods and operations of mutable sequences,
 UserList instances provide the following attribute:
 
+
+data¶
 A real list object used to store the contents of the
 UserList class.
+
+
+
+#### 
+data
+
+A real list object used to store the contents of the
+UserList class.
+
 
 Subclassing requirements: Subclasses of UserList are expected to
 offer a constructor which can be called with either no arguments or one
@@ -1313,18 +1882,31 @@ subclass directly from str; however, this class can be easier
 to work with because the underlying string is accessible as an
 attribute.
 
+#### 
+class collections.UserString(seq)
+
 Class that simulates a string object.  The instance’s
 content is kept in a regular string object, which is accessible via the
 data attribute of UserString instances.  The instance’s
 contents are initially set to a copy of seq.  The seq argument can
 be any object which can be converted into a string using the built-in
 str() function.
-
 In addition to supporting the methods and operations of strings,
 UserString instances provide the following attribute:
 
+
+data¶
 A real str object used to store the contents of the
 UserString class.
 
+
 Changed in version 3.5: New methods __getnewargs__, __rmod__, casefold,
 format_map, isprintable, and maketrans.
+
+
+
+#### 
+data
+
+A real str object used to store the contents of the
+UserString class.

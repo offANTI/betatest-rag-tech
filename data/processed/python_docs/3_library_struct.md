@@ -33,22 +33,41 @@ they can be read/filled without additional copying from a bytes object.
 
 The module defines the following exception and functions:
 
+#### 
+exception struct.error
+
 Exception raised on various occasions; argument is a string describing what
 is wrong.
+
+
+#### 
+struct.pack(format, v1, v2, ...)
 
 Return a bytes object containing the values v1, v2, … packed according
 to the format string format.  The arguments must match the values required by
 the format exactly.
+
+
+#### 
+struct.pack_into(format, buffer, offset, v1, v2, ...)
 
 Pack the values v1, v2, … according to the format string format and
 write the packed bytes into the writable buffer buffer starting at
 position offset.  Note that offset is a required argument.
 A negative offset counts from the end of buffer.
 
+
+#### 
+struct.unpack(format, buffer)
+
 Unpack from the buffer buffer (presumably packed by pack(format, ...))
 according to the format string format.  The result is a tuple even if it
 contains exactly one item.  The buffer’s size in bytes must match the
 size required by the format, as reflected by calcsize().
+
+
+#### 
+struct.unpack_from(format, /, buffer, offset=0)
 
 Unpack from buffer starting at position offset, according to the format
 string format.  The result is a tuple even if it contains exactly one
@@ -56,18 +75,27 @@ item.  The buffer’s size in bytes, starting at position offset, must be at
 least the size required by the format, as reflected by calcsize().
 A negative offset counts from the end of buffer.
 
+
+#### 
+struct.iter_unpack(format, buffer)
+
 Iteratively unpack from the buffer buffer according to the format
 string format.  This function returns an iterator which will read
 equally sized chunks from the buffer until all its contents have been
 consumed.  The buffer’s size in bytes must be a multiple of the size
 required by the format, as reflected by calcsize().
-
 Each iteration yields a tuple as specified by the format string.
 
 Added in version 3.4.
 
+
+
+#### 
+struct.calcsize(format)
+
 Return the size of the struct (and hence of the bytes object produced by
 pack(format, ...)) corresponding to the format string format.
+
 
 ## Format Strings
 
@@ -627,11 +655,20 @@ b'\x00\x00\x00\x01\x00\x00\x00\x02\x00\x03\x00\x00'
 
 See also
 
+#### Module array
+
 Packed binary storage of homogeneous data.
+
+
+#### Module json
 
 JSON encoder and decoder.
 
+
+#### Module pickle
+
 Python object serialization.
+
 
 ## Applications
 
@@ -729,13 +766,15 @@ False
 
 The struct module also defines the following type:
 
+#### 
+class struct.Struct(format)
+
 Return a new Struct object which writes and reads binary data according to
 the format string format.  Creating a Struct object once and calling its
 methods is more efficient than calling module-level functions with the
 same format since the format string is only compiled once.
 
 Note
-
 The compiled versions of the most recent format strings passed to
 the module-level functions are cached, so programs that use only a few
 format strings needn’t worry about reusing a single Struct
@@ -743,32 +782,115 @@ instance.
 
 Compiled Struct objects support the following methods and attributes:
 
+
+pack(v1, v2, ...)¶
 Identical to the pack() function, using the compiled format.
 (len(result) will equal size.)
 
+
+
+pack_into(buffer, offset, v1, v2, ...)¶
 Identical to the pack_into() function, using the compiled format.
+
+
+
+unpack(buffer)¶
+Identical to the unpack() function, using the compiled format.
+The buffer’s size in bytes must equal size.
+
+
+
+unpack_from(buffer, offset=0)¶
+Identical to the unpack_from() function, using the compiled format.
+The buffer’s size in bytes, starting at position offset, must be at least
+size.
+
+
+
+iter_unpack(buffer)¶
+Identical to the iter_unpack() function, using the compiled format.
+The buffer’s size in bytes must be a multiple of size.
+
+Added in version 3.4.
+
+
+
+
+format¶
+The format string used to construct this Struct object.
+
+Changed in version 3.7: The format string type is now str instead of bytes.
+
+
+
+
+size¶
+The calculated size of the struct (and hence of the bytes object produced
+by the pack() method) corresponding to format.
+
+
+Changed in version 3.13: The repr() of structs has changed.  It
+is now:
+>>> Struct('i')
+Struct('i')
+
+
+
+
+
+#### 
+pack(v1, v2, ...)
+
+Identical to the pack() function, using the compiled format.
+(len(result) will equal size.)
+
+
+#### 
+pack_into(buffer, offset, v1, v2, ...)
+
+Identical to the pack_into() function, using the compiled format.
+
+
+#### 
+unpack(buffer)
 
 Identical to the unpack() function, using the compiled format.
 The buffer’s size in bytes must equal size.
 
+
+#### 
+unpack_from(buffer, offset=0)
+
 Identical to the unpack_from() function, using the compiled format.
 The buffer’s size in bytes, starting at position offset, must be at least
 size.
+
+
+#### 
+iter_unpack(buffer)
 
 Identical to the iter_unpack() function, using the compiled format.
 The buffer’s size in bytes must be a multiple of size.
 
 Added in version 3.4.
 
+
+
+#### 
+format
+
 The format string used to construct this Struct object.
 
 Changed in version 3.7: The format string type is now str instead of bytes.
 
+
+
+#### 
+size
+
 The calculated size of the struct (and hence of the bytes object produced
 by the pack() method) corresponding to format.
 
-Changed in version 3.13: The repr() of structs has changed.  It
-is now:
 
 ```
 >>> Struct('i')

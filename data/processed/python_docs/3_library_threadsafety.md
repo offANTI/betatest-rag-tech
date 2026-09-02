@@ -370,18 +370,30 @@ set.update(), set.union(), set.intersection() and
 set.difference() can take multiple iterables as arguments. They all
 iterate through all the passed iterables and do the following:
 
+#### set.update() and set.union() lock both objects only when
+
 the other operand is a set, frozenset, or dict.
 
+
+#### set.intersection() and set.difference() always try to lock
+
 all objects.
+
 
 set.symmetric_difference() tries to lock both objects.
 
 The update variants of the above methods also have some differences between
 them:
 
+#### set.difference_update() and set.intersection_update() try
+
 to lock all objects one-by-one.
 
+
+#### set.symmetric_difference_update() only locks the arguments if it is
+
 of type set, frozenset, or dict.
+
 
 The following methods always try to lock both objects:
 
