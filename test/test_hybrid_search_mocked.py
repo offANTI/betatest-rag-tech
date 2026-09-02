@@ -95,6 +95,6 @@ def test_hybrid_search_result_structure():
     )
 
     result = results[0]
-    assert set(result.keys()) == {"chunk_idx", "text", "rrf_score", "dense_rank", "bm25_rank"}
+    assert set(result.keys()) == {"chunk_idx", "text", "score", "dense_rank", "bm25_rank"}
     assert isinstance(result["text"], str)
     assert isinstance(result["rrf_score"], float)

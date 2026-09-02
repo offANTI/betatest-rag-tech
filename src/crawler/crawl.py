@@ -13,7 +13,7 @@ logger = get_project_logger(__name__)
 CURRENT_FILE = Path(__file__)
 PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
 
-MAX_PAGES = 500
+MAX_PAGES = 20
 REQUEST_DELAY = 0.5
 
 
