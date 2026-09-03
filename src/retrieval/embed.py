@@ -1,9 +1,11 @@
 import json
 import argparse
+import numpy as np
+import re
+
 from typing import List, Optional
 from pathlib import Path
 
-import numpy as np
 from sentence_transformers import SentenceTransformer
 from utils.logger import get_project_logger
 
@@ -64,6 +66,9 @@ class EmbeddingManager:
         cls._model_name = model_name
         return model
 
+def clean_for_embedding(text: str) -> str:
+    text = re.sub(r"```.*?```", "", text, flags=re.S)
+    return text.strip()
 
 def embed_chunks(
     chunks: List[dict],
@@ -81,7 +86,7 @@ def embed_chunks(
     if model is None:
         model = EmbeddingManager.load_model(model_name=model_name, device=device)
 
-    texts = [chunk.get("text", "") for chunk in chunks]
+    texts =  [clean_for_embedding(chunk.get("text", "")) for chunk in chunks]
     logger.info(
         "Encoding %d chunks with model %s (batch_size=%d, device=%s)",
         len(texts),

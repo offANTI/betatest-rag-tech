@@ -13,7 +13,7 @@ logger = get_project_logger(__name__)
 CURRENT_FILE = Path(__file__)
 PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
 
-MAX_PAGES = 20
+MAX_PAGES = 200
 REQUEST_DELAY = 0.5
 
 
@@ -52,6 +52,22 @@ def fetch_page(url: str) -> requests.Response | None:
 
     return response
 
+def fetch_or_cache(url: str, source_name: str) -> str | None:
+    parsed = urlparse(url)
+    filename = parsed.path[1:].replace("/", "_")
+    filepath = PROJECT_ROOT / "data" / "raw" / source_name / filename
+
+    if filepath.exists():
+        logger.debug(f"Cache hit, skip network: {url}")
+        return filepath.read_text(encoding="utf-8")
+
+    response = fetch_page(url)
+    if response is None:
+        return None
+
+    save_html(url, response.text, source_name)
+    time.sleep(REQUEST_DELAY)
+    return response.text
 
 def save_html(url: str, html: str, source_name: str) -> None:
     parsed = urlparse(url)
@@ -80,19 +96,17 @@ def crawl(source_name: str):
         if url in visited:
             continue
 
-        response = fetch_page(url)
-        if response is None:
+        html = fetch_or_cache(url, source_name)
+        if html is None:
             continue
 
         visited.add(url)
-        save_html(url, response.text, source_name)
 
-        for link in extract_links(response.text, start_url):
+        for link in extract_links(html, start_url):
             if valid_url(link, allowed_prefix, blacklist, visited, queue):
                 queue.append(link)
 
         logger.info(f"[{source_name}] [{len(visited)}/{MAX_PAGES}] Visited: {url}")
-        time.sleep(REQUEST_DELAY)
 
     return visited
 

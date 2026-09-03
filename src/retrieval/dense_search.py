@@ -10,11 +10,11 @@ logger = get_project_logger(__name__)
 CURRENT_FILE = Path(__file__)
 PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
 
-# backward-compatible
+
 CHUNKS_FILE = PROJECT_ROOT / "data" / "chunks" / "python_docs.json"
 EMBEDDINGS_FILE = PROJECT_ROOT / "data" / "chunks" / "python_docs_embeddings.npy"
 
-MODEL_NAME = "all-MiniLM-L6-v2"
+MODEL_NAME = "multi-qa-MiniLM-L6-cos-v1"
 TOP_K = 5
 _EPS = 1e-8
 

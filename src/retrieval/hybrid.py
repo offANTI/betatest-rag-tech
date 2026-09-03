@@ -3,6 +3,12 @@ from sentence_transformers import SentenceTransformer
 from utils.logger import get_project_logger
 from .dense_search import cosine_similarity, load_data
 from .bm25 import build_bm25_index, tokenize, batch_chunks
+
+from sentence_transformers import CrossEncoder
+
+from .embed import clean_for_embedding
+
+
 logger = get_project_logger(__name__)
 
 RRF_K = 60
@@ -26,10 +32,10 @@ def hybrid_search(
     bm25,
     top_k=TOP_K,
     method: str = "rrf",
-    w_dense: float = 1.0,
-    w_bm25: float = 1.0,
+    w_dense: float = 0.7,
+    w_bm25: float = 1.3,
     rrf_k: int = RRF_K,
-    candidate_pool: int = 200,
+    candidate_pool: int = 1000,
     reranker=None,
     rerank_top: int = 20,
 ):
@@ -64,7 +70,7 @@ def hybrid_search(
 
 
     try:
-        query_embedding = model.encode([query])[0]
+        query_embedding =  model.encode([clean_for_embedding(query)])[0]
     except Exception as e:
         logger.exception("Failed to encode query: %s", e)
         raise
@@ -99,7 +105,6 @@ def hybrid_search(
     scores = np.zeros(n, dtype=float)
 
     if method == "sum":
-        # normalize across whole corpus (safer) or across candidates (optional)
         dmin, dmax = float(dense_scores.min()), float(dense_scores.max())
         bmin, bmax = float(bm25_scores.min()), float(bm25_scores.max())
         d_range = dmax - dmin if dmax - dmin > eps else eps
@@ -159,12 +164,17 @@ if __name__ == "__main__":
 
     dense_chunks, dense_embeddings = load_data()
 
-    model = SentenceTransformer("all-MiniLM-L6-v2")
+    model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")
+    reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
-    query = "check object type python"
-    results = hybrid_search(query, model, chunks, dense_embeddings, bm25)
+    query = "What exception will the netrc class raise if the .netrc file contains passwords and is accessible for reading or writing by any other user on a POSIX system?"
+    results = hybrid_search(
+        query, model, chunks, dense_embeddings, bm25,
+        reranker=reranker,
+        rerank_top=20,
+    )
 
     for r in results:
         logger.info(
-            f"[RRF={r['score']:.5f}] [dense_rank={r['dense_rank']} bm25_rank={r['bm25_rank']}] {r['text'][:150]}..."
+            f"[score={r['score']:.5f}] [dense_rank={r['dense_rank']} bm25_rank={r['bm25_rank']}] {r['text'][:150]}..."
         )
