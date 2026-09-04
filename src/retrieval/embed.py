@@ -1,5 +1,4 @@
 import json
-import argparse
 import numpy as np
 import re
 
@@ -181,37 +180,3 @@ def embed_source(
     return out_path
 
 
-def main(argv: Optional[List[str]] = None) -> Optional[Path]:
-    parser = argparse.ArgumentParser(description="Compute and save embeddings for chunks")
-    parser.add_argument("--source", type=str, default=DEFAULT_SOURCE, help="Source name (used to find data/chunks/<source>.json)")
-    parser.add_argument("--chunks", type=Path, default=None, help="Path to chunks.json (overrides --source)")
-    parser.add_argument("--out", type=Path, default=None, help="Output .npy file (overrides default)")
-    parser.add_argument("--model", type=str, default=MODEL_NAME, help="SentenceTransformer model name")
-    parser.add_argument("--device", type=str, default=None, help="Device, e.g. 'cpu' or 'cuda'")
-    parser.add_argument("--batch", type=int, default=64, help="Batch size for encoding")
-    parser.add_argument("--no-progress", action="store_true", help="Hide progress bar")
-    args = parser.parse_args(argv)
-
-    # Determine files
-    if args.chunks:
-        chunks_path = args.chunks
-    else:
-        chunks_path = chunks_path_for(args.source)
-
-    out_path = args.out if args.out else embeddings_path_for(args.source)
-
-    chunks = load_chunks(chunks_path)
-    if not chunks:
-        logger.error("No chunks loaded, exiting")
-        return None
-
-    model = EmbeddingManager.load_model(model_name=args.model, device=args.device)
-    embeddings = embed_chunks(
-        chunks, model=model, device=args.device, batch_size=args.batch, show_progress=not args.no_progress
-    )
-    save_embeddings(embeddings, out_path)
-    return out_path
-
-
-if __name__ == "__main__":
-    main()

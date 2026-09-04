@@ -54,13 +54,3 @@ def bm25_search(query: str, bm25: BM25Okapi, chunks: list[dict], top_k: int = TO
     return results
   
 
-
-if __name__ == "__main__":
-    chunks = batch_chunks()
-    bm25 = build_bm25_index(chunks)
-
-    query = "how to check if a variable is a list"
-    results = bm25_search(query, bm25, chunks)
-
-    for r in results:
-        logger.info(f"[{r['score']:.4f}] [{r['heading']}] {r['text'][:150]}...")

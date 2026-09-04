@@ -118,16 +118,3 @@ def search(query: str, model: SentenceTransformer, chunks: list[dict], embedding
     return results
 
 
-if __name__ == "__main__":
-    chunks, embeddings = load_data()
-    if not chunks or embeddings is None:
-        logger.error("No data to search. Run the pipeline to create chunks and embeddings.")
-        raise SystemExit(1)
-
-    model = SentenceTransformer(MODEL_NAME)
-
-    query = "how to check if a variable is a list"
-    results = search(query, model, chunks, embeddings)
-
-    for r in results:
-        logger.info(f"[{r['heading']}] {r['text'][:150]}...")

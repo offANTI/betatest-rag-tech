@@ -1,6 +1,5 @@
 # rag-tech-docs
 
-RAG-BOT
 This project, RAG-BOT, is currently under development. The initial goal is to search through Python documentation. Later, it will be expanded to include other programming languages and helpful tools, saving the need to manually search across different websites.
 
 Right now, a basic RAG system has been built to crawl and search documentation. The plan is to add an LLM later to generate answers and then integrate everything into a Telegram bot.

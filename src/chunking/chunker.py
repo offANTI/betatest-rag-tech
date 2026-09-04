@@ -155,7 +155,7 @@ def chunk_all(source_name: str = DEFAULT_SOURCE, max_chunk_size: int = MAX_CHUNK
         return
 
     all_chunks = []
-    md_files = sorted(processed_dir.glob("*README.md"))
+    md_files = sorted(processed_dir.glob("*.md"))
     logger.info(f"Chunking {len(md_files)} files for source '{source_name}'")
 
     for md_path in md_files:
@@ -166,15 +166,3 @@ def chunk_all(source_name: str = DEFAULT_SOURCE, max_chunk_size: int = MAX_CHUNK
     logger.info(f"Saved {len(all_chunks)} chunks from {len(md_files)} files to {chunks_file}")
 
 
-def main(argv=None):
-    parser = argparse.ArgumentParser(description="Chunk processed markdown into chunks.json")
-    parser.add_argument("--source", type=str, default=DEFAULT_SOURCE, help="Source name (folder under data/processed)")
-    parser.add_argument("--max-chunk-size", type=int, default=MAX_CHUNK_SIZE)
-    parser.add_argument("--mode", choices=["legacy", "new"], default="legacy", help="Heading split mode")
-    args = parser.parse_args(argv)
-
-    chunk_all(source_name=args.source, max_chunk_size=args.max_chunk_size, mode=args.mode)
-
-
-if __name__ == "__main__":
-    main()

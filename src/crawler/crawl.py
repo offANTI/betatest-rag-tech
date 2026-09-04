@@ -1,4 +1,3 @@
-import argparse
 import time
 import os
 import requests
@@ -109,11 +108,3 @@ def crawl(source_name: str):
         logger.info(f"[{source_name}] [{len(visited)}/{MAX_PAGES}] Visited: {url}")
 
     return visited
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Crawl a documentation source")
-    parser.add_argument("source", help="Source name from config/sources.yaml, e.g. python_docs")
-    args = parser.parse_args()
-
-    crawl(args.source)

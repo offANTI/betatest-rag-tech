@@ -70,7 +70,7 @@ def extract_all(source_name: str):
     processed = 0
 
     for html_path in html_files:
-        md_path = processed_dir / html_path.with_suffix("README.md").name
+        md_path = processed_dir / html_path.with_suffix(".md").name
 
         if md_path.exists() and md_path.stat().st_mtime >= html_path.stat().st_mtime:
             skipped += 1
@@ -87,9 +87,3 @@ def extract_all(source_name: str):
     logger.info(f"[{source_name}] Done: {processed} processed, {skipped} skipped (already up to date)")
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Extract markdown from a crawled documentation source")
-    parser.add_argument("source", help="Source name from config/sources.yaml, e.g. python_docs")
-    args = parser.parse_args()
-
-    extract_all(args.source)
