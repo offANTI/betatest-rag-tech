@@ -1,61 +1,76 @@
 # rag-tech-docs
 
-A personal RAG bot for technical documentation. The idea is simple: take docs for tools I actually use (Python, later SQL/dbt/Airflow), run them through my own pipeline, and get search that understands meaning, not just keywords. Eventually this gets wrapped in a Telegram bot — ask a question in chat, get an answer with a source link.
+RAG-BOT
+This project, RAG-BOT, is currently under development. The initial goal is to search through Python documentation. Later, it will be expanded to include other programming languages and helpful tools, saving the need to manually search across different websites.
 
-## How it works right now
+Right now, a basic RAG system has been built to crawl and search documentation. The plan is to add an LLM later to generate answers and then integrate everything into a Telegram bot.
+## Pipeline structure
 
 ```
-   docs.python.org
+   source (e.g. docs.python.org)
          │
-         │  sitemap didn't work (only 8 urls in there),
-         │  so — recursive crawl following links instead
          ▼
    ┌─────────────┐
-   │   crawler   │   BFS over /3/, blacklist filter,
-   │  crawl.py   │   dedup (including #anchor variants)
-   └──────┬──────┘
-          │  raw html
+   │   crawler   │   walks the site within an allowed path,
+   │  crawl.py   │   skips blacklisted pages, dedupes by URL,
+   └──────┬──────┘   skips pages already downloaded
+          │  raw html → data/raw/<source>/
           ▼
    ┌─────────────┐
-   │  extractor  │   pull out div[role="main"],
-   │ extract.py  │   strip headerlink junk, convert to .md
-   └──────┬──────┘
-          │  clean markdown with headings
+   │  extractor  │   pulls the main content using a per-site
+   │ extract.py  │   selector, converts it to markdown
+   └──────┬──────┘   skips files that haven't changed
+          │  clean markdown → data/processed/<source>/
           ▼
    ┌─────────────┐
-   │  chunking   │   split by ## sections,
-   │ chunker.py  │   re-split large sections by paragraph
+   │  chunking   │   splits by headings, breaks up
+   │ chunker.py  │   oversized sections by paragraph
    └──────┬──────┘
-          │  chunks + metadata (json)
+          │  chunks + metadata → data/chunks/<source>.json
           ▼
-     data/chunks/
-     python_docs.json
+   ┌─────────────┐
+   │  retrieval  │   dense search + BM25, combined with
+   │             │   Reciprocal Rank Fusion, then reranked
+   │             │   by a cross-encoder
+   └─────────────┘
 ```
 
-30 Python docs pages → 881 chunks. Retrieval core is next in line.
+Run the whole thing with one command:
 
-## What's next
+```
+python pipeline.py <source_name>
+```
 
-- [ ] embeddings via `sentence-transformers` (local, no API — 881 chunks isn't worth cloud calls)
-- [ ] BM25 for lexical search
-- [ ] hybrid search — combine both
-- [ ] check quality against real questions
-- [ ] Groq — only for the final step, once relevant chunks are found and need to become an actual answer
-- [ ] wrap it in a Telegram bot
-- [ ] add more sources: SQL/dbt/Airflow
+## Current Status
+
+At the moment, the pipeline follows a crawl → extract → embed workflow to prepare text and chunks for search and retrieval.
+
+The RAG system crawls documentation directly from websites. Currently, it contains around 465 pages and 25,000 text chunks.
+
+Search is performed using both dense retrieval and BM25. The results from both methods are then combined using the Reciprocal Rank Fusion (RRF) algorithm.
+
+The system is managed and configured through a YAML configuration file.
+What’s Next
+Add additional documentation sources for other programming languages, as well as useful technical documentation such as SQL, dbt, and others.
+Integrate Groq to generate answers for users and make the overall question-answering process more focused on technical and documentation-based queries before performing the search.
+Later, integrate the system into a Telegram bot to provide a user-friendly interface.
+Deploy the entire system to a server for production use.
 
 ## Structure
 
 ```
 rag-tech-docs/
+├── config/
+│   └── sources.yaml
 ├── data/
 │   ├── raw/          # raw html per source
-│   ├── processed/     # clean markdown
-│   └── chunks/        # chunked text, ready for embeddings
+│   ├── processed/     # clean markdown per source
+│   └── chunks/        # chunks + embeddings per source
 ├── src/
-│   ├── crawler/
-│   ├── extractor/
-│   └── chunking/
-└── utils/
-    └── logger.py
+│   ├── crawler/        # crawl.py, extract.py
+│   ├── chunking/        # chunker.py
+│   └── retrieval/        # dense_search.py, bm25.py, hybrid.py, embed.py
+├── tests/
+└── pipeline.py          # runs everything for one source
 ```
+

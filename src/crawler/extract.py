@@ -52,7 +52,7 @@ def extract_one_file(html_path: Path, selector: dict) -> str | None:
 
 def save_markdown(html_path: Path, markdown_text: str, processed_dir: Path) -> None:
     processed_dir.mkdir(parents=True, exist_ok=True)
-    output_path = processed_dir / html_path.with_suffix(".md").name
+    output_path = processed_dir / html_path.with_suffix("README.md").name
     output_path.write_text(markdown_text, encoding="utf-8")
 
 
@@ -70,7 +70,7 @@ def extract_all(source_name: str):
     processed = 0
 
     for html_path in html_files:
-        md_path = processed_dir / html_path.with_suffix(".md").name
+        md_path = processed_dir / html_path.with_suffix("README.md").name
 
         if md_path.exists() and md_path.stat().st_mtime >= html_path.stat().st_mtime:
             skipped += 1

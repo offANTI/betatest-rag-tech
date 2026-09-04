@@ -155,7 +155,7 @@ def chunk_all(source_name: str = DEFAULT_SOURCE, max_chunk_size: int = MAX_CHUNK
         return
 
     all_chunks = []
-    md_files = sorted(processed_dir.glob("*.md"))
+    md_files = sorted(processed_dir.glob("*README.md"))
     logger.info(f"Chunking {len(md_files)} files for source '{source_name}'")
 
     for md_path in md_files:

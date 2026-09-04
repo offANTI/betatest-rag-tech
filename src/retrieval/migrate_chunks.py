@@ -19,7 +19,7 @@ def split_headings_new(markdown_text: str):
     pattern = re.compile(r'^(#{1,6})\s+(.*)$', flags=re.M)
     matches = list(pattern.finditer(markdown_text))
     if not matches:
-        # весь текст как введение
+        
         return [("Introduction", markdown_text.strip())] if markdown_text.strip() else []
 
     sections = []
@@ -121,7 +121,7 @@ def chunk_one_file_v2(md_path: Path, max_chunk_size: int):
 
 
 def build_chunks_v2(processed_dir: Path, max_chunk_size: int):
-    md_files = sorted(processed_dir.glob("*.md"))
+    md_files = sorted(processed_dir.glob("*README.md"))
     logger.info("Found %d markdown files in %s", len(md_files), processed_dir)
     all_chunks = []
     per_file_counts = {}
