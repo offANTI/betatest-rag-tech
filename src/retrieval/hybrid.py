@@ -2,7 +2,7 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 from utils.logger import get_project_logger
 from .dense_search import cosine_similarity, load_data
-from .bm25 import build_bm25_index, tokenize, batch_chunks
+from .bm25 import build_bm25_index, tokenize, batch_chunks, BM25Okapi
 
 from sentence_transformers import CrossEncoder
 
@@ -128,17 +128,6 @@ def hybrid_search(
     else:
         top_sorted = sorted(candidate_ids, key=lambda i: -scores[i])[:k]
 
-
-    if reranker is not None and len(top_sorted) > 0:
-        rerank_candidates = top_sorted[:rerank_top]
-        pairs = [[query, chunks[i]["text"][:1024]] for i in rerank_candidates]
-        try:
-            rerank_scores = reranker.predict(pairs)
-            ranked = sorted(zip(rerank_candidates, rerank_scores), key=lambda x: -x[1])[:top_k]
-            top_sorted = [i for i, s in ranked]
-        except Exception:
-            logger.exception("Reranker failed, falling back to combined scores")
-
     rerank_scores_map = {}
     if reranker is not None and len(top_sorted) > 0:
         rerank_candidates = top_sorted[:rerank_top]
@@ -146,9 +135,7 @@ def hybrid_search(
         try:
             rerank_scores = reranker.predict(pairs)
             rerank_scores_map = dict(zip(rerank_candidates, rerank_scores))
-            ranked = sorted(zip(rerank_candidates, rerank_scores), key=lambda x: -x[1])[
-                :top_k
-            ]
+            ranked = sorted(zip(rerank_candidates, rerank_scores), key=lambda x: -x[1])[:top_k]
             top_sorted = [i for i, s in ranked]
         except Exception:
             logger.exception("Reranker failed, falling back to combined scores")
@@ -173,31 +160,61 @@ def hybrid_search(
             }
         )
 
-    logger.info("Hybrid search returned %d results (top_k=%d)", len(final_results), top_k)
+    logger.info(
+        "Hybrid search returned %d results (top_k=%d)", len(final_results), top_k
+    )
     return final_results
 
 
 if __name__ == "__main__":
-    chunks = batch_chunks()
-    bm25 = build_bm25_index(chunks)
+    import argparse
+    from common.config import load_source_config
+    from pathlib import Path
+    import json
 
-    dense_chunks, dense_embeddings = load_data()
+
+    parser = argparse.ArgumentParser(description="Run hybrid search for a specified source.")
+    parser.add_argument("source", nargs="?", default="dbt_docs", help="Source name (e.g., dbt_docs, python_docs)")
+    args = parser.parse_args()
+
+    source_name = args.source
+    logger.info("Running search for source: %s", source_name)
+
+
+    PROJECT_ROOT = Path(__file__).parent.parent.parent
+    chunks_path = PROJECT_ROOT / "data" / "chunks" / f"{source_name}.json"
+    embeddings_path = PROJECT_ROOT / "data" / "chunks" / f"{source_name}_embeddings.npy"
+
+    if not chunks_path.exists() or not embeddings_path.exists():
+        raise FileNotFoundError(
+            f"Index files for source '{source_name}' not found at {chunks_path}. Run pipeline first!"
+        )
+
+    chunks = json.loads(chunks_path.read_text(encoding="utf-8"))
+    dense_embeddings = np.load(embeddings_path)
+
+
+    tokenized_corpus = [tokenize(c.get("text", "")) for c in chunks]
+    bm25 = BM25Okapi(tokenized_corpus)
+
 
     model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")
     reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
-    query = "What exception will the netrc class raise if the .netrc file contains passwords and is accessible for reading or writing by any other user on a POSIX system?"
+
+    query = "How do I use GIL or asyncio event loops in Python?"
     results = hybrid_search(
-        query,
-        model,
-        chunks,
-        dense_embeddings,
-        bm25,
+        query=query,
+        model=model,
+        chunks=chunks,
+        dense_embeddings=dense_embeddings,
+        bm25=bm25,
         reranker=reranker,
         rerank_top=20,
     )
 
     for r in results:
+        rerank_str = f"{r['rerank_score']:.4f}" if r["rerank_score"] is not None else "None"
         logger.info(
-            f"[score={r['score']:.5f}] [rerank={r['rerank_score']}] [dense_rank={r['dense_rank']} bm25_rank={r['bm25_rank']}] {r['text'][:150]}..."
+            f"[score={r['score']:.5f}] [rerank={rerank_str}] [dense_rank={r['dense_rank']} bm25_rank={r['bm25_rank']}] {r['text'][:150]}..."
         )

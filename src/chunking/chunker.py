@@ -1,9 +1,8 @@
 import json
 import re
-import argparse
 from pathlib import Path
 from itertools import zip_longest
-
+from common.config import load_source_config
 from utils.logger import get_project_logger
 
 logger = get_project_logger(__name__)
@@ -12,6 +11,10 @@ CURRENT_FILE = Path(__file__)
 PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
 
 DEFAULT_SOURCE = "python_docs"
+PROCESSED_DIR_FOR = lambda src: PROJECT_ROOT / "data" / "processed" / src
+CHUNKS_FILE_FOR = lambda src: PROJECT_ROOT / "data" / "chunks" / f"{src}.json"
+
+RAW_DIR_FOR = lambda src: PROJECT_ROOT / "data" / "raw" / src
 PROCESSED_DIR_FOR = lambda src: PROJECT_ROOT / "data" / "processed" / src
 CHUNKS_FILE_FOR = lambda src: PROJECT_ROOT / "data" / "chunks" / f"{src}.json"
 
@@ -145,24 +148,48 @@ def chunk_one_file(md_path: Path, max_chunk_size: int = MAX_CHUNK_SIZE, mode: st
     return chunks
 
 
-def chunk_all(source_name: str = DEFAULT_SOURCE, max_chunk_size: int = MAX_CHUNK_SIZE, mode: str = "legacy"):
+def chunk_all(
+    source_name: str = DEFAULT_SOURCE,
+    max_chunk_size: int = MAX_CHUNK_SIZE,
+    mode: str = "legacy",
+):
+    config = load_source_config(source_name)
+    raw_markdown = config.get("raw_markdown", False)
 
-    processed_dir = PROCESSED_DIR_FOR(source_name)
+
+    if raw_markdown:
+        input_dir = RAW_DIR_FOR(source_name)
+    else:
+        input_dir = PROCESSED_DIR_FOR(source_name)
+
     chunks_file = CHUNKS_FILE_FOR(source_name)
 
-    if not processed_dir.exists():
-        logger.error("Processed directory not found: %s", processed_dir)
+    if not input_dir.exists():
+        logger.error("Input directory not found: %s", input_dir)
+        return
+
+
+    md_files = sorted(input_dir.rglob("*.md"))
+
+    logger.info(
+        f"Chunking {len(md_files)} files for source '{source_name}' (raw_markdown={raw_markdown})"
+    )
+
+    if not md_files:
+        logger.warning(f"No .md files found in {input_dir}")
         return
 
     all_chunks = []
-    md_files = sorted(processed_dir.glob("*.md"))
-    logger.info(f"Chunking {len(md_files)} files for source '{source_name}'")
-
     for md_path in md_files:
-        all_chunks.extend(chunk_one_file(md_path, max_chunk_size=max_chunk_size, mode=mode))
+        all_chunks.extend(
+            chunk_one_file(md_path, max_chunk_size=max_chunk_size, mode=mode)
+        )
 
     chunks_file.parent.mkdir(parents=True, exist_ok=True)
-    chunks_file.write_text(json.dumps(all_chunks, ensure_ascii=False, indent=2), encoding="utf-8")
-    logger.info(f"Saved {len(all_chunks)} chunks from {len(md_files)} files to {chunks_file}")
-
+    chunks_file.write_text(
+        json.dumps(all_chunks, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    logger.info(
+        f"Saved {len(all_chunks)} chunks from {len(md_files)} files to {chunks_file}"
+    )
 

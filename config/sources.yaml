@@ -6,3 +6,9 @@ python_docs:
     tag: "div"
     attrs:
       role: "main"
+
+dbt_docs:
+  start_url: "https://docs.getdbt.com/docs/introduction.md"
+  allowed_prefix: "https://docs.getdbt.com/docs/"
+  blacklist: ["blog/", "guides/"]
+  raw_markdown: true

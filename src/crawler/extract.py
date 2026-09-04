@@ -52,7 +52,7 @@ def extract_one_file(html_path: Path, selector: dict) -> str | None:
 
 def save_markdown(html_path: Path, markdown_text: str, processed_dir: Path) -> None:
     processed_dir.mkdir(parents=True, exist_ok=True)
-    output_path = processed_dir / html_path.with_suffix("README.md").name
+    output_path = processed_dir / html_path.with_suffix(".md").name
     output_path.write_text(markdown_text, encoding="utf-8")
 
 

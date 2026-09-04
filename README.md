@@ -44,8 +44,7 @@ python pipeline.py <source_name>
 
 At the moment, the pipeline follows a crawl → extract → embed workflow to prepare text and chunks for search and retrieval.
 
-The RAG system crawls documentation directly from websites. Currently, it contains around 465 pages and 25,000 text chunks.
-
+The RAG system crawls documentation directly from websites. Currently, it contains around 465 pages and 36,953 text chunks - and that’s just Python!
 Search is performed using both dense retrieval and BM25. The results from both methods are then combined using the Reciprocal Rank Fusion (RRF) algorithm.
 
 The system is managed and configured through a YAML configuration file.
