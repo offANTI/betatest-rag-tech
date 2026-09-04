@@ -139,20 +139,39 @@ def hybrid_search(
         except Exception:
             logger.exception("Reranker failed, falling back to combined scores")
 
+    rerank_scores_map = {}
+    if reranker is not None and len(top_sorted) > 0:
+        rerank_candidates = top_sorted[:rerank_top]
+        pairs = [[query, chunks[i]["text"][:1024]] for i in rerank_candidates]
+        try:
+            rerank_scores = reranker.predict(pairs)
+            rerank_scores_map = dict(zip(rerank_candidates, rerank_scores))
+            ranked = sorted(zip(rerank_candidates, rerank_scores), key=lambda x: -x[1])[
+                :top_k
+            ]
+            top_sorted = [i for i, s in ranked]
+        except Exception:
+            logger.exception("Reranker failed, falling back to combined scores")
+
     final_results = []
 
     dense_ranks = chunk_ranks(dense_scores)
     bm25_ranks = chunk_ranks(bm25_scores)
     for idx in top_sorted[:top_k]:
-        final_results.append({
-            "chunk_idx": int(idx),
-            "text": chunks[idx].get("text", ""),
-            "score": float(scores[idx]),
-            "dense_score": float(dense_scores[idx]),
-            "bm25_score": float(bm25_scores[idx]),
-            "dense_rank": int(dense_ranks[idx]),
-            "bm25_rank": int(bm25_ranks[idx]),
-        })
+        final_results.append(
+            {
+                "chunk_idx": int(idx),
+                "text": chunks[idx].get("text", ""),
+                "score": float(scores[idx]),
+                "rerank_score": float(rerank_scores_map[idx])
+                if idx in rerank_scores_map
+                else None,
+                "dense_score": float(dense_scores[idx]),
+                "bm25_score": float(bm25_scores[idx]),
+                "dense_rank": int(dense_ranks[idx]),
+                "bm25_rank": int(bm25_ranks[idx]),
+            }
+        )
 
     logger.info("Hybrid search returned %d results (top_k=%d)", len(final_results), top_k)
     return final_results
@@ -169,12 +188,16 @@ if __name__ == "__main__":
 
     query = "What exception will the netrc class raise if the .netrc file contains passwords and is accessible for reading or writing by any other user on a POSIX system?"
     results = hybrid_search(
-        query, model, chunks, dense_embeddings, bm25,
+        query,
+        model,
+        chunks,
+        dense_embeddings,
+        bm25,
         reranker=reranker,
         rerank_top=20,
     )
 
     for r in results:
         logger.info(
-            f"[score={r['score']:.5f}] [dense_rank={r['dense_rank']} bm25_rank={r['bm25_rank']}] {r['text'][:150]}..."
+            f"[score={r['score']:.5f}] [rerank={r['rerank_score']}] [dense_rank={r['dense_rank']} bm25_rank={r['bm25_rank']}] {r['text'][:150]}..."
         )
