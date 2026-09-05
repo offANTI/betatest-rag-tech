@@ -1,7 +1,8 @@
 import numpy as np
+import argparse
 from sentence_transformers import SentenceTransformer, CrossEncoder
 from utils.logger import get_project_logger
-from .dense_search import cosine_similarity, load_data
+from .dense_search import cosine_similarity, load_data, load_multi_source
 from .bm25 import build_bm25_index, tokenize, batch_chunks
 from .embed import clean_for_embedding
 
@@ -158,38 +159,36 @@ TEST_QUERIES = {
 
 
 if __name__ == "__main__":
-    import argparse
 
-    parser = argparse.ArgumentParser(description="Run hybrid search for a specified source.")
-    parser.add_argument("source", nargs="?", default="python_docs", help="Source name (e.g., dbt_docs, python_docs)")
-    parser.add_argument("--query", default=None, help="Override the default test query for this source")
+    parser = argparse.ArgumentParser(description="Interactive hybrid search across one or more sources.")
+    parser.add_argument("--sources", nargs="+", default=["python_docs", "dbt_docs"])
     args = parser.parse_args()
 
-    source_name = args.source
-    query = args.query or TEST_QUERIES.get(source_name, "How does this work?")
-
-    logger.info("Running search for source: %s", source_name)
-
-    chunks = batch_chunks(source_name)
-    bm25 = build_bm25_index(chunks)
-
-    dense_chunks, dense_embeddings = load_data(source_name)
+    chunks, dense_embeddings, bm25 = load_multi_source(args.sources)
 
     model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")
     reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
-    results = hybrid_search(
-        query=query,
-        model=model,
-        chunks=chunks,
-        dense_embeddings=dense_embeddings,
-        bm25=bm25,
-        reranker=reranker,
-        rerank_top=20,
-    )
+    print(f"Loaded {len(chunks)} chunks from {args.sources}. Empty line or 'exit' to quit.\n")
 
-    for r in results:
-        rerank_str = f"{r['rerank_score']:.4f}" if r["rerank_score"] is not None else "None"
-        logger.info(
-            f"[score={r['score']:.5f}] [rerank={rerank_str}] [dense_rank={r['dense_rank']} bm25_rank={r['bm25_rank']}] {r['text'][:150]}..."
+    while True:
+        query = input("Query> ").strip()
+        if not query or query.lower() == "exit":
+            break
+
+        results = hybrid_search(
+            query=query,
+            model=model,
+            chunks=chunks,
+            dense_embeddings=dense_embeddings,
+            bm25=bm25,
+            reranker=reranker,
+            rerank_top=20,
         )
+
+        for r in results:
+            rerank_str = f"{r['rerank_score']:.4f}" if r["rerank_score"] is not None else "None"
+            logger.info(
+                f"[score={r['score']:.5f}] [rerank={rerank_str}] "
+                f"[dense_rank={r['dense_rank']} bm25_rank={r['bm25_rank']}] {r['text'][:150]}..."
+            )

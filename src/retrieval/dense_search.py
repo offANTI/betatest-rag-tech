@@ -1,7 +1,9 @@
 import json
 import numpy as np
+from .bm25 import build_bm25_index
 from utils.logger import get_project_logger
 from sentence_transformers import SentenceTransformer
+
 from pathlib import Path
 from typing import Optional, Tuple, List
 
@@ -65,6 +67,30 @@ def load_data(
 
     logger.info("Loaded %d chunks and embeddings shape=%s", len(chunks), embeddings.shape)
     return chunks, embeddings
+
+
+def load_multi_source(sources: list[str]):
+    all_chunks = []
+    all_embeddings = []
+
+    for source_name in sources:
+        chunks, embeddings = load_data(source_name)
+        if embeddings is None or not chunks:
+            logger.warning("Skipping source '%s': no data found", source_name)
+            continue
+        all_chunks.extend(chunks)
+        all_embeddings.append(embeddings)
+
+    if not all_chunks:
+        raise ValueError(f"No data loaded for sources: {sources}")
+
+    embeddings = np.concatenate(all_embeddings, axis=0)
+    bm25 = build_bm25_index(all_chunks)
+    logger.info("Loaded %d total chunks from sources: %s", len(all_chunks), sources)
+    return all_chunks, embeddings, bm25
+
+
+
 
 def cosine_similarity(query_vec: np.ndarray, all_vecs: np.ndarray) -> np.ndarray:
 
