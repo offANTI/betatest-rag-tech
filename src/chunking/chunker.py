@@ -15,8 +15,7 @@ PROCESSED_DIR_FOR = lambda src: PROJECT_ROOT / "data" / "processed" / src
 CHUNKS_FILE_FOR = lambda src: PROJECT_ROOT / "data" / "chunks" / f"{src}.json"
 
 RAW_DIR_FOR = lambda src: PROJECT_ROOT / "data" / "raw" / src
-PROCESSED_DIR_FOR = lambda src: PROJECT_ROOT / "data" / "processed" / src
-CHUNKS_FILE_FOR = lambda src: PROJECT_ROOT / "data" / "chunks" / f"{src}.json"
+
 
 MAX_CHUNK_SIZE = 1000
 

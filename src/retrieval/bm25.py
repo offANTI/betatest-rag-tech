@@ -10,7 +10,7 @@ logger = get_project_logger(__name__)
 CURRENT_FILE = Path(__file__)
 PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
 
-CHUNKS_FILE = PROJECT_ROOT / "data" / "chunks" / "python_docs.json"
+DEFAULT_SOURCE = "python_docs"
 TOP_K = 5
 
 
@@ -23,9 +23,14 @@ def tokenize(text: str) -> list[str]:
     return tokens
 
 
-def batch_chunks() -> list[dict]:
-    logger.info(f"Loading chunks from {CHUNKS_FILE}")
-    text = CHUNKS_FILE.read_text(encoding="utf-8")
+def chunks_path_for(source_name: str) -> Path:
+    return PROJECT_ROOT / "data" / "chunks" / f"{source_name}.json"
+
+
+def batch_chunks(source_name: str = DEFAULT_SOURCE) -> list[dict]:
+    chunks_file = chunks_path_for(source_name)
+    logger.info(f"Loading chunks from {chunks_file}")
+    text = chunks_file.read_text(encoding="utf-8")
     chunks = json.loads(text)
     return chunks
 

@@ -1,13 +1,9 @@
 import numpy as np
-from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer, CrossEncoder
 from utils.logger import get_project_logger
 from .dense_search import cosine_similarity, load_data
-from .bm25 import build_bm25_index, tokenize, batch_chunks, BM25Okapi
-
-from sentence_transformers import CrossEncoder
-
+from .bm25 import build_bm25_index, tokenize, batch_chunks
 from .embed import clean_for_embedding
-
 
 logger = get_project_logger(__name__)
 
@@ -16,11 +12,9 @@ TOP_K = 5
 
 
 def chunk_ranks(scores: np.ndarray) -> np.ndarray:
-
     scores = np.asarray(scores)
     if scores.ndim != 1:
         raise ValueError("scores must be a 1-D array")
-
     return np.argsort(np.argsort(-scores))
 
 
@@ -68,9 +62,8 @@ def hybrid_search(
         return []
     top_k = min(top_k, n)
 
-
     try:
-        query_embedding =  model.encode([clean_for_embedding(query)])[0]
+        query_embedding = model.encode([clean_for_embedding(query)])[0]
     except Exception as e:
         logger.exception("Failed to encode query: %s", e)
         raise
@@ -81,7 +74,6 @@ def hybrid_search(
     bm25_scores = bm25.get_scores(tokenized_query)
     if len(bm25_scores) != n:
         raise ValueError("BM25 scores length != number of dense embeddings")
-
 
     nd = min(candidate_pool // 2, n)
     nb = min(candidate_pool - nd, n)
@@ -100,7 +92,6 @@ def hybrid_search(
         logger.info("No candidates found")
         return []
 
-    
     eps = 1e-8
     scores = np.zeros(n, dtype=float)
 
@@ -113,11 +104,9 @@ def hybrid_search(
         bm25_norm = (bm25_scores - bmin) / b_range
         scores = w_dense * dense_norm + w_bm25 * bm25_norm
     else:
-
         dense_ranks = chunk_ranks(dense_scores)
         bm25_ranks = chunk_ranks(bm25_scores)
         scores = w_dense / (rrf_k + dense_ranks) + w_bm25 / (rrf_k + bm25_ranks)
-
 
     cand_scores = np.array([scores[i] for i in candidate_ids])
     k = min(top_k, len(candidate_ids))
@@ -141,7 +130,6 @@ def hybrid_search(
             logger.exception("Reranker failed, falling back to combined scores")
 
     final_results = []
-
     dense_ranks = chunk_ranks(dense_scores)
     bm25_ranks = chunk_ranks(bm25_scores)
     for idx in top_sorted[:top_k]:
@@ -150,9 +138,7 @@ def hybrid_search(
                 "chunk_idx": int(idx),
                 "text": chunks[idx].get("text", ""),
                 "score": float(scores[idx]),
-                "rerank_score": float(rerank_scores_map[idx])
-                if idx in rerank_scores_map
-                else None,
+                "rerank_score": float(rerank_scores_map[idx]) if idx in rerank_scores_map else None,
                 "dense_score": float(dense_scores[idx]),
                 "bm25_score": float(bm25_scores[idx]),
                 "dense_rank": int(dense_ranks[idx]),
@@ -160,49 +146,38 @@ def hybrid_search(
             }
         )
 
-    logger.info(
-        "Hybrid search returned %d results (top_k=%d)", len(final_results), top_k
-    )
+    logger.info("Hybrid search returned %d results (top_k=%d)", len(final_results), top_k)
     return final_results
+
+
+
+TEST_QUERIES = {
+    "python_docs": "How do I use GIL or asyncio event loops in Python?",
+    "dbt_docs": "How do I use ref() to reference another model?",
+}
 
 
 if __name__ == "__main__":
     import argparse
-    from common.config import load_source_config
-    from pathlib import Path
-    import json
-
 
     parser = argparse.ArgumentParser(description="Run hybrid search for a specified source.")
-    parser.add_argument("source", nargs="?", default="dbt_docs", help="Source name (e.g., dbt_docs, python_docs)")
+    parser.add_argument("source", nargs="?", default="python_docs", help="Source name (e.g., dbt_docs, python_docs)")
+    parser.add_argument("--query", default=None, help="Override the default test query for this source")
     args = parser.parse_args()
 
     source_name = args.source
+    query = args.query or TEST_QUERIES.get(source_name, "How does this work?")
+
     logger.info("Running search for source: %s", source_name)
 
+    chunks = batch_chunks(source_name)
+    bm25 = build_bm25_index(chunks)
 
-    PROJECT_ROOT = Path(__file__).parent.parent.parent
-    chunks_path = PROJECT_ROOT / "data" / "chunks" / f"{source_name}.json"
-    embeddings_path = PROJECT_ROOT / "data" / "chunks" / f"{source_name}_embeddings.npy"
-
-    if not chunks_path.exists() or not embeddings_path.exists():
-        raise FileNotFoundError(
-            f"Index files for source '{source_name}' not found at {chunks_path}. Run pipeline first!"
-        )
-
-    chunks = json.loads(chunks_path.read_text(encoding="utf-8"))
-    dense_embeddings = np.load(embeddings_path)
-
-
-    tokenized_corpus = [tokenize(c.get("text", "")) for c in chunks]
-    bm25 = BM25Okapi(tokenized_corpus)
-
+    dense_chunks, dense_embeddings = load_data(source_name)
 
     model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")
     reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
 
-
-    query = "How do I use GIL or asyncio event loops in Python?"
     results = hybrid_search(
         query=query,
         model=model,

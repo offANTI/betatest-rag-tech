@@ -9,6 +9,6 @@ python_docs:
 
 dbt_docs:
   start_url: "https://docs.getdbt.com/docs/introduction.md"
-  allowed_prefix: "https://docs.getdbt.com/docs/"
-  blacklist: ["blog/", "guides/"]
+  allowed_prefix: "https://docs.getdbt.com/"
+  blacklist: ["blog/", "guides/", "/community/", "/account/", "login.dbt.com"]
   raw_markdown: true

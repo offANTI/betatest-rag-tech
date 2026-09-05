@@ -19,14 +19,25 @@ TOP_K = 5
 _EPS = 1e-8
 
 
+def chunks_path_for(source_name: str) -> Path:
+    return PROJECT_ROOT / "data" / "chunks" / f"{source_name}.json"
+
+
+def embeddings_path_for(source_name: str) -> Path:
+    return PROJECT_ROOT / "data" / "chunks" / f"{source_name}_embeddings.npy"
+
+
 def load_data(
+    source_name: Optional[str] = None,
     chunks_path: Optional[Path] = None,
     embeddings_path: Optional[Path] = None,
     mmap_mode: Optional[str] = None,
 ) -> Tuple[List[dict], Optional[np.ndarray]]:
 
-    chunks_path = chunks_path or CHUNKS_FILE
-    embeddings_path = embeddings_path or EMBEDDINGS_FILE
+    if chunks_path is None:
+        chunks_path = chunks_path_for(source_name) if source_name else CHUNKS_FILE
+    if embeddings_path is None:
+        embeddings_path = embeddings_path_for(source_name) if source_name else EMBEDDINGS_FILE
 
     if not chunks_path.exists():
         logger.error("Chunks file not found: %s", chunks_path)
@@ -54,7 +65,6 @@ def load_data(
 
     logger.info("Loaded %d chunks and embeddings shape=%s", len(chunks), embeddings.shape)
     return chunks, embeddings
-
 
 def cosine_similarity(query_vec: np.ndarray, all_vecs: np.ndarray) -> np.ndarray:
 
@@ -95,7 +105,7 @@ def search(query: str, model: SentenceTransformer, chunks: list[dict], embedding
     if embeddings is None:
         raise ValueError("embeddings is None — compute embeddings first")
 
-    # encode query safely
+
     try:
         q_enc = model.encode([query])
     except TypeError:
