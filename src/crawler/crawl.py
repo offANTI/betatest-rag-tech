@@ -16,7 +16,7 @@ PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
 
 MAX_PAGES = 200
 REQUEST_DELAY = 0.5
-
+BINARY_EXT = (".png", ".jpg", ".jpeg", ".gif", ".svg", ".woff", ".woff2", ".pdf", ".zip", ".ico")
 
 def valid_url(url: str, allowed_prefix: str, blacklist: list, visited: set, queue: list) -> bool:
     if not url.startswith(allowed_prefix):
@@ -27,6 +27,7 @@ def valid_url(url: str, allowed_prefix: str, blacklist: list, visited: set, queu
         return False
     return True
 
+
 def extract_markdown_links(markdown_text: str, base_url: str) -> list[str]:
     pattern = r"(?<!\!)\[.*?\]\(([\s\S]*?)\)|<([a-zA-Z0-9+.-]+://[^\s>]+)>|^\s*\[[^\]]+\]:\s*(\S+)"
 
@@ -34,19 +35,18 @@ def extract_markdown_links(markdown_text: str, base_url: str) -> list[str]:
     for match in re.finditer(pattern, markdown_text, re.MULTILINE):
         url = match.group(1) or match.group(2) or match.group(3)
         if url:
-
             raw_links.append(url.strip().split()[0])
 
     normalized_links = []
     for link in raw_links:
-
         if link.startswith(("#", "mailto:", "javascript:", "tel:")):
             continue
-
 
         full_url = urljoin(base_url, link)
         parsed = urlparse(full_url)
 
+        if parsed.path.lower().endswith(BINARY_EXT):
+            continue
 
         clean_url = urlunparse(
             (
@@ -60,7 +60,7 @@ def extract_markdown_links(markdown_text: str, base_url: str) -> list[str]:
         )
 
         normalized_links.append(clean_url)
-    return  normalized_links
+    return normalized_links
 
 
 def extract_links(html: str, base_url: str) -> list[str]:
