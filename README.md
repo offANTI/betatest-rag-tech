@@ -53,10 +53,11 @@ Search is performed using both dense retrieval and BM25. The results from both m
 
 The system is managed and configured through a YAML configuration file.
 What’s Next
-Add additional documentation sources for other programming languages, as well as useful technical documentation such as SQL, dbt, and others.
-Integrate Groq to generate answers for users and make the overall question-answering process more focused on technical and documentation-based queries before performing the search.
-Later, integrate the system into a Telegram bot to provide a user-friendly interface.
-Deploy the entire system to a server for production use.
+- Add a third documentation source (e.g. Airflow) to test how the pipeline generalizes beyond Python and dbt
+- Integrate Groq to generate natural-language answers from retrieved chunks, instead of returning raw text passages
+- Add query translation for non-English questions — the current embedding model handles English well but degrades on other languages against English-only docs
+- Wrap the system in a Telegram bot as the user-facing interface
+- Deploy to a server for production use
 
 ## Structure
 
