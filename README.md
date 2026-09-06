@@ -37,9 +37,13 @@ Right now, a basic RAG system has been built to crawl and search documentation. 
 Run the whole thing with one command:
 
 ```
-python pipeline.py <source_name>
+- "python pipeline.py <source_name>" source_name= #dbt_docs #python_docs
+- "python -m src.retrieval.hybrid --sources python_docs dbt_docs"  
 ```
-
+## Pytest
+```
+pytest -v     
+```
 ## Current Status
 
 At the moment, the pipeline follows a crawl → extract → embed workflow to prepare text and chunks for search and retrieval.
@@ -58,6 +62,8 @@ Deploy the entire system to a server for production use.
 
 ```
 rag-tech-docs/
+├──common
+│  └──config.py
 ├── config/
 │   └── sources.yaml
 ├── data/
@@ -66,9 +72,11 @@ rag-tech-docs/
 │   └── chunks/        # chunks + embeddings per source
 ├── src/
 │   ├── crawler/        # crawl.py, extract.py
-│   ├── chunking/        # chunker.py
-│   └── retrieval/        # dense_search.py, bm25.py, hybrid.py, embed.py
+│       ├── chunking/        # chunker.py
+        ├── crawler/
+│       └── retrieval/        # dense_search.py, bm25.py, hybrid.py, embed.py
 ├── tests/
+├── utils/
 └── pipeline.py          # runs everything for one source
 ```
 

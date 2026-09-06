@@ -17,7 +17,7 @@ DEFAULT_SOURCE = "python_docs"
 DEFAULT_CHUNKS_FILE = PROJECT_ROOT / "data" / "chunks" / f"{DEFAULT_SOURCE}.json"
 DEFAULT_EMBEDDINGS_FILE = PROJECT_ROOT / "data" / "chunks" / f"{DEFAULT_SOURCE}_embeddings.npy"
 
-MODEL_NAME = "all-MiniLM-L6-v2"
+MODEL_NAME = "multi-qa-MiniLM-L6-cos-v1"
 
 
 def chunks_path_for(source_name: str) -> Path:
