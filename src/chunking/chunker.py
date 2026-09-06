@@ -184,11 +184,24 @@ def chunk_all(
             chunk_one_file(md_path, max_chunk_size=max_chunk_size, mode=mode)
         )
 
+    seen_keys = set()
+    deduped_chunks = []
+    for chunk in all_chunks:
+        key = (chunk["text"], chunk["heading"])
+        if key not in seen_keys:
+            seen_keys.add(key)
+            deduped_chunks.append(chunk)
+
+    logger.info(
+        f"Deduplicated {len(all_chunks)} -> {len(deduped_chunks)} chunks "
+        f"({len(all_chunks) - len(deduped_chunks)} duplicates removed)"
+    )
+
     chunks_file.parent.mkdir(parents=True, exist_ok=True)
     chunks_file.write_text(
-        json.dumps(all_chunks, ensure_ascii=False, indent=2), encoding="utf-8"
+        json.dumps(deduped_chunks, ensure_ascii=False, indent=2), encoding="utf-8"
     )
     logger.info(
-        f"Saved {len(all_chunks)} chunks from {len(md_files)} files to {chunks_file}"
+        f"Saved {len(deduped_chunks)} chunks from {len(md_files)} files to {chunks_file}"
     )
 

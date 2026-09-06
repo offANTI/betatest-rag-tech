@@ -152,12 +152,6 @@ def hybrid_search(
 
 
 
-TEST_QUERIES = {
-    "python_docs": "How do I use GIL or asyncio event loops in Python?",
-    "dbt_docs": "How do I use ref() to reference another model?",
-}
-
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="Interactive hybrid search across one or more sources.")

@@ -14,7 +14,7 @@ logger = get_project_logger(__name__)
 CURRENT_FILE = Path(__file__)
 PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
 
-MAX_PAGES = 200
+MAX_PAGES = 500
 REQUEST_DELAY = 0.5
 BINARY_EXT = (".png", ".jpg", ".jpeg", ".gif", ".svg", ".woff", ".woff2", ".pdf", ".zip", ".ico")
 
