@@ -24,6 +24,12 @@
     "text": "Return value: New reference."
   },
   {
+    "chunk_id": "3_c-api_allocation.html_002_000",
+    "source_file": "3_c-api_allocation.html.md",
+    "heading": "PyVarObject *_PyObject_NewVar(PyTypeObject *type, Py_ssize_t size)",
+    "text": "Return value: New reference."
+  },
+  {
     "chunk_id": "3_c-api_allocation.html_003_000",
     "source_file": "3_c-api_allocation.html.md",
     "heading": "PyObject *PyObject_Init(PyObject *op, PyTypeObject *type)",
@@ -117,6 +123,18 @@
     "chunk_id": "3_c-api_allocation.html_016_000",
     "source_file": "3_c-api_allocation.html.md",
     "heading": "PyObject_FREE(p)",
+    "text": "PyObject_Free()"
+  },
+  {
+    "chunk_id": "3_c-api_allocation.html_017_000",
+    "source_file": "3_c-api_allocation.html.md",
+    "heading": "PyObject_DEL(p)",
+    "text": "PyObject_Free()"
+  },
+  {
+    "chunk_id": "3_c-api_allocation.html_018_000",
+    "source_file": "3_c-api_allocation.html.md",
+    "heading": "PyObject_Del(p)",
     "text": "PyObject_Free()"
   },
   {
@@ -622,6 +640,18 @@
     "source_file": "3_c-api_arg.html.md",
     "heading": "u# (str) [const wchar_t *, Py_ssize_t]",
     "text": "Convert a Unicode (UTF-16 or UCS-4) data buffer and its length to a Python\nUnicode object.   If the Unicode buffer pointer is NULL, the length is ignored\nand None is returned."
+  },
+  {
+    "chunk_id": "3_c-api_arg.html_062_000",
+    "source_file": "3_c-api_arg.html.md",
+    "heading": "U (str or None) [const char *]",
+    "text": "Same as s."
+  },
+  {
+    "chunk_id": "3_c-api_arg.html_063_000",
+    "source_file": "3_c-api_arg.html.md",
+    "heading": "U# (str or None) [const char *, Py_ssize_t]",
+    "text": "Same as s#."
   },
   {
     "chunk_id": "3_c-api_arg.html_064_000",
@@ -2598,6 +2628,36 @@
     "text": "Return the tzinfo (which may be None).\n\nAdded in version 3.10.\n\n\n\nMacros to extract fields from time objects.  The argument must be an instance of\nPyDateTime_Time, including subclasses. The argument must not be NULL,\nand the type is not checked:"
   },
   {
+    "chunk_id": "3_c-api_datetime.html_041_000",
+    "source_file": "3_c-api_datetime.html.md",
+    "heading": "int PyDateTime_TIME_GET_HOUR(PyDateTime_Time *o)",
+    "text": "Return the hour, as an int from 0 through 23."
+  },
+  {
+    "chunk_id": "3_c-api_datetime.html_042_000",
+    "source_file": "3_c-api_datetime.html.md",
+    "heading": "int PyDateTime_TIME_GET_MINUTE(PyDateTime_Time *o)",
+    "text": "Return the minute, as an int from 0 through 59."
+  },
+  {
+    "chunk_id": "3_c-api_datetime.html_043_000",
+    "source_file": "3_c-api_datetime.html.md",
+    "heading": "int PyDateTime_TIME_GET_SECOND(PyDateTime_Time *o)",
+    "text": "Return the second, as an int from 0 through 59."
+  },
+  {
+    "chunk_id": "3_c-api_datetime.html_044_000",
+    "source_file": "3_c-api_datetime.html.md",
+    "heading": "int PyDateTime_TIME_GET_MICROSECOND(PyDateTime_Time *o)",
+    "text": "Return the microsecond, as an int from 0 through 999999."
+  },
+  {
+    "chunk_id": "3_c-api_datetime.html_045_000",
+    "source_file": "3_c-api_datetime.html.md",
+    "heading": "int PyDateTime_TIME_GET_FOLD(PyDateTime_Time *o)",
+    "text": "Return the fold, as an int from 0 through 1.\n\nAdded in version 3.6."
+  },
+  {
     "chunk_id": "3_c-api_datetime.html_046_000",
     "source_file": "3_c-api_datetime.html.md",
     "heading": "PyObject *PyDateTime_TIME_GET_TZINFO(PyDateTime_Time *o)",
@@ -4050,6 +4110,18 @@
     "text": "Part of the Stable ABI.\n\nZeroDivisionError\n\nAdded in version 3.3: PyExc_BlockingIOError, PyExc_BrokenPipeError,\nPyExc_ChildProcessError, PyExc_ConnectionError,\nPyExc_ConnectionAbortedError, PyExc_ConnectionRefusedError,\nPyExc_ConnectionResetError, PyExc_FileExistsError,\nPyExc_FileNotFoundError, PyExc_InterruptedError,\nPyExc_IsADirectoryError, PyExc_NotADirectoryError,\nPyExc_PermissionError, PyExc_ProcessLookupError\nand PyExc_TimeoutError were introduced following PEP 3151.\n\nAdded in version 3.5: PyExc_StopAsyncIteration and PyExc_RecursionError.\n\nAdded in version 3.6: PyExc_ModuleNotFoundError.\n\nAdded in version 3.11: PyExc_BaseExceptionGroup.\n\n### OSError aliases\n\nThe following are a compatibility aliases to PyExc_OSError.\n\nChanged in version 3.3: These aliases used to be separate exception types.\n\nC name\n\nPython name\n\nNotes"
   },
   {
+    "chunk_id": "3_c-api_exceptions.html_166_000",
+    "source_file": "3_c-api_exceptions.html.md",
+    "heading": "PyObject *PyExc_EnvironmentError",
+    "text": "Part of the Stable ABI.\n\nOSError"
+  },
+  {
+    "chunk_id": "3_c-api_exceptions.html_167_000",
+    "source_file": "3_c-api_exceptions.html.md",
+    "heading": "PyObject *PyExc_IOError",
+    "text": "Part of the Stable ABI.\n\nOSError"
+  },
+  {
     "chunk_id": "3_c-api_exceptions.html_168_000",
     "source_file": "3_c-api_exceptions.html.md",
     "heading": "PyObject *PyExc_WindowsError",
@@ -4683,6 +4755,24 @@
     "chunk_id": "3_c-api_frame.html_028_000",
     "source_file": "3_c-api_frame.html.md",
     "heading": "PyUnstable_EXECUTABLE_KIND_SKIP",
+    "text": "This is Unstable API. It may change without warning in minor releases."
+  },
+  {
+    "chunk_id": "3_c-api_frame.html_029_000",
+    "source_file": "3_c-api_frame.html.md",
+    "heading": "PyUnstable_EXECUTABLE_KIND_PY_FUNCTION",
+    "text": "This is Unstable API. It may change without warning in minor releases."
+  },
+  {
+    "chunk_id": "3_c-api_frame.html_030_000",
+    "source_file": "3_c-api_frame.html.md",
+    "heading": "PyUnstable_EXECUTABLE_KIND_BUILTIN_FUNCTION",
+    "text": "This is Unstable API. It may change without warning in minor releases."
+  },
+  {
+    "chunk_id": "3_c-api_frame.html_031_000",
+    "source_file": "3_c-api_frame.html.md",
+    "heading": "PyUnstable_EXECUTABLE_KIND_METHOD_DESCRIPTOR",
     "text": "This is Unstable API. It may change without warning in minor releases."
   },
   {
@@ -7617,6 +7707,42 @@
     "chunk_id": "3_c-api_long.html_041_000",
     "source_file": "3_c-api_long.html.md",
     "heading": "Py_ASNATIVEBYTES_DEFAULTS",
+    "text": "Part of the Stable ABI since version 3.14."
+  },
+  {
+    "chunk_id": "3_c-api_long.html_042_000",
+    "source_file": "3_c-api_long.html.md",
+    "heading": "Py_ASNATIVEBYTES_BIG_ENDIAN",
+    "text": "Part of the Stable ABI since version 3.14."
+  },
+  {
+    "chunk_id": "3_c-api_long.html_043_000",
+    "source_file": "3_c-api_long.html.md",
+    "heading": "Py_ASNATIVEBYTES_LITTLE_ENDIAN",
+    "text": "Part of the Stable ABI since version 3.14."
+  },
+  {
+    "chunk_id": "3_c-api_long.html_044_000",
+    "source_file": "3_c-api_long.html.md",
+    "heading": "Py_ASNATIVEBYTES_NATIVE_ENDIAN",
+    "text": "Part of the Stable ABI since version 3.14."
+  },
+  {
+    "chunk_id": "3_c-api_long.html_045_000",
+    "source_file": "3_c-api_long.html.md",
+    "heading": "Py_ASNATIVEBYTES_UNSIGNED_BUFFER",
+    "text": "Part of the Stable ABI since version 3.14."
+  },
+  {
+    "chunk_id": "3_c-api_long.html_046_000",
+    "source_file": "3_c-api_long.html.md",
+    "heading": "Py_ASNATIVEBYTES_REJECT_NEGATIVE",
+    "text": "Part of the Stable ABI since version 3.14."
+  },
+  {
+    "chunk_id": "3_c-api_long.html_047_000",
+    "source_file": "3_c-api_long.html.md",
+    "heading": "Py_ASNATIVEBYTES_ALLOW_INDEX",
     "text": "Part of the Stable ABI since version 3.14."
   },
   {
@@ -12426,6 +12552,42 @@
     "text": "Deprecated since version 3.7: This API is superseded by the\nthread-specific storage (TSS) API.\n\nNote\n\nThis version of the API does not support platforms where the native TLS key\nis defined in a way that cannot be safely cast to int.  On such platforms,\nPyThread_create_key() will return immediately with a failure status,\nand the other TLS functions will all be no-ops on such platforms.\n\nDue to the compatibility problem noted above, this version of the API should not\nbe used in new code."
   },
   {
+    "chunk_id": "3_c-api_tls.html_014_000",
+    "source_file": "3_c-api_tls.html.md",
+    "heading": "int PyThread_create_key()",
+    "text": "Part of the Stable ABI."
+  },
+  {
+    "chunk_id": "3_c-api_tls.html_015_000",
+    "source_file": "3_c-api_tls.html.md",
+    "heading": "void PyThread_delete_key(int key)",
+    "text": "Part of the Stable ABI."
+  },
+  {
+    "chunk_id": "3_c-api_tls.html_016_000",
+    "source_file": "3_c-api_tls.html.md",
+    "heading": "int PyThread_set_key_value(int key, void *value)",
+    "text": "Part of the Stable ABI."
+  },
+  {
+    "chunk_id": "3_c-api_tls.html_017_000",
+    "source_file": "3_c-api_tls.html.md",
+    "heading": "void *PyThread_get_key_value(int key)",
+    "text": "Part of the Stable ABI."
+  },
+  {
+    "chunk_id": "3_c-api_tls.html_018_000",
+    "source_file": "3_c-api_tls.html.md",
+    "heading": "void PyThread_delete_key_value(int key)",
+    "text": "Part of the Stable ABI."
+  },
+  {
+    "chunk_id": "3_c-api_tls.html_019_000",
+    "source_file": "3_c-api_tls.html.md",
+    "heading": "void PyThread_ReInitTLS()",
+    "text": "Part of the Stable ABI."
+  },
+  {
     "chunk_id": "3_c-api_tuple.html_000_000",
     "source_file": "3_c-api_tuple.html.md",
     "heading": "Introduction",
@@ -14202,6 +14364,12 @@
     "text": "Part of the Stable ABI.The purpose of this function is to separate memory allocation from memory\ninitialization.  It should return a pointer to a block of memory of adequate\nlength for the instance, suitably aligned, and initialized to zeros, but with\nob_refcnt set to 1 and ob_type set to the type argument.  If\nthe type’s tp_itemsize is non-zero, the object’s ob_size field\nshould be initialized to nitems and the length of the allocated memory block\nshould be tp_basicsize + nitems*tp_itemsize, rounded up to a multiple of\nsizeof(void*); otherwise, nitems is not used and the length of the block\nshould be tp_basicsize.\nThis function should not do any other instance initialization, not even to\nallocate additional memory; that should be done by tp_new."
   },
   {
+    "chunk_id": "3_c-api_typeobj.html_158_000",
+    "source_file": "3_c-api_typeobj.html.md",
+    "heading": "typedef void (*destructor)(PyObject*)",
+    "text": "Part of the Stable ABI."
+  },
+  {
     "chunk_id": "3_c-api_typeobj.html_159_000",
     "source_file": "3_c-api_typeobj.html.md",
     "heading": "typedef void (*freefunc)(void*)",
@@ -14286,16 +14454,70 @@
     "text": "Part of the Stable ABI.See tp_iternext."
   },
   {
+    "chunk_id": "3_c-api_typeobj.html_173_000",
+    "source_file": "3_c-api_typeobj.html.md",
+    "heading": "typedef Py_ssize_t (*lenfunc)(PyObject*)",
+    "text": "Part of the Stable ABI."
+  },
+  {
     "chunk_id": "3_c-api_typeobj.html_174_000",
     "source_file": "3_c-api_typeobj.html.md",
     "heading": "typedef int (*getbufferproc)(PyObject*, Py_buffer*, int)",
     "text": "Part of the Stable ABI since version 3.12."
   },
   {
+    "chunk_id": "3_c-api_typeobj.html_175_000",
+    "source_file": "3_c-api_typeobj.html.md",
+    "heading": "typedef void (*releasebufferproc)(PyObject*, Py_buffer*)",
+    "text": "Part of the Stable ABI since version 3.12."
+  },
+  {
+    "chunk_id": "3_c-api_typeobj.html_176_000",
+    "source_file": "3_c-api_typeobj.html.md",
+    "heading": "typedef PyObject *(*unaryfunc)(PyObject*)",
+    "text": "Part of the Stable ABI."
+  },
+  {
+    "chunk_id": "3_c-api_typeobj.html_177_000",
+    "source_file": "3_c-api_typeobj.html.md",
+    "heading": "typedef PyObject *(*binaryfunc)(PyObject*, PyObject*)",
+    "text": "Part of the Stable ABI."
+  },
+  {
     "chunk_id": "3_c-api_typeobj.html_178_000",
     "source_file": "3_c-api_typeobj.html.md",
     "heading": "typedef PySendResult (*sendfunc)(PyObject*, PyObject*, PyObject**)",
     "text": "See am_send."
+  },
+  {
+    "chunk_id": "3_c-api_typeobj.html_179_000",
+    "source_file": "3_c-api_typeobj.html.md",
+    "heading": "typedef PyObject *(*ternaryfunc)(PyObject*, PyObject*, PyObject*)",
+    "text": "Part of the Stable ABI."
+  },
+  {
+    "chunk_id": "3_c-api_typeobj.html_180_000",
+    "source_file": "3_c-api_typeobj.html.md",
+    "heading": "typedef PyObject *(*ssizeargfunc)(PyObject*, Py_ssize_t)",
+    "text": "Part of the Stable ABI."
+  },
+  {
+    "chunk_id": "3_c-api_typeobj.html_181_000",
+    "source_file": "3_c-api_typeobj.html.md",
+    "heading": "typedef int (*ssizeobjargproc)(PyObject*, Py_ssize_t, PyObject*)",
+    "text": "Part of the Stable ABI."
+  },
+  {
+    "chunk_id": "3_c-api_typeobj.html_182_000",
+    "source_file": "3_c-api_typeobj.html.md",
+    "heading": "typedef int (*objobjproc)(PyObject*, PyObject*)",
+    "text": "Part of the Stable ABI."
+  },
+  {
+    "chunk_id": "3_c-api_typeobj.html_183_000",
+    "source_file": "3_c-api_typeobj.html.md",
+    "heading": "typedef int (*objobjargproc)(PyObject*, PyObject*, PyObject*)",
+    "text": "Part of the Stable ABI."
   },
   {
     "chunk_id": "3_c-api_typeobj.html_184_000",
@@ -16296,6 +16518,18 @@
     "text": "# 3. Defining Extension Types: Assorted Topics\n\nThis section aims to give a quick fly-by on the various type methods you can\nimplement and what they do.\n\nHere is the definition of PyTypeObject, with some fields only used in\ndebug builds omitted:\n\n```\ntypedef struct _typeobject {\n    PyObject_VAR_HEAD\n    const char *tp_name; /* For printing, in format \"<module>.<name>\" */\n    Py_ssize_t tp_basicsize, tp_itemsize; /* For allocation */\n\n/* Methods to implement standard operations */\n\ndestructor tp_dealloc;\n    Py_ssize_t tp_vectorcall_offset;\n    getattrfunc tp_getattr;\n    setattrfunc tp_setattr;\n    PyAsyncMethods *tp_as_async; /* formerly known as tp_compare (Python 2)\n                                    or tp_reserved (Python 3) */\n    reprfunc tp_repr;\n\n/* Method suites for standard classes */\n\nPyNumberMethods *tp_as_number;\n    PySequenceMethods *tp_as_sequence;\n    PyMappingMethods *tp_as_mapping;\n\n/* More standard operations (here for binary compatibility) */"
   },
   {
+    "chunk_id": "3_extending_newtypes.html_000_001",
+    "source_file": "3_extending_newtypes.html.md",
+    "heading": "Introduction",
+    "text": "hashfunc tp_hash;\n    ternaryfunc tp_call;\n    reprfunc tp_str;\n    getattrofunc tp_getattro;\n    setattrofunc tp_setattro;\n\n/* Functions to access object as input/output buffer */\n    PyBufferProcs *tp_as_buffer;\n\n/* Flags to define presence of optional/expanded features */\n    unsigned long tp_flags;\n\nconst char *tp_doc; /* Documentation string */\n\n/* Assigned meaning in release 2.0 */\n    /* call function for all accessible objects */\n    traverseproc tp_traverse;\n\n/* delete references to contained objects */\n    inquiry tp_clear;\n\n/* Assigned meaning in release 2.1 */\n    /* rich comparisons */\n    richcmpfunc tp_richcompare;\n\n/* weak reference enabler */\n    Py_ssize_t tp_weaklistoffset;\n\n/* Iterators */\n    getiterfunc tp_iter;\n    iternextfunc tp_iternext;"
+  },
+  {
+    "chunk_id": "3_extending_newtypes.html_000_002",
+    "source_file": "3_extending_newtypes.html.md",
+    "heading": "Introduction",
+    "text": "/* Attribute descriptor and subclassing stuff */\n    PyMethodDef *tp_methods;\n    PyMemberDef *tp_members;\n    PyGetSetDef *tp_getset;\n    // Strong reference on a heap type, borrowed reference on a static type\n    PyTypeObject *tp_base;\n    PyObject *tp_dict;\n    descrgetfunc tp_descr_get;\n    descrsetfunc tp_descr_set;\n    Py_ssize_t tp_dictoffset;\n    initproc tp_init;\n    allocfunc tp_alloc;\n    newfunc tp_new;\n    freefunc tp_free; /* Low-level free-memory routine */\n    inquiry tp_is_gc; /* For PyObject_IS_GC */\n    PyObject *tp_bases;\n    PyObject *tp_mro; /* method resolution order */\n    PyObject *tp_cache; /* no longer used */\n    void *tp_subclasses;  /* for static builtin types this is an index */\n    PyObject *tp_weaklist; /* not used for static builtin types */\n    destructor tp_del;\n\n/* Type attribute cache version tag. Added in version 2.6.\n     * If zero, the cache is invalid and must be initialized.\n     */\n    unsigned int tp_version_tag;"
+  },
+  {
     "chunk_id": "3_extending_newtypes.html_000_003",
     "source_file": "3_extending_newtypes.html.md",
     "heading": "Introduction",
@@ -16708,6 +16942,12 @@
     "source_file": "3_extending_newtypes_tutorial.html.md",
     "heading": "2.4. Supporting cyclic garbage collection",
     "text": "To allow a Custom instance participating in a reference cycle to\nbe properly detected and collected by the cyclic GC, our Custom type\nneeds to fill two additional slots and to enable a flag that enables these slots:\n\n```\n#define PY_SSIZE_T_CLEAN\n#include <Python.h>\n#include <stddef.h> /* for offsetof() */\n\ntypedef struct {\n    PyObject_HEAD\n    PyObject *first; /* first name */\n    PyObject *last;  /* last name */\n    int number;\n} CustomObject;\n\nstatic int\nCustom_traverse(PyObject *op, visitproc visit, void *arg)\n{\n    CustomObject *self = (CustomObject *) op;\n    Py_VISIT(self->first);\n    Py_VISIT(self->last);\n    return 0;\n}\n\nstatic int\nCustom_clear(PyObject *op)\n{\n    CustomObject *self = (CustomObject *) op;\n    Py_CLEAR(self->first);\n    Py_CLEAR(self->last);\n    return 0;\n}\n\nstatic void\nCustom_dealloc(PyObject *op)\n{\n    PyObject_GC_UnTrack(op);\n    (void)Custom_clear(op);\n    Py_TYPE(op)->tp_free(op);\n}"
+  },
+  {
+    "chunk_id": "3_extending_newtypes_tutorial.html_004_002",
+    "source_file": "3_extending_newtypes_tutorial.html.md",
+    "heading": "2.4. Supporting cyclic garbage collection",
+    "text": "static PyObject *\nCustom_new(PyTypeObject *type, PyObject *args, PyObject *kwds)\n{\n    CustomObject *self;\n    self = (CustomObject *) type->tp_alloc(type, 0);\n    if (self != NULL) {\n        self->first = Py_GetConstant(Py_CONSTANT_EMPTY_STR);\n        if (self->first == NULL) {\n            Py_DECREF(self);\n            return NULL;\n        }\n        self->last = Py_GetConstant(Py_CONSTANT_EMPTY_STR);\n        if (self->last == NULL) {\n            Py_DECREF(self);\n            return NULL;\n        }\n        self->number = 0;\n    }\n    return (PyObject *) self;\n}\n\nstatic int\nCustom_init(PyObject *op, PyObject *args, PyObject *kwds)\n{\n    CustomObject *self = (CustomObject *) op;\n    static char *kwlist[] = {\"first\", \"last\", \"number\", NULL};\n    PyObject *first = NULL, *last = NULL;\n\nif (!PyArg_ParseTupleAndKeywords(args, kwds, \"|UUi\", kwlist,\n                                     &first, &last,\n                                     &self->number))\n        return -1;"
   },
   {
     "chunk_id": "3_extending_newtypes_tutorial.html_004_003",
@@ -17652,12 +17892,6 @@
     "text": "```\n>>> import importlib\n>>> import cls\n>>> c = cls.C()                # Create an instance of C\n>>> importlib.reload(cls)\n<module 'cls' from 'cls.py'>\n>>> isinstance(c, cls.C)       # isinstance is false?!?\nFalse\n\n```\n\nThe nature of the problem is made clear if you print out the “identity” of the\nclass objects:\n\n```\n>>> hex(id(c.__class__))\n'0x7352a0'\n>>> hex(id(cls.C))\n'0x4198d0'\n\n```"
   },
   {
-    "chunk_id": "3_faq_programming_004_003",
-    "source_file": "3_faq_programming.md",
-    "heading": "Performance",
-    "text": "str and bytes objects are immutable, therefore concatenating\nmany strings together is inefficient as each concatenation creates a new\nobject.  In the general case, the total runtime cost is quadratic in the\ntotal string length.\n\nTo accumulate many str objects, the recommended idiom is to place\nthem into a list and call str.join() at the end:\n\n```\nchunks = []\nfor s in my_strings:\n    chunks.append(s)\nresult = ''.join(chunks)\n\n```\n\n(Another reasonably efficient idiom is to use io.StringIO.)\n\nTo accumulate many bytes objects, the recommended idiom is to extend\na bytearray object using in-place concatenation (the += operator):\n\n```\nresult = bytearray()\nfor b in my_bytes_objects:\n    result += b\n\n```"
-  },
-  {
     "chunk_id": "3_glossary.html_000_000",
     "source_file": "3_glossary.html.md",
     "heading": "Introduction",
@@ -18492,6 +18726,12 @@
     "text": "A set of files in a single directory (possibly stored in a zip file)\nthat contribute to a namespace package, as defined in PEP 420."
   },
   {
+    "chunk_id": "3_glossary.html_134_000",
+    "source_file": "3_glossary.html.md",
+    "heading": "positional argument",
+    "text": "See argument."
+  },
+  {
     "chunk_id": "3_glossary.html_135_000",
     "source_file": "3_glossary.html.md",
     "heading": "provisional API",
@@ -18736,12 +18976,6 @@
     "source_file": "3_glossary.html.md",
     "heading": "Zen of Python",
     "text": "Listing of Python design principles and philosophies that are helpful in\nunderstanding and using the language.  The listing can be found by typing\n“import this” at the interactive prompt."
-  },
-  {
-    "chunk_id": "3_glossary_097_000",
-    "source_file": "3_glossary.md",
-    "heading": "list",
-    "text": "A built-in Python sequence.  Despite its name it is more akin\nto an array in other languages than to a linked list since access to\nelements is O(1)."
   },
   {
     "chunk_id": "3_howto_a-conceptual-overview-of-asyncio.html_000_000",
@@ -19384,42 +19618,6 @@
     "source_file": "3_howto_curses.html.md",
     "heading": "For More Information",
     "text": "Writing Programs with NCURSES:\na lengthy tutorial for C programmers.\n\nThe ncurses man page\n\nThe ncurses FAQ\n\n“Use curses… don’t swear”:\nvideo of a PyCon 2013 talk on controlling terminals using curses or Urwid.\n\n“Console Applications with Urwid”:\nvideo of a PyCon CA 2012 talk demonstrating some applications written using\nUrwid."
-  },
-  {
-    "chunk_id": "3_howto_curses_006_001",
-    "source_file": "3_howto_curses.md",
-    "heading": "Displaying Text",
-    "text": "Move to position y,x within the window, and\ndisplay str or ch, using attribute attr\n\nAttributes allow displaying text in highlighted forms such as boldface,\nunderline, reverse code, or in color.  They’ll be explained in more detail in\nthe next subsection.\n\nThe addstr() method takes a Python string or\nbytestring as the value to be displayed.  The contents of bytestrings\nare sent to the terminal as-is.  Strings are encoded to bytes using\nthe value of the window’s encoding attribute; this defaults to\nthe default system encoding as returned by locale.getencoding().\n\nThe addch() methods take a character, which can be\neither a string of length 1, a bytestring of length 1, or an integer.\n\nConstants are provided for extension characters; these constants are\nintegers greater than 255.  For example, ACS_PLMINUS is a +/-\nsymbol, and ACS_ULCORNER is the upper left corner of a box\n(handy for drawing borders).  You can also use the appropriate Unicode\ncharacter."
-  },
-  {
-    "chunk_id": "3_howto_curses_006_002",
-    "source_file": "3_howto_curses.md",
-    "heading": "Displaying Text",
-    "text": "Windows remember where the cursor was left after the last operation, so if you\nleave out the y,x coordinates, the string or character will be displayed\nwherever the last operation left off.  You can also move the cursor with the\nmove(y,x) method.  Because some terminals always display a flashing cursor,\nyou may want to ensure that the cursor is positioned in some location where it\nwon’t be distracting; it can be confusing to have the cursor blinking at some\napparently random location.\n\nIf your application doesn’t need a blinking cursor at all, you can\ncall curs_set(False) to make it invisible.  For compatibility\nwith older curses versions, there’s a leaveok(bool) function\nthat’s a synonym for curs_set().  When bool is true, the\ncurses library will attempt to suppress the flashing cursor, and you\nwon’t need to worry about leaving it in odd locations.\n\n### Attributes and Color"
-  },
-  {
-    "chunk_id": "3_howto_curses_007_000",
-    "source_file": "3_howto_curses.md",
-    "heading": "User Input",
-    "text": "The C curses library offers only very simple input mechanisms. Python’s\ncurses module adds a basic text-input widget.  (Other libraries\nsuch as Urwid have more extensive collections of widgets.)\n\nThere are two methods for getting input from a window:\n\ngetch() refreshes the screen and then waits for\nthe user to hit a key, displaying the key if echo() has been\ncalled earlier.  You can optionally specify a coordinate to which\nthe cursor should be moved before pausing.\n\ngetkey() does the same thing but converts the\ninteger to a string.  Individual characters are returned as\n1-character strings, and special keys such as function keys return\nlonger strings containing a key name such as KEY_UP or ^G."
-  },
-  {
-    "chunk_id": "3_howto_curses_007_001",
-    "source_file": "3_howto_curses.md",
-    "heading": "User Input",
-    "text": "It’s possible to not wait for the user using the\nnodelay() window method. After nodelay(True),\ngetch() and getkey() for the window become\nnon-blocking. To signal that no input is ready, getch() returns\ncurses.ERR (a value of -1) and getkey() raises an exception.\nThere’s also a halfdelay() function, which can be used to (in\neffect) set a timer on each getch(); if no input becomes\navailable within a specified delay (measured in tenths of a second),\ncurses raises an exception.\n\nThe getch() method returns an integer; if it’s between 0 and 255, it\nrepresents the ASCII code of the key pressed.  Values greater than 255 are\nspecial keys such as Page Up, Home, or the cursor keys. You can compare the\nvalue returned to constants such as curses.KEY_PPAGE,\ncurses.KEY_HOME, or curses.KEY_LEFT.  The main loop of\nyour program may look something like this:"
-  },
-  {
-    "chunk_id": "3_howto_curses_007_002",
-    "source_file": "3_howto_curses.md",
-    "heading": "User Input",
-    "text": "```\nwhile True:\n    c = stdscr.getch()\n    if c == ord('p'):\n        PrintDocument()\n    elif c == ord('q'):\n        break  # Exit the while loop\n    elif c == curses.KEY_HOME:\n        x = y = 0\n\n```\n\nThe curses.ascii module supplies ASCII class membership functions that\ntake either integer or 1-character string arguments; these may be useful in\nwriting more readable tests for such loops.  It also supplies\nconversion functions  that take either integer or 1-character-string arguments\nand return the same type.  For example, curses.ascii.ctrl() returns the\ncontrol character corresponding to its argument.\n\nThere’s also a method to retrieve an entire string,\ngetstr().  It isn’t used very often, because its\nfunctionality is quite limited; the only editing keys available are\nthe backspace key and the Enter key, which terminates the string.  It\ncan optionally be limited to a fixed number of characters.\n\n```\ncurses.echo()            # Enable echoing of characters"
-  },
-  {
-    "chunk_id": "3_howto_curses_007_003",
-    "source_file": "3_howto_curses.md",
-    "heading": "User Input",
-    "text": "# Get a 15-character string, with the cursor on the top line\ns = stdscr.getstr(0,0, 15)\n\n```\n\nThe curses.textpad module supplies a text box that supports an\nEmacs-like set of keybindings.  Various methods of the\nTextbox class support editing with input\nvalidation and gathering the edit results either with or without\ntrailing spaces.  Here’s an example:\n\n```\nimport curses\nfrom curses.textpad import Textbox, rectangle\n\ndef main(stdscr):\n    stdscr.addstr(0, 0, \"Enter IM message: (hit Ctrl-G to send)\")\n\neditwin = curses.newwin(5,30, 2,1)\n    rectangle(stdscr, 1,0, 1+5+1, 1+30+1)\n    stdscr.refresh()\n\nbox = Textbox(editwin)\n\n# Let the user edit until Ctrl-G is struck.\n    box.edit()\n\n# Get resulting contents\n    message = box.gather()\n\n```\n\nSee the library documentation on curses.textpad for more details."
   },
   {
     "chunk_id": "3_howto_enum.html_000_000",
@@ -24513,7 +24711,7 @@
     "chunk_id": "3_library_argparse.html_008_008",
     "source_file": "3_library_argparse.html.md",
     "heading": "ArgumentParser.add_argument(name or flags..., *[, action][, nargs][, const][, default][, type][, choices][, required][, help][, metavar][, dest][, deprecated])",
-    "text": "```\n>>> parser = argparse.ArgumentParser()\n>>> parser.add_argument('--verbose', '-v', action='count', default=0)\n>>> parser.parse_args(['-vvv'])\nNamespace(verbose=3)\n\n```\n\nNote, the default will be None unless explicitly set to 0.\n\n'help' - This prints a complete help message for all the options in the\ncurrent parser and then exits. By default a help action is automatically\nadded to the parser. See ArgumentParser for details of how the\noutput is created.\n\n'version' - This expects a version= keyword argument in the\nadd_argument() call, and prints version information\nand exits when invoked:\n\n```\n>>> import argparse\n>>> parser = argparse.ArgumentParser(prog='PROG')\n>>> parser.add_argument('--version', action='version', version='%(prog)s 2.0')\n>>> parser.parse_args(['--version'])\nPROG 2.0\n\n```"
+    "text": "```\n>>> parser = argparse.ArgumentParser()\n>>> parser.add_argument('--verbose', '-v', action='count', default=0)\n>>> parser.parse_args(['-vvv'])\nNamespace(verbose=3)\n\n```\n\nUnless explicitly set, the default will be None. If the default\nvalue is a non-zero number, the count starts from that number rather\nthan from zero.\n\n'help' - This prints a complete help message for all the options in the\ncurrent parser and then exits. By default a help action is automatically\nadded to the parser. See ArgumentParser for details of how the\noutput is created.\n\n'version' - This expects a version= keyword argument in the\nadd_argument() call, and prints version information\nand exits when invoked:\n\n```\n>>> import argparse\n>>> parser = argparse.ArgumentParser(prog='PROG')\n>>> parser.add_argument('--version', action='version', version='%(prog)s 2.0')\n>>> parser.parse_args(['--version'])\nPROG 2.0\n\n```"
   },
   {
     "chunk_id": "3_library_argparse.html_008_009",
@@ -25536,6 +25734,12 @@
     "text": "A subscript, such as l[1]. value is the subscripted object\n(usually sequence or mapping). slice is an index, slice or key.\nIt can be a Tuple and contain a Slice.\nctx is Load, Store or Del\naccording to the action performed with the subscript.\n>>> print(ast.dump(ast.parse('l[1:2, 3]', mode='eval'), indent=4))\nExpression(\n    body=Subscript(\n        value=Name(id='l', ctx=Load()),\n        slice=Tuple(\n            elts=[\n                Slice(\n                    lower=Constant(value=1),\n                    upper=Constant(value=2)),\n                Constant(value=3)],\n            ctx=Load()),\n        ctx=Load()))\n\n```\n>>> print(ast.dump(ast.parse('l[1:2, 3]', mode='eval'), indent=4))\nExpression(\n    body=Subscript(\n        value=Name(id='l', ctx=Load()),\n        slice=Tuple(\n            elts=[\n                Slice(\n                    lower=Constant(value=1),\n                    upper=Constant(value=2)),\n                Constant(value=3)],\n            ctx=Load()),\n        ctx=Load()))"
   },
   {
+    "chunk_id": "3_library_ast.html_068_001",
+    "source_file": "3_library_ast.html.md",
+    "heading": "class ast.Subscript(value, slice, ctx)",
+    "text": "```"
+  },
+  {
     "chunk_id": "3_library_ast.html_069_000",
     "source_file": "3_library_ast.html.md",
     "heading": "class ast.Slice(lower, upper, step)",
@@ -25842,6 +26046,12 @@
     "text": "```\n>>> print(ast.dump(ast.parse(\"\"\"\n... match x:\n...     case [1, 2, *rest]:\n...         ...\n...     case [*_]:\n...         ...\n... \"\"\"), indent=4))\nModule(\n    body=[\n        Match(\n            subject=Name(id='x', ctx=Load()),\n            cases=[\n                match_case(\n                    pattern=MatchSequence(\n                        patterns=[\n                            MatchValue(\n                                value=Constant(value=1)),\n                            MatchValue(\n                                value=Constant(value=2)),\n                            MatchStar(name='rest')]),\n                    body=[\n                        Expr(\n                            value=Constant(value=Ellipsis))]),\n                match_case(\n                    pattern=MatchSequence(\n                        patterns=[\n                            MatchStar()]),\n                    body=[\n                        Expr(\n                            value=Constant(value=Ellipsis))])])])"
   },
   {
+    "chunk_id": "3_library_ast.html_106_002",
+    "source_file": "3_library_ast.html.md",
+    "heading": "class ast.MatchStar(name)",
+    "text": "```"
+  },
+  {
     "chunk_id": "3_library_ast.html_107_000",
     "source_file": "3_library_ast.html.md",
     "heading": "class ast.MatchMapping(keys, patterns, rest)",
@@ -25852,6 +26062,12 @@
     "source_file": "3_library_ast.html.md",
     "heading": "class ast.MatchMapping(keys, patterns, rest)",
     "text": "pattern=MatchMapping(rest='rest'), body=[ Expr( value=Constant(value=Ellipsis))])])])\n\nAdded in version 3.10.\n\n```\n>>> print(ast.dump(ast.parse(\"\"\"\n... match x:\n...     case {1: _, 2: _}:\n...         ...\n...     case {**rest}:\n...         ...\n... \"\"\"), indent=4))\nModule(\n    body=[\n        Match(\n            subject=Name(id='x', ctx=Load()),\n            cases=[\n                match_case(\n                    pattern=MatchMapping(\n                        keys=[\n                            Constant(value=1),\n                            Constant(value=2)],\n                        patterns=[\n                            MatchAs(),\n                            MatchAs()]),\n                    body=[\n                        Expr(\n                            value=Constant(value=Ellipsis))]),\n                match_case(\n                    pattern=MatchMapping(rest='rest'),\n                    body=[\n                        Expr(\n                            value=Constant(value=Ellipsis))])])])"
+  },
+  {
+    "chunk_id": "3_library_ast.html_107_002",
+    "source_file": "3_library_ast.html.md",
+    "heading": "class ast.MatchMapping(keys, patterns, rest)",
+    "text": "```"
   },
   {
     "chunk_id": "3_library_ast.html_108_000",
@@ -29532,30 +29748,6 @@
     "text": "Usage as a decorator:\n\n```\nimport atexit\n\n@atexit.register\ndef goodbye():\n    print('You are now leaving the Python sector.')\n\n```\n\nThis only works with functions that can be called without arguments."
   },
   {
-    "chunk_id": "3_library_atexit_000_000",
-    "source_file": "3_library_atexit.md",
-    "heading": "Introduction",
-    "text": "# atexit — Exit handlers\n\nThe atexit module defines functions to register and unregister cleanup\nfunctions.  Functions thus registered are automatically executed upon normal\ninterpreter termination.  atexit runs these functions in the reverse\norder in which they were registered; if you register A, B, and C,\nat interpreter termination time they will be run in the order C, B,\nA.\n\nNote: The functions registered via this module are not called when the\nprogram is killed by a signal not handled by Python, when a Python fatal\ninternal error is detected, or when os._exit() is called.\n\nNote: The effect of registering or unregistering functions from within\na cleanup function is undefined.\n\nChanged in version 3.7: When used with C-API subinterpreters, registered functions\nare local to the interpreter they were registered in."
-  },
-  {
-    "chunk_id": "3_library_atexit_001_000",
-    "source_file": "3_library_atexit.md",
-    "heading": "atexit.register(func, *args, **kwargs)",
-    "text": "Register func as a function to be executed at termination.  Any optional\narguments that are to be passed to func must be passed as arguments to\nregister().  It is possible to register the same function and arguments\nmore than once.\nAt normal program termination (for instance, if sys.exit() is called or\nthe main module’s execution completes), all functions registered are called in\nlast in, first out order.  The assumption is that lower level modules will\nnormally be imported before higher level modules and thus must be cleaned up\nlater.\nIf an exception is raised during execution of the exit handlers, a traceback is\nprinted (unless SystemExit is raised) and the exception information is\nsaved.  After all exit handlers have had a chance to run, the last exception to\nbe raised is re-raised.\nThis function returns func, which makes it possible to use it as a\ndecorator."
-  },
-  {
-    "chunk_id": "3_library_atexit_001_001",
-    "source_file": "3_library_atexit.md",
-    "heading": "atexit.register(func, *args, **kwargs)",
-    "text": "Warning\nStarting new threads or calling os.fork() from a registered\nfunction can lead to race condition between the main Python\nruntime thread freeing thread states while internal threading\nroutines or the new process try to use that state. This can lead to\ncrashes rather than clean shutdown.\n\nChanged in version 3.12: Attempts to start a new thread or os.fork() a new process\nin a registered function now leads to RuntimeError."
-  },
-  {
-    "chunk_id": "3_library_atexit_002_000",
-    "source_file": "3_library_atexit.md",
-    "heading": "atexit.unregister(func)",
-    "text": "Remove func from the list of functions to be run at interpreter shutdown.\nunregister() silently does nothing if func was not previously\nregistered.  If func has been registered more than once, every occurrence\nof that function in the atexit call stack will be removed.  Equality\ncomparisons (==) are used internally during unregistration, so function\nreferences do not need to have matching identities.\n\n\nSee also"
-  },
-  {
     "chunk_id": "3_library_audioop.html_000_000",
     "source_file": "3_library_audioop.html.md",
     "heading": "Introduction",
@@ -29722,6 +29914,12 @@
     "source_file": "3_library_base64.html.md",
     "heading": "base64.a85encode(b, *, foldspaces=False, wrapcol=0, pad=False, adobe=False)",
     "text": "Encode the bytes-like object b using Ascii85 and return the\nencoded bytes.\nfoldspaces is an optional flag that uses the special short sequence ‘y’\ninstead of 4 consecutive spaces (ASCII 0x20) as supported by ‘btoa’. This\nfeature is not supported by the standard encoding used in PDF.\nwrapcol controls whether the output should have newline (b'\\n')\ncharacters added to it. If this is non-zero, each output line will be\nat most this many characters long, excluding the trailing newline.\npad controls whether zero-padding applied to the end of the input\nis fully retained in the output encoding, as done by btoa,\nproducing an exact multiple of 5 bytes of output. This is not part\nof the standard encoding used in PDF, as it does not preserve the\nlength of the data.\nadobe controls whether the encoded byte sequence is framed with\n<~ and ~>, as in a PostScript base-85 string literal.  Note\nthat while ASCII85Decode streams in PDF documents must be\nterminated with ~>, they must not use a leading <~."
+  },
+  {
+    "chunk_id": "3_library_base64.html_015_001",
+    "source_file": "3_library_base64.html.md",
+    "heading": "base64.a85encode(b, *, foldspaces=False, wrapcol=0, pad=False, adobe=False)",
+    "text": "Added in version 3.4."
   },
   {
     "chunk_id": "3_library_base64.html_016_000",
@@ -30432,6 +30630,12 @@
     "text": "The above bisect functions are useful for finding insertion points but\ncan be tricky or awkward to use for common searching tasks. The following five\nfunctions show how to transform them into the standard lookups for sorted\nlists:\n\n```\ndef index(a, x):\n    'Locate the leftmost value exactly equal to x'\n    i = bisect_left(a, x)\n    if i != len(a) and a[i] == x:\n        return i\n    raise ValueError\n\ndef find_lt(a, x):\n    'Find rightmost value less than x'\n    i = bisect_left(a, x)\n    if i:\n        return a[i-1]\n    raise ValueError\n\ndef find_le(a, x):\n    'Find rightmost value less than or equal to x'\n    i = bisect_right(a, x)\n    if i:\n        return a[i-1]\n    raise ValueError\n\ndef find_gt(a, x):\n    'Find leftmost value greater than x'\n    i = bisect_right(a, x)\n    if i != len(a):\n        return a[i]\n    raise ValueError\n\ndef find_ge(a, x):\n    'Find leftmost item greater than or equal to x'\n    i = bisect_left(a, x)\n    if i != len(a):\n        return a[i]\n    raise ValueError"
   },
   {
+    "chunk_id": "3_library_bisect.html_008_001",
+    "source_file": "3_library_bisect.html.md",
+    "heading": "Searching Sorted Lists",
+    "text": "```"
+  },
+  {
     "chunk_id": "3_library_bisect.html_009_000",
     "source_file": "3_library_bisect.html.md",
     "heading": "Examples",
@@ -31120,6 +31324,12 @@
     "source_file": "3_library_calendar.html.md",
     "heading": "Command-line usage",
     "text": "October                   November                  December\nMo Tu We Th Fr Sa Su      Mo Tu We Th Fr Sa Su      Mo Tu We Th Fr Sa Su\n                   1             1  2  3  4  5                   1  2  3\n 2  3  4  5  6  7  8       6  7  8  9 10 11 12       4  5  6  7  8  9 10\n 9 10 11 12 13 14 15      13 14 15 16 17 18 19      11 12 13 14 15 16 17\n16 17 18 19 20 21 22      20 21 22 23 24 25 26      18 19 20 21 22 23 24\n23 24 25 26 27 28 29      27 28 29 30               25 26 27 28 29 30 31\n30 31\n\n```\n\nThe following options are accepted:"
+  },
+  {
+    "chunk_id": "3_library_calendar.html_086_000",
+    "source_file": "3_library_calendar.html.md",
+    "heading": "--help, -h",
+    "text": "Show the help message and exit."
   },
   {
     "chunk_id": "3_library_calendar.html_087_000",
@@ -32952,6 +33162,12 @@
     "text": "When a letter is first encountered, it is missing from the mapping, so the\ndefault_factory function calls int() to supply a default count of\nzero.  The increment operation then builds up the count for each letter.\n\nThe function int() which always returns zero is just a special case of\nconstant functions.  A faster and more flexible way to create constant functions\nis to use a lambda function which can supply any constant value (not just\nzero):\n\n```\n>>> def constant_factory(value):\n...     return lambda: value\n...\n>>> d = defaultdict(constant_factory('<missing>'))\n>>> d.update(name='John', action='ran')\n>>> '%(name)s %(action)s to %(object)s' % d\n'John ran to <missing>'\n\n```\n\nSetting the default_factory to set makes the\ndefaultdict useful for building a dictionary of sets:\n\n```\n>>> s = [('red', 1), ('blue', 2), ('red', 3), ('blue', 4), ('red', 1), ('blue', 4)]\n>>> d = defaultdict(set)\n>>> for k, v in s:\n...     d[k].add(v)\n...\n>>> sorted(d.items())\n[('blue', {2, 4}), ('red', {1, 3})]"
   },
   {
+    "chunk_id": "3_library_collections.html_042_003",
+    "source_file": "3_library_collections.html.md",
+    "heading": "default_factory",
+    "text": "```"
+  },
+  {
     "chunk_id": "3_library_collections.html_043_000",
     "source_file": "3_library_collections.html.md",
     "heading": "namedtuple() Factory Function for Tuples with Named Fields",
@@ -33892,6 +34108,12 @@
     "source_file": "3_library_concurrent.futures.html.md",
     "heading": "map(fn, *iterables, timeout=None, chunksize=1, buffersize=None)",
     "text": "Similar to map(fn, *iterables) except:\n\nThe iterables are collected immediately rather than lazily, unless a\nbuffersize is specified to limit the number of submitted tasks whose\nresults have not yet been yielded. If the buffer is full, iteration over\nthe iterables pauses until a result is yielded from the buffer.\nfn is executed asynchronously and several calls to\nfn may be made concurrently."
+  },
+  {
+    "chunk_id": "3_library_concurrent.futures.html_004_001",
+    "source_file": "3_library_concurrent.futures.html.md",
+    "heading": "map(fn, *iterables, timeout=None, chunksize=1, buffersize=None)",
+    "text": "The returned iterator raises a TimeoutError\nif __next__() is called and the result isn’t available\nafter timeout seconds from the original call to Executor.map().\ntimeout can be an int or a float.  If timeout is not specified or\nNone, there is no limit to the wait time.\nIf a fn call raises an exception, then that exception will be\nraised when its value is retrieved from the iterator.\nWhen using ProcessPoolExecutor, this method chops iterables\ninto a number of chunks which it submits to the pool as separate\ntasks.  The (approximate) size of these chunks can be specified by\nsetting chunksize to a positive integer.  For very long iterables,\nusing a large value for chunksize can significantly improve\nperformance compared to the default size of 1.  With\nThreadPoolExecutor and InterpreterPoolExecutor,\nchunksize has no effect.\n\nChanged in version 3.5: Added the chunksize parameter.\n\nChanged in version 3.14: Added the buffersize parameter."
   },
   {
     "chunk_id": "3_library_concurrent.futures.html_005_000",
@@ -39150,6 +39372,12 @@
     "text": "Beg (beginning)"
   },
   {
+    "chunk_id": "3_library_curses.html_251_000",
+    "source_file": "3_library_curses.html.md",
+    "heading": "curses.KEY_CANCEL",
+    "text": "Cancel"
+  },
+  {
     "chunk_id": "3_library_curses.html_252_000",
     "source_file": "3_library_curses.html.md",
     "heading": "curses.KEY_CLOSE",
@@ -40824,6 +41052,18 @@
     "text": "The smallest possible difference between non-equal datetime objects,\ntimedelta(microseconds=1).\n\n\nInstance attributes (read-only):"
   },
   {
+    "chunk_id": "3_library_datetime.html_067_000",
+    "source_file": "3_library_datetime.html.md",
+    "heading": "datetime.year",
+    "text": "Between MINYEAR and MAXYEAR inclusive."
+  },
+  {
+    "chunk_id": "3_library_datetime.html_068_000",
+    "source_file": "3_library_datetime.html.md",
+    "heading": "datetime.month",
+    "text": "Between 1 and 12 inclusive."
+  },
+  {
     "chunk_id": "3_library_datetime.html_069_000",
     "source_file": "3_library_datetime.html.md",
     "heading": "datetime.day",
@@ -40839,6 +41079,12 @@
     "chunk_id": "3_library_datetime.html_071_000",
     "source_file": "3_library_datetime.html.md",
     "heading": "datetime.minute",
+    "text": "In range(60)."
+  },
+  {
+    "chunk_id": "3_library_datetime.html_072_000",
+    "source_file": "3_library_datetime.html.md",
+    "heading": "datetime.second",
     "text": "In range(60)."
   },
   {
@@ -41092,6 +41338,30 @@
     "source_file": "3_library_datetime.html.md",
     "heading": "time.resolution",
     "text": "The smallest possible difference between non-equal time objects,\ntimedelta(microseconds=1), although note that arithmetic on\ntime objects is not supported.\n\n\nInstance attributes (read-only):"
+  },
+  {
+    "chunk_id": "3_library_datetime.html_101_000",
+    "source_file": "3_library_datetime.html.md",
+    "heading": "time.hour",
+    "text": "In range(24)."
+  },
+  {
+    "chunk_id": "3_library_datetime.html_102_000",
+    "source_file": "3_library_datetime.html.md",
+    "heading": "time.minute",
+    "text": "In range(60)."
+  },
+  {
+    "chunk_id": "3_library_datetime.html_103_000",
+    "source_file": "3_library_datetime.html.md",
+    "heading": "time.second",
+    "text": "In range(60)."
+  },
+  {
+    "chunk_id": "3_library_datetime.html_104_000",
+    "source_file": "3_library_datetime.html.md",
+    "heading": "time.microsecond",
+    "text": "In range(1000000)."
   },
   {
     "chunk_id": "3_library_datetime.html_105_000",
@@ -42498,6 +42768,12 @@
     "text": "Creates a new Decimal instance from num but using self as\ncontext. Unlike the Decimal constructor, the context precision,\nrounding method, flags, and traps are applied to the conversion.\nThis is useful because constants are often given to a greater precision\nthan is needed by the application.  Another benefit is that rounding\nimmediately eliminates unintended effects from digits beyond the current\nprecision. In the following example, using unrounded inputs means that\nadding zero to a sum can change the result:\n>>> getcontext().prec = 3\n>>> Decimal('3.4445') + Decimal('1.0023')\nDecimal('4.45')\n>>> Decimal('3.4445') + Decimal(0) + Decimal('1.0023')\nDecimal('4.44')\n\nThis method implements the to-number operation of the IBM specification.\nIf the argument is a string, no leading or trailing whitespace or\nunderscores are permitted.\n\n```\n>>> getcontext().prec = 3\n>>> Decimal('3.4445') + Decimal('1.0023')\nDecimal('4.45')\n>>> Decimal('3.4445') + Decimal(0) + Decimal('1.0023')\nDecimal('4.44')"
   },
   {
+    "chunk_id": "3_library_decimal.html_081_001",
+    "source_file": "3_library_decimal.html.md",
+    "heading": "create_decimal(num='0', /)",
+    "text": "```"
+  },
+  {
     "chunk_id": "3_library_decimal.html_082_000",
     "source_file": "3_library_decimal.html.md",
     "heading": "create_decimal_from_float(f, /)",
@@ -42726,6 +43002,12 @@
     "text": "Compares two values numerically and returns the minimum."
   },
   {
+    "chunk_id": "3_library_decimal.html_120_000",
+    "source_file": "3_library_decimal.html.md",
+    "heading": "min_mag(x, y, /)",
+    "text": "Compares the values numerically with their sign ignored."
+  },
+  {
     "chunk_id": "3_library_decimal.html_121_000",
     "source_file": "3_library_decimal.html.md",
     "heading": "minus(x, /)",
@@ -42873,6 +43155,12 @@
     "chunk_id": "3_library_decimal.html_144_000",
     "source_file": "3_library_decimal.html.md",
     "heading": "decimal.MAX_PREC",
+    "text": "425000000\n\n999999999999999999"
+  },
+  {
+    "chunk_id": "3_library_decimal.html_145_000",
+    "source_file": "3_library_decimal.html.md",
+    "heading": "decimal.MAX_EMAX",
     "text": "425000000\n\n999999999999999999"
   },
   {
@@ -43744,6 +44032,12 @@
     "source_file": "3_library_difflib.html.md",
     "heading": "find_longest_match(alo=0, ahi=None, blo=0, bhi=None)",
     "text": "Find longest matching block in a[alo:ahi] and b[blo:bhi].\nIf isjunk was omitted or None, find_longest_match() returns\n(i, j, k) such that a[i:i+k] is equal to b[j:j+k], where alo\n<= i <= i+k <= ahi and blo <= j <= j+k <= bhi. For all (i', j',\nk') meeting those conditions, the additional conditions k >= k', i\n<= i', and if i == i', j <= j' are also met. In other words, of\nall maximal matching blocks, return one that starts earliest in a, and\nof all those maximal matching blocks that start earliest in a, return\nthe one that starts earliest in b.\n>>> s = SequenceMatcher(None, \" abcd\", \"abcd abcd\")\n>>> s.find_longest_match(0, 5, 0, 9)\nMatch(a=0, b=4, size=5)"
+  },
+  {
+    "chunk_id": "3_library_difflib.html_026_001",
+    "source_file": "3_library_difflib.html.md",
+    "heading": "find_longest_match(alo=0, ahi=None, blo=0, bhi=None)",
+    "text": "If isjunk was provided, first the longest matching block is determined\nas above, but with the additional restriction that no junk element appears\nin the block.  Then that block is extended as far as possible by matching\n(only) junk elements on both sides. So the resulting block never matches\non junk except as identical junk happens to be adjacent to an interesting\nmatch.\nHere’s the same example as before, but considering blanks to be junk. That\nprevents ' abcd' from matching the ' abcd' at the tail end of the\nsecond sequence directly.  Instead only the 'abcd' can match, and\nmatches the leftmost 'abcd' in the second sequence:\n>>> s = SequenceMatcher(lambda x: x==\" \", \" abcd\", \"abcd abcd\")\n>>> s.find_longest_match(0, 5, 0, 9)\nMatch(a=1, b=0, size=4)\n\nIf no blocks match, this returns (alo, blo, 0).\nThis method returns a named tuple Match(a, b, size).\n\nChanged in version 3.9: Added default arguments."
   },
   {
     "chunk_id": "3_library_difflib.html_026_002",
@@ -45720,6 +46014,12 @@
     "text": "This function is used internally by other functions (see below), but can also be\nuseful when you want to transform an interactive Python session into a Python\nscript.\n\n\n```\nimport doctest\nprint(doctest.script_from_examples(r\"\"\"\n    Set x and y to 1 and 2.\n    >>> x, y = 1, 2\n\n    Print their sum:\n    >>> print(x+y)\n    3\n\"\"\"))\n\n```\n\n```\n# Set x and y to 1 and 2.\nx, y = 1, 2\n#\n# Print their sum:\nprint(x+y)\n# Expected:"
   },
   {
+    "chunk_id": "3_library_doctest.html_071_000",
+    "source_file": "3_library_doctest.html.md",
+    "heading": "3",
+    "text": "```"
+  },
+  {
     "chunk_id": "3_library_doctest.html_072_000",
     "source_file": "3_library_doctest.html.md",
     "heading": "doctest.testsource(module, name)",
@@ -45772,6 +46072,18 @@
     "source_file": "3_library_doctest.html.md",
     "heading": "exception doctest.UnexpectedException(test, example, exc_info)",
     "text": "An exception raised by DocTestRunner to signal that a doctest\nexample raised an unexpected exception.  The constructor arguments are used\nto initialize the attributes of the same names.\n\n\nUnexpectedException defines the following attributes:"
+  },
+  {
+    "chunk_id": "3_library_doctest.html_081_000",
+    "source_file": "3_library_doctest.html.md",
+    "heading": "UnexpectedException.test",
+    "text": "The DocTest object that was being run when the example failed."
+  },
+  {
+    "chunk_id": "3_library_doctest.html_082_000",
+    "source_file": "3_library_doctest.html.md",
+    "heading": "UnexpectedException.example",
+    "text": "The Example that failed."
   },
   {
     "chunk_id": "3_library_doctest.html_083_000",
@@ -46578,6 +46890,18 @@
     "text": "Add headers and payload to msg:\nAdd a Content-Type header with a maintype/subtype\nvalue.\n\nFor str, set the MIME maintype to text, and set the\nsubtype to subtype if it is specified, or plain if it is not.\nFor bytes, use the specified maintype and subtype, or\nraise a TypeError if they are not specified.\nFor EmailMessage objects, set the maintype\nto message, and set the subtype to subtype if it is\nspecified or rfc822 if it is not.  If subtype is\npartial, raise an error (bytes objects must be used to\nconstruct message/partial parts)."
   },
   {
+    "chunk_id": "3_library_email.contentmanager.html_011_001",
+    "source_file": "3_library_email.contentmanager.html.md",
+    "heading": "email.contentmanager.set_content(msg, <'EmailMessage'>, cte=None, disposition=None, filename=None, cid=None, params=None, headers=None)",
+    "text": "If charset is provided (which is valid only for str), encode the\nstring to bytes using the specified character set.  The default is\nutf-8.  If the specified charset is a known alias for a standard\nMIME charset name, use the standard charset instead.\nIf cte is set, encode the payload using the specified content transfer\nencoding, and set the Content-Transfer-Encoding header to\nthat value.  Possible values for cte are quoted-printable,\nbase64, 7bit, 8bit, and binary.  If the input cannot be\nencoded in the specified encoding (for example, specifying a cte of\n7bit for an input that contains non-ASCII values), raise a\nValueError."
+  },
+  {
+    "chunk_id": "3_library_email.contentmanager.html_011_002",
+    "source_file": "3_library_email.contentmanager.html.md",
+    "heading": "email.contentmanager.set_content(msg, <'EmailMessage'>, cte=None, disposition=None, filename=None, cid=None, params=None, headers=None)",
+    "text": "For str objects, if cte is not set use heuristics to\ndetermine the most compact encoding.  Prior to encoding,\nstr.splitlines() is used to normalize all line boundaries,\nensuring that each line of the payload is terminated by the\ncurrent policy’s linesep property\n(even if the original string did not end with one).\nFor bytes objects, cte is taken to be base64 if not set,\nand the aforementioned newline translation is not performed.\nFor EmailMessage, per RFC 2046, raise\nan error if a cte of quoted-printable or base64 is\nrequested for subtype rfc822, and for any cte other than\n7bit for subtype external-body.  For\nmessage/rfc822, use 8bit if cte is not specified.  For\nall other values of subtype, use 7bit.\n\nNote\nA cte of binary does not actually work correctly yet.\nThe EmailMessage object as modified by set_content is\ncorrect, but BytesGenerator does not\nserialize it correctly."
+  },
+  {
     "chunk_id": "3_library_email.contentmanager.html_011_003",
     "source_file": "3_library_email.contentmanager.html.md",
     "heading": "email.contentmanager.set_content(msg, <'EmailMessage'>, cte=None, disposition=None, filename=None, cid=None, params=None, headers=None)",
@@ -47286,6 +47610,12 @@
     "text": "DateHeader"
   },
   {
+    "chunk_id": "3_library_email.headerregistry.html_032_000",
+    "source_file": "3_library_email.headerregistry.html.md",
+    "heading": "orig-date:",
+    "text": "UniqueDateHeader"
+  },
+  {
     "chunk_id": "3_library_email.headerregistry.html_033_000",
     "source_file": "3_library_email.headerregistry.html.md",
     "heading": "sender:",
@@ -47308,6 +47638,48 @@
     "source_file": "3_library_email.headerregistry.html.md",
     "heading": "resent-to:",
     "text": "AddressHeader"
+  },
+  {
+    "chunk_id": "3_library_email.headerregistry.html_037_000",
+    "source_file": "3_library_email.headerregistry.html.md",
+    "heading": "cc:",
+    "text": "UniqueAddressHeader"
+  },
+  {
+    "chunk_id": "3_library_email.headerregistry.html_038_000",
+    "source_file": "3_library_email.headerregistry.html.md",
+    "heading": "resent-cc:",
+    "text": "AddressHeader"
+  },
+  {
+    "chunk_id": "3_library_email.headerregistry.html_039_000",
+    "source_file": "3_library_email.headerregistry.html.md",
+    "heading": "bcc:",
+    "text": "UniqueAddressHeader"
+  },
+  {
+    "chunk_id": "3_library_email.headerregistry.html_040_000",
+    "source_file": "3_library_email.headerregistry.html.md",
+    "heading": "resent-bcc:",
+    "text": "AddressHeader"
+  },
+  {
+    "chunk_id": "3_library_email.headerregistry.html_041_000",
+    "source_file": "3_library_email.headerregistry.html.md",
+    "heading": "from:",
+    "text": "UniqueAddressHeader"
+  },
+  {
+    "chunk_id": "3_library_email.headerregistry.html_042_000",
+    "source_file": "3_library_email.headerregistry.html.md",
+    "heading": "resent-from:",
+    "text": "AddressHeader"
+  },
+  {
+    "chunk_id": "3_library_email.headerregistry.html_043_000",
+    "source_file": "3_library_email.headerregistry.html.md",
+    "heading": "reply-to:",
+    "text": "UniqueAddressHeader"
   },
   {
     "chunk_id": "3_library_email.headerregistry.html_044_000",
@@ -47698,6 +48070,12 @@
     "source_file": "3_library_email.message.html.md",
     "heading": "class email.message.EmailMessage(policy=default)",
     "text": "add_attachment(*args, content_manager=None, **kw)¶\nIf the message is a multipart/mixed, create a new message object,\npass all of the arguments to its set_content() method, and\nattach() it to the multipart.  If the\nmessage is a non-multipart, multipart/related, or\nmultipart/alternative, call make_mixed() and then proceed as\nabove. If content_manager is not specified, use the content_manager\nspecified by the current policy.  If the added part\nhas no Content-Disposition header, add one with the value\nattachment.  This method can be used both for explicit attachments\n(Content-Disposition: attachment) and inline attachments\n(Content-Disposition: inline), by passing appropriate\noptions to the content_manager.\n\nclear()¶\nRemove the payload and all of the headers.\n\nclear_content()¶\nRemove the payload and all of the !Content- headers, leaving\nall other headers intact and in their original order.\n\nEmailMessage objects have the following instance attributes:"
+  },
+  {
+    "chunk_id": "3_library_email.message.html_001_027",
+    "source_file": "3_library_email.message.html.md",
+    "heading": "class email.message.EmailMessage(policy=default)",
+    "text": "preamble¶\nThe format of a MIME document allows for some text between the blank line\nfollowing the headers, and the first multipart boundary string. Normally,\nthis text is never visible in a MIME-aware mail reader because it falls\noutside the standard MIME armor.  However, when viewing the raw text of\nthe message, or when viewing the message in a non-MIME aware reader, this\ntext can become visible.\nThe preamble attribute contains this leading extra-armor text for MIME\ndocuments.  When the Parser discovers some text\nafter the headers but before the first boundary string, it assigns this\ntext to the message’s preamble attribute.  When the\nGenerator is writing out the plain text\nrepresentation of a MIME message, and it finds the\nmessage has a preamble attribute, it will write this text in the area\nbetween the headers and the first boundary.  See email.parser and\nemail.generator for details.\nNote that if the message object has no preamble, the preamble attribute\nwill be None."
   },
   {
     "chunk_id": "3_library_email.message.html_001_028",
@@ -51108,6 +51486,12 @@
     "text": "Dump the tracebacks of all threads into file. If all_threads is\nFalse, dump only the current thread.\n\nSee also\ntraceback.print_tb(), which can be used to print a traceback object.\n\n\nChanged in version 3.5: Added support for passing file descriptor to this function."
   },
   {
+    "chunk_id": "3_library_faulthandler.html_005_000",
+    "source_file": "3_library_faulthandler.html.md",
+    "heading": "Dumping the C stack",
+    "text": "Added in version 3.14."
+  },
+  {
     "chunk_id": "3_library_faulthandler.html_006_000",
     "source_file": "3_library_faulthandler.html.md",
     "heading": "faulthandler.dump_c_stack(file=sys.stderr)",
@@ -52102,6 +52486,12 @@
     "source_file": "3_library_ftplib.html.md",
     "heading": "class ftplib.FTP_TLS(host='', user='', passwd='', acct='', *, context=None, timeout=None, source_address=None, encoding='utf-8')",
     "text": "Changed in version 3.4: The method now supports hostname check with\nssl.SSLContext.check_hostname and Server Name Indication (see\nssl.HAS_SNI).\n\nccc()¶\nRevert control channel back to plaintext.  This can be useful to take\nadvantage of firewalls that know how to handle NAT with non-secure FTP\nwithout opening fixed ports.\n\nAdded in version 3.3.\n\nprot_p()¶\nSet up secure data connection.\n\nprot_c()¶\nSet up clear text data connection."
+  },
+  {
+    "chunk_id": "3_library_ftplib.html_035_000",
+    "source_file": "3_library_ftplib.html.md",
+    "heading": "Parameters:",
+    "text": "host (str) – The hostname to connect to. If given, connect(host) is implicitly called by the constructor. user (str) – The username to log in with (default: 'anonymous'). If given, login(host, passwd, acct) is implicitly called by the constructor. passwd (str) – The password to use when logging in. If not given, and if passwd is the empty string or \"-\", a password will be automatically generated. acct (str) – Account information to be used for the ACCT FTP command. Few systems implement this. See RFC-959 for more details. context (ssl.SSLContext) – An SSL context object which allows bundling SSL configuration options, certificates and private keys into a single, potentially long-lived, structure. Please read Security considerations for best practices. timeout (float | None) – A timeout in seconds for blocking operations like connect() (default: the global default timeout setting). source_address (tuple | None) – A 2-tuple (host, port) for the socket to bind to as its source address"
   },
   {
     "chunk_id": "3_library_ftplib.html_035_001",
@@ -54876,6 +55266,12 @@
     "text": "As a basic example, below is a simple HTML parser that uses the\nHTMLParser class to print out start tags, end tags, and data\nas they are encountered:\n\n```\nfrom html.parser import HTMLParser\n\nclass MyHTMLParser(HTMLParser):\n    def handle_starttag(self, tag, attrs):\n        print(\"Encountered a start tag:\", tag)\n\ndef handle_endtag(self, tag):\n        print(\"Encountered an end tag :\", tag)\n\ndef handle_data(self, data):\n        print(\"Encountered some data  :\", data)\n\nparser = MyHTMLParser()\nparser.feed('<html><head><title>Test</title></head>'\n            '<body><h1>Parse me!</h1></body></html>')\n\n```\n\nThe output will then be:\n\n```\nEncountered a start tag: html\nEncountered a start tag: head\nEncountered a start tag: title\nEncountered some data  : Test\nEncountered an end tag : title\nEncountered an end tag : head\nEncountered a start tag: body\nEncountered a start tag: h1\nEncountered some data  : Parse me!\nEncountered an end tag : h1\nEncountered an end tag : body\nEncountered an end tag : html"
   },
   {
+    "chunk_id": "3_library_html.parser.html_002_001",
+    "source_file": "3_library_html.parser.html.md",
+    "heading": "Example HTML Parser Application",
+    "text": "```"
+  },
+  {
     "chunk_id": "3_library_html.parser.html_003_000",
     "source_file": "3_library_html.parser.html.md",
     "heading": "HTMLParser Methods",
@@ -55056,9 +55452,51 @@
     "text": "A subclass of HTTPException, raised if a port is given and is either\nnon-numeric or empty."
   },
   {
+    "chunk_id": "3_library_http.client.html_008_000",
+    "source_file": "3_library_http.client.html.md",
+    "heading": "exception http.client.UnknownProtocol",
+    "text": "A subclass of HTTPException."
+  },
+  {
+    "chunk_id": "3_library_http.client.html_009_000",
+    "source_file": "3_library_http.client.html.md",
+    "heading": "exception http.client.UnknownTransferEncoding",
+    "text": "A subclass of HTTPException."
+  },
+  {
+    "chunk_id": "3_library_http.client.html_010_000",
+    "source_file": "3_library_http.client.html.md",
+    "heading": "exception http.client.UnimplementedFileMode",
+    "text": "A subclass of HTTPException."
+  },
+  {
+    "chunk_id": "3_library_http.client.html_011_000",
+    "source_file": "3_library_http.client.html.md",
+    "heading": "exception http.client.IncompleteRead",
+    "text": "A subclass of HTTPException."
+  },
+  {
+    "chunk_id": "3_library_http.client.html_012_000",
+    "source_file": "3_library_http.client.html.md",
+    "heading": "exception http.client.ImproperConnectionState",
+    "text": "A subclass of HTTPException."
+  },
+  {
     "chunk_id": "3_library_http.client.html_013_000",
     "source_file": "3_library_http.client.html.md",
     "heading": "exception http.client.CannotSendRequest",
+    "text": "A subclass of ImproperConnectionState."
+  },
+  {
+    "chunk_id": "3_library_http.client.html_014_000",
+    "source_file": "3_library_http.client.html.md",
+    "heading": "exception http.client.CannotSendHeader",
+    "text": "A subclass of ImproperConnectionState."
+  },
+  {
+    "chunk_id": "3_library_http.client.html_015_000",
+    "source_file": "3_library_http.client.html.md",
+    "heading": "exception http.client.ResponseNotReady",
     "text": "A subclass of ImproperConnectionState."
   },
   {
@@ -57906,6 +58344,12 @@
     "text": "A legacy method for loading a module.  If the module cannot be\nloaded, ImportError is raised, otherwise the loaded module is\nreturned.\nIf the requested module already exists in sys.modules, that\nmodule should be used and reloaded.\nOtherwise the loader should create a new module and insert it into\nsys.modules before any loading begins, to prevent recursion\nfrom the import.  If the loader inserted a module and the load fails, it\nmust be removed by the loader from sys.modules; modules already\nin sys.modules before the loader began execution should be left\nalone.\nThe loader should set several attributes on the module\n(note that some of these attributes can change when a module is\nreloaded):\n\nmodule.__name__\nmodule.__file__\nmodule.__cached__ (deprecated)\nmodule.__path__\nmodule.__package__ (deprecated)\nmodule.__loader__ (deprecated)\n\nWhen exec_module() is available then backwards-compatible\nfunctionality is provided."
   },
   {
+    "chunk_id": "3_library_importlib.html_033_001",
+    "source_file": "3_library_importlib.html.md",
+    "heading": "load_module(fullname)",
+    "text": "Changed in version 3.4: Raise ImportError when called instead of\nNotImplementedError.  Functionality provided when\nexec_module() is available.\n\nDeprecated since version 3.4, will be removed in version 3.15: The recommended API for loading a module is exec_module()\n(and create_module()).  Loaders should implement it instead of\nload_module().  The import machinery takes care of all the\nother responsibilities of load_module() when\nexec_module() is implemented."
+  },
+  {
     "chunk_id": "3_library_importlib.html_034_000",
     "source_file": "3_library_importlib.html.md",
     "heading": "class importlib.abc.ResourceLoader",
@@ -58852,6 +59296,12 @@
     "source_file": "3_library_importlib.resources.abc.html.md",
     "heading": "abstractmethod joinpath(*pathsegments)",
     "text": "Traverse directories according to pathsegments and return\nthe result as Traversable.\nEach pathsegments argument may contain multiple names separated by\nforward slashes (/, posixpath.sep ).\nFor example, the following are equivalent:\nfiles.joinpath('subdir', 'subsuddir', 'file.txt')\nfiles.joinpath('subdir/subsuddir/file.txt')\n\nNote that some Traversable implementations\nmight not be updated to the latest version of the protocol.\nFor compatibility with such implementations, provide a single argument\nwithout path separators to each call to joinpath. For example:\nfiles.joinpath('subdir').joinpath('subsubdir').joinpath('file.txt')\n\nChanged in version 3.11: joinpath accepts multiple pathsegments, and these segments\nmay contain forward slashes as path separators.\nPreviously, only a single child argument was accepted.\n\n```\nfiles.joinpath('subdir', 'subsuddir', 'file.txt')\nfiles.joinpath('subdir/subsuddir/file.txt')\n\n```\n\n```\nfiles.joinpath('subdir').joinpath('subsubdir').joinpath('file.txt')"
+  },
+  {
+    "chunk_id": "3_library_importlib.resources.abc.html_011_001",
+    "source_file": "3_library_importlib.resources.abc.html.md",
+    "heading": "abstractmethod joinpath(*pathsegments)",
+    "text": "```"
   },
   {
     "chunk_id": "3_library_importlib.resources.abc.html_012_000",
@@ -59820,24 +60270,6 @@
     "text": "Print information about the specified object rather than the source code"
   },
   {
-    "chunk_id": "3_library_inspect_010_000",
-    "source_file": "3_library_inspect.md",
-    "heading": "inspect.isgeneratorfunction(object)",
-    "text": "Return True if the object is a Python generator function.\nIt also returns True for bound methods created from Python generator functions\n(see Methods for more information).\n\nChanged in version 3.8: Functions wrapped in functools.partial() now return True if the\nwrapped function is a Python generator function.\n\n\nChanged in version 3.13: Functions wrapped in functools.partialmethod() now return True\nif the wrapped function is a Python generator function."
-  },
-  {
-    "chunk_id": "3_library_inspect_012_000",
-    "source_file": "3_library_inspect.md",
-    "heading": "inspect.iscoroutinefunction(object)",
-    "text": "Return True if the object is a coroutine function (a function\ndefined with an async def syntax), a functools.partial()\nwrapping a coroutine function, or a sync function marked with\nmarkcoroutinefunction().\n\nAdded in version 3.5.\n\n\nChanged in version 3.8: Functions wrapped in functools.partial() now return True if the\nwrapped function is a coroutine function.\n\n\nChanged in version 3.12: Sync functions marked with markcoroutinefunction() now return\nTrue.\n\n\nChanged in version 3.13: Functions wrapped in functools.partialmethod() now return True\nif the wrapped function is a coroutine function."
-  },
-  {
-    "chunk_id": "3_library_inspect_016_000",
-    "source_file": "3_library_inspect.md",
-    "heading": "inspect.isasyncgenfunction(object)",
-    "text": "Return True if the object is an asynchronous generator function,\nfor example:\n>>> async def agen():\n...     yield 1\n...\n>>> inspect.isasyncgenfunction(agen)\nTrue\n\n\n\nAdded in version 3.6.\n\n\nChanged in version 3.8: Functions wrapped in functools.partial() now return True if the\nwrapped function is an asynchronous generator function.\n\n\nChanged in version 3.13: Functions wrapped in functools.partialmethod() now return True\nif the wrapped function is a asynchronous generator function.\n\n\n\n```\n>>> async def agen():\n...     yield 1\n...\n>>> inspect.isasyncgenfunction(agen)\nTrue\n\n```"
-  },
-  {
     "chunk_id": "3_library_internet.html_000_000",
     "source_file": "3_library_internet.html.md",
     "heading": "Introduction",
@@ -60786,6 +61218,12 @@
     "text": "teredo¶\nFor addresses that appear to be Teredo addresses (starting with\n2001::/32) as defined by RFC 4380, this property will report\nthe embedded (server, client) IP address pair.  For any other\naddress, this property will be None.\n\n```\n>>> ipaddress.IPv6Address('2001:db8::1000')\nIPv6Address('2001:db8::1000')\n>>> ipaddress.IPv6Address('ff02::5678%1')\nIPv6Address('ff02::5678%1')\n\n```"
   },
   {
+    "chunk_id": "3_library_ipaddress.html_031_000",
+    "source_file": "3_library_ipaddress.html.md",
+    "heading": "is_global",
+    "text": "Added in version 3.4."
+  },
+  {
     "chunk_id": "3_library_ipaddress.html_036_000",
     "source_file": "3_library_ipaddress.html.md",
     "heading": "is_site_local",
@@ -61626,6 +62064,18 @@
     "text": "called for objects that can’t otherwise be serialized. It should return a JSON encodable version of the object or raise a TypeError. If None (the default), TypeError is raised. sort_keys (bool) – If True, dictionaries will be outputted sorted by key. Default False.\n\nChanged in version 3.2: Allow strings for indent in addition to integers.\n\nChanged in version 3.4: Use (',', ': ') as default if indent is not None.\n\nChanged in version 3.6: All optional parameters are now keyword-only."
   },
   {
+    "chunk_id": "3_library_json.html_003_000",
+    "source_file": "3_library_json.html.md",
+    "heading": "Parameters:",
+    "text": "obj (object) – The Python object to be serialized. fp (file-like object) – The file-like object obj will be serialized to. The json module always produces str objects, not bytes objects, therefore fp.write() must support str input. skipkeys (bool) – If True, keys that are not of a basic type (str, int, float, bool, None) will be skipped instead of raising a TypeError. Default False. ensure_ascii (bool) – If True (the default), the output is guaranteed to have all incoming non-ASCII and non-printable characters escaped. If False, all characters will be outputted as-is, except for the characters that must be escaped: quotation mark, reverse solidus, and the control characters U+0000 through U+001F. check_circular (bool) – If False, the circular reference check for container types is skipped and a circular reference will result in a RecursionError (or worse). Default True. allow_nan (bool) – If False, serialization of out-of-range float values (nan, inf, -inf) will result in a ValueError,"
+  },
+  {
+    "chunk_id": "3_library_json.html_003_001",
+    "source_file": "3_library_json.html.md",
+    "heading": "Parameters:",
+    "text": "in strict compliance with the JSON specification. If True (the default), their JavaScript equivalents (NaN, Infinity, -Infinity) are used. cls (a JSONEncoder subclass) – If set, a custom JSON encoder with the default() method overridden, for serializing into custom datatypes. If None (the default), JSONEncoder is used. indent (int | str | None) – If a positive integer or string, JSON array elements and object members will be pretty-printed with that indent level. A positive integer indents that many spaces per level; a string (such as \"\\t\") is used to indent each level. If zero, negative, or \"\" (the empty string), only newlines are inserted. If None (the default), no newlines are inserted. separators (tuple | None) – A two-tuple: (item_separator, key_separator). If None (the default), separators defaults to (', ', ': ') if indent is None, and (',', ': ') otherwise. For the most compact JSON, specify (',', ':') to eliminate whitespace. default (callable | None) – A function that is"
+  },
+  {
     "chunk_id": "3_library_json.html_003_002",
     "source_file": "3_library_json.html.md",
     "heading": "Parameters:",
@@ -61660,6 +62110,12 @@
     "source_file": "3_library_json.html.md",
     "heading": "json.load(fp, *, cls=None, object_hook=None, parse_float=None, parse_int=None, parse_constant=None, object_pairs_hook=None, **kw)",
     "text": "Added the optional object_pairs_hook parameter.\nparse_constant doesn’t get called on ‘null’, ‘true’, ‘false’ anymore.\n\nChanged in version 3.6:\n\nAll optional parameters are now keyword-only.\nfp can now be a binary file.\nThe input encoding should be UTF-8, UTF-16 or UTF-32.\n\nChanged in version 3.11: The default parse_int of int() now limits the maximum length of\nthe integer string via the interpreter’s integer string\nconversion length limitation to help avoid denial\nof service attacks."
+  },
+  {
+    "chunk_id": "3_library_json.html_006_000",
+    "source_file": "3_library_json.html.md",
+    "heading": "Parameters:",
+    "text": "fp (file-like object) – A .read()-supporting text file or binary file containing the JSON document to be deserialized. cls (a JSONDecoder subclass) – If set, a custom JSON decoder. Additional keyword arguments to load() will be passed to the constructor of cls. If None (the default), JSONDecoder is used. object_hook (callable | None) – If set, a function that is called with the result of any JSON object literal decoded (a dict). The return value of this function will be used instead of the dict. This feature can be used to implement custom decoders, for example JSON-RPC class hinting. Default None. object_pairs_hook (callable | None) – If set, a function that is called with the result of any JSON object literal decoded with an ordered list of pairs. The return value of this function will be used instead of the dict. This feature can be used to implement custom decoders. If object_hook is also set, object_pairs_hook takes priority. Default None. parse_float (callable | None) – If set, a"
   },
   {
     "chunk_id": "3_library_json.html_006_001",
@@ -62364,6 +62820,12 @@
     "text": "Changed in version 3.4: An instance of a subclass of RawConfigParser is\n  now accepted as a value for fname. This facilitates:\n\nUse of a configuration file where logging configuration is just part\nof the overall application configuration.\nUse of a configuration read from a file, and then modified by the using\napplication (e.g. based on command-line parameters or other aspects\nof the runtime environment) before being passed to fileConfig.\n\nChanged in version 3.10: Added the encoding parameter.\n\nChanged in version 3.12: An exception will be thrown if the provided file\ndoesn’t exist or is invalid or empty."
   },
   {
+    "chunk_id": "3_library_logging.config.html_004_000",
+    "source_file": "3_library_logging.config.html.md",
+    "heading": "Parameters:",
+    "text": "fname – A filename, or a file-like object, or an instance derived\nfrom RawConfigParser. If a\nRawConfigParser-derived instance is passed, it is used as\nis. Otherwise, a ConfigParser is\ninstantiated, and the configuration read by it from the\nobject passed in fname. If that has a readline()\nmethod, it is assumed to be a file-like object and read using\nread_file(); otherwise,\nit is assumed to be a filename and passed to\nread().\ndefaults – Defaults to be passed to the ConfigParser can be specified\nin this argument.\ndisable_existing_loggers – If specified as False, loggers which\nexist when this call is made are left\nenabled. The default is True because this\nenables old behaviour in a\nbackward-compatible way. This behaviour is to\ndisable any existing non-root loggers unless\nthey or their ancestors are explicitly named\nin the logging configuration.\nencoding – The encoding used to open file when fname is filename."
+  },
+  {
     "chunk_id": "3_library_logging.config.html_005_000",
     "source_file": "3_library_logging.config.html.md",
     "heading": "logging.config.listen(port=DEFAULT_LOGGING_CONFIG_PORT, verify=None)",
@@ -62712,6 +63174,12 @@
     "text": "This method does nothing."
   },
   {
+    "chunk_id": "3_library_logging.handlers.html_016_000",
+    "source_file": "3_library_logging.handlers.html.md",
+    "heading": "handle(record)",
+    "text": "This method does nothing."
+  },
+  {
     "chunk_id": "3_library_logging.handlers.html_017_000",
     "source_file": "3_library_logging.handlers.html.md",
     "heading": "createLock()",
@@ -62776,6 +63244,12 @@
     "source_file": "3_library_logging.handlers.html.md",
     "heading": "namer",
     "text": "If this attribute is set to a callable, the rotation_filename()\nmethod delegates to this callable. The parameters passed to the callable\nare those passed to rotation_filename()."
+  },
+  {
+    "chunk_id": "3_library_logging.handlers.html_024_001",
+    "source_file": "3_library_logging.handlers.html.md",
+    "heading": "namer",
+    "text": "Note The namer function is called quite a few times during rollover, so it should be as simple and as fast as possible. It should also return the same output every time for a given input, otherwise the rollover behaviour may not work as expected. It’s also worth noting that care should be taken when using a namer to preserve certain attributes in the filename which are used during rotation. For example, RotatingFileHandler expects to have a set of log files whose names contain successive integers, so that rotation works as expected, and TimedRotatingFileHandler deletes old log files (based on the backupCount parameter passed to the handler’s initializer) by determining the oldest files to delete. For this to happen, the filenames should be sortable using the date/time portion of the filename, and a namer needs to respect this. (If a namer is wanted that doesn’t respect this scheme, it will need to be used in a subclass of TimedRotatingFileHandler which overrides the getFilesToDelete()"
   },
   {
     "chunk_id": "3_library_logging.handlers.html_024_002",
@@ -63064,6 +63538,12 @@
     "source_file": "3_library_logging.handlers.html.md",
     "heading": "emit(record)",
     "text": "The record is formatted, and then sent to the syslog server. If exception\ninformation is present, it is not sent to the server."
+  },
+  {
+    "chunk_id": "3_library_logging.handlers.html_059_001",
+    "source_file": "3_library_logging.handlers.html.md",
+    "heading": "emit(record)",
+    "text": "Changed in version 3.2.1: (See: bpo-12168.) In earlier versions, the message sent to the\nsyslog daemons was always terminated with a NUL byte, because early\nversions of these daemons expected a NUL terminated message - even\nthough it’s not in the relevant specification (RFC 5424). More recent\nversions of these daemons don’t expect the NUL byte but strip it off\nif it’s there, and even more recent daemons (which adhere more closely\nto RFC 5424) pass the NUL byte on as part of the message.\nTo enable easier handling of syslog messages in the face of all these\ndiffering daemon behaviours, the appending of the NUL byte has been\nmade configurable, through the use of a class-level attribute,\nappend_nul. This defaults to True (preserving the existing\nbehaviour) but can be set to False on a SysLogHandler instance\nin order for that instance to not append the NUL terminator."
   },
   {
     "chunk_id": "3_library_logging.handlers.html_059_002",
@@ -63624,6 +64104,24 @@
     "text": "displayed through specifying exc_info: The former is stack frames from the bottom of the stack up to the logging call in the current thread, whereas the latter is information about stack frames which have been unwound, following an exception, while searching for exception handlers. You can specify stack_info independently of exc_info, e.g. to just show how you got to a certain point in your code, even when no exceptions were raised. The stack frames are printed following a header line which says: Stack (most recent call last):"
   },
   {
+    "chunk_id": "3_library_logging.html_014_002",
+    "source_file": "3_library_logging.html.md",
+    "heading": "debug(msg, *args, **kwargs)",
+    "text": "This mimics the Traceback (most recent call last): which is used when displaying exception frames. The third optional keyword argument is stacklevel, which defaults to 1. If greater than 1, the corresponding number of stack frames are skipped when computing the line number and function name set in the LogRecord created for the logging event. This can be used in logging helpers so that the function name, filename and line number recorded are not the information for the helper function/method, but rather its caller. The name of this parameter mirrors the equivalent one in the warnings module. The fourth keyword argument is extra which can be used to pass a dictionary which is used to populate the __dict__ of the LogRecord created for the logging event with user-defined attributes. These custom attributes can then be used as you like. For example, they could be incorporated into logged messages. For example: FORMAT = '%(asctime)s %(clientip)-15s %(user)-8s %(message)s'"
+  },
+  {
+    "chunk_id": "3_library_logging.html_014_003",
+    "source_file": "3_library_logging.html.md",
+    "heading": "debug(msg, *args, **kwargs)",
+    "text": "logging.basicConfig(format=FORMAT) d = {'clientip': '192.168.0.1', 'user': 'fbloggs'} logger = logging.getLogger('tcpserver') logger.warning('Protocol problem: %s', 'connection reset', extra=d)\n\nwould print something like\n2006-02-08 22:20:02,165 192.168.0.1 fbloggs  Protocol problem: connection reset"
+  },
+  {
+    "chunk_id": "3_library_logging.html_014_004",
+    "source_file": "3_library_logging.html.md",
+    "heading": "debug(msg, *args, **kwargs)",
+    "text": "The keys in the dictionary passed in extra should not clash with the keys used by the logging system. (See the section on LogRecord attributes for more information on which keys are used by the logging system.) If you choose to use these attributes in logged messages, you need to exercise some care. In the above example, for instance, the Formatter has been set up with a format string which expects ‘clientip’ and ‘user’ in the attribute dictionary of the LogRecord. If these are missing, the message will not be logged because a string formatting exception will occur. So in this case, you always need to pass the extra dictionary with these keys. While this might be annoying, this feature is intended for use in specialized circumstances, such as multi-threaded servers where the same code executes in many contexts, and interesting conditions which arise are dependent on this context (such as remote client IP address and authenticated user name, in the above example). In such circumstances,"
+  },
+  {
     "chunk_id": "3_library_logging.html_014_005",
     "source_file": "3_library_logging.html.md",
     "heading": "debug(msg, *args, **kwargs)",
@@ -63942,6 +64440,12 @@
     "text": "formatException(exc_info)¶\nFormats the specified exception information (a standard exception tuple as\nreturned by sys.exc_info()) as a string. This default implementation\njust uses traceback.print_exception(). The resulting string is\nreturned.\n\nformatStack(stack_info)¶\nFormats the specified stack information (a string as returned by\ntraceback.print_stack(), but with the last newline removed) as a\nstring. This default implementation just returns the input value."
   },
   {
+    "chunk_id": "3_library_logging.html_056_000",
+    "source_file": "3_library_logging.html.md",
+    "heading": "Parameters:",
+    "text": "fmt (str) – A format string in the given style for the logged output as a whole. The possible mapping keys are drawn from the LogRecord object’s LogRecord attributes. If not specified, '%(message)s' is used, which is just the logged message. datefmt (str) – A format string for the date/time portion of the logged output. If not specified, the default described in formatTime() is used. style (str) – Can be one of '%', '{' or '$' and determines how the format string will be merged with its data: using one of printf-style String Formatting (%), str.format() ({) or string.Template ($). This only applies to fmt (e.g. '%(message)s' versus '{message}'), not to the actual log messages passed to the logging methods. However, there are other ways to use {- and $-formatting for log messages. validate (bool) – If True (the default), incorrect or mismatched fmt and style will raise a ValueError; for example, logging.Formatter('%(asctime)s - %(message)s', style='{'). defaults (dict[str, Any]) – A"
+  },
+  {
     "chunk_id": "3_library_logging.html_056_001",
     "source_file": "3_library_logging.html.md",
     "heading": "Parameters:",
@@ -64072,6 +64576,12 @@
     "source_file": "3_library_logging.html.md",
     "heading": "class logging.LogRecord(name, level, pathname, lineno, msg, args, exc_info, func=None, sinfo=None)",
     "text": "Changed in version 3.2: The creation of a LogRecord has been made more configurable by\nproviding a factory which is used to create the record. The factory can be\nset using getLogRecordFactory() and setLogRecordFactory()\n(see this for the factory’s signature).\n\nThis functionality can be used to inject your own values into a\nLogRecord at creation time. You can use the following pattern:\nold_factory = logging.getLogRecordFactory()\n\ndef record_factory(*args, **kwargs):\n    record = old_factory(*args, **kwargs)\n    record.custom_attribute = 0xdecafbad\n    return record\n\nlogging.setLogRecordFactory(record_factory)\n\nWith this pattern, multiple factories could be chained, and as long\nas they don’t overwrite each other’s attributes or unintentionally\noverwrite the standard attributes listed above, there should be no\nsurprises."
+  },
+  {
+    "chunk_id": "3_library_logging.html_070_000",
+    "source_file": "3_library_logging.html.md",
+    "heading": "Parameters:",
+    "text": "name (str) – The name of the logger used to log the event represented by this LogRecord. Note that the logger name in the LogRecord will always have this value, even though it may be emitted by a handler attached to a different (ancestor) logger. level (int) – The numeric level of the logging event (such as 10 for DEBUG, 20 for INFO, etc). Note that this is converted to two attributes of the LogRecord: levelno for the numeric value and levelname for the corresponding level name. pathname (str) – The full string path of the source file where the logging call was made. lineno (int) – The line number in the source file where the logging call was made. msg (Any) – The event description message, which can be a %-format string with placeholders for variable data, or an arbitrary object (see Using arbitrary objects as messages). args (tuple | dict[str, Any]) – Variable data to merge into the msg argument to obtain the event description. exc_info (tuple[type[BaseException], BaseException,"
   },
   {
     "chunk_id": "3_library_logging.html_070_001",
@@ -64516,6 +65026,12 @@
     "source_file": "3_library_lzma.html.md",
     "heading": "class lzma.LZMADecompressor(format=FORMAT_AUTO, memlimit=None, filters=None)",
     "text": "Note\nThis class does not transparently handle inputs containing multiple\ncompressed streams, unlike decompress() and LZMAFile. To\ndecompress a multi-stream input with LZMADecompressor, you must\ncreate a new decompressor for each stream."
+  },
+  {
+    "chunk_id": "3_library_lzma.html_012_002",
+    "source_file": "3_library_lzma.html.md",
+    "heading": "class lzma.LZMADecompressor(format=FORMAT_AUTO, memlimit=None, filters=None)",
+    "text": "decompress(data, max_length=-1)¶\nDecompress data (a bytes-like object), returning\nuncompressed data as bytes. Some of data may be buffered\ninternally, for use in later calls to decompress(). The\nreturned data should be concatenated with the output of any\nprevious calls to decompress().\nIf max_length is nonnegative, returns at most max_length\nbytes of decompressed data. If this limit is reached and further\noutput can be produced, the needs_input attribute will\nbe set to False. In this case, the next call to\ndecompress() may provide data as b'' to obtain\nmore of the output.\nIf all of the input data was decompressed and returned (either\nbecause this was less than max_length bytes, or because\nmax_length was negative), the needs_input attribute\nwill be set to True.\nAttempting to decompress data after the end of stream is reached\nraises an EOFError.  Any data found after the end of the\nstream is ignored and saved in the unused_data attribute."
   },
   {
     "chunk_id": "3_library_lzma.html_012_003",
@@ -65098,6 +65614,12 @@
     "source_file": "3_library_mailbox.html.md",
     "heading": "get_file(key, from_=False)",
     "text": "Using the file after calling flush() or\nclose() on the mbox instance may yield\nunpredictable results or raise an exception.\nNote: This method has an extra parameter (from_) compared with other classes.\nThe first line of an mbox file entry is the Unix “From “ line.\nIf from_ is False, the first line of the file is dropped."
+  },
+  {
+    "chunk_id": "3_library_mailbox.html_058_000",
+    "source_file": "3_library_mailbox.html.md",
+    "heading": "get_string(key, from_=False)",
+    "text": "Note: This method has an extra parameter (from_) compared with other classes.\nThe first line of an mbox file entry is the Unix “From “ line.\nIf from_ is False, the first line of the file is dropped."
   },
   {
     "chunk_id": "3_library_mailbox.html_060_000",
@@ -66316,6 +66838,12 @@
     "source_file": "3_library_mimetypes.html.md",
     "heading": "Command-line usage",
     "text": "The mimetypes module can be executed as a script from the command line.\n\n```\npython -m mimetypes [-h] [-e] [-l] type [type ...]\n\n```\n\nThe following options are accepted:"
+  },
+  {
+    "chunk_id": "3_library_mimetypes.html_030_000",
+    "source_file": "3_library_mimetypes.html.md",
+    "heading": "--help",
+    "text": "Show the help message and exit."
   },
   {
     "chunk_id": "3_library_mimetypes.html_032_000",
@@ -68392,6 +68920,12 @@
     "source_file": "3_library_multiprocessing.shared_memory.html.md",
     "heading": "class multiprocessing.shared_memory.SharedMemory(name=None, create=False, size=0, *, track=True)",
     "text": "size¶\nRead-only access to size in bytes of the shared memory block."
+  },
+  {
+    "chunk_id": "3_library_multiprocessing.shared_memory.html_002_000",
+    "source_file": "3_library_multiprocessing.shared_memory.html.md",
+    "heading": "Parameters:",
+    "text": "name (str | None) – The unique name for the requested shared memory, specified as a string. When creating a new shared memory block, if None (the default) is supplied for the name, a novel name will be generated. create (bool) – Control whether a new shared memory block is created (True) or an existing shared memory block is attached (False). size (int) – The requested number of bytes when creating a new shared memory block. Because some platforms choose to allocate chunks of memory based upon that platform’s memory page size, the exact size of the shared memory block may be larger or equal to the size requested. When attaching to an existing shared memory block, the size parameter is ignored. track (bool) – When True, register the shared memory block with a resource tracker process on platforms where the OS does not do this automatically. The resource tracker ensures proper cleanup of the shared memory even if all other processes with access to the memory exit without doing so. Python"
   },
   {
     "chunk_id": "3_library_multiprocessing.shared_memory.html_002_001",
@@ -74772,6 +75306,12 @@
     "text": "Like the open() function, get_data() can follow parent\ndirectories (../) and absolute paths (starting with / or C:/,\nfor example).\nIt can open compilation/installation artifacts like .py and .pyc\nfiles or files with reserved filenames.\nTo be compatible with non-filesystem loaders, avoid using these features.\n\nWarning\nThis function is intended for trusted input.\nIt does not verify that resource “belongs” to package.\n\nIf you use a user-provided resource path, consider verifying it.\nFor example, require an alphanumeric filename with a known extension, or\ninstall and check a list of known resources.\nIf the package cannot be located or loaded, or it uses a loader\nwhich does not support get_data,\nthen None is returned.  In particular, the loader for\nnamespace packages does not support\nget_data.\n\nSee also\nThe importlib.resources module provides structured access to\nmodule resources.\n\n```\nd = os.path.dirname(sys.modules[package].__file__)\ndata = open(os.path.join(d, resource), 'rb').read()"
   },
   {
+    "chunk_id": "3_library_pkgutil.html_007_002",
+    "source_file": "3_library_pkgutil.html.md",
+    "heading": "pkgutil.get_data(package, resource)",
+    "text": "```"
+  },
+  {
     "chunk_id": "3_library_pkgutil.html_008_000",
     "source_file": "3_library_pkgutil.html.md",
     "heading": "pkgutil.resolve_name(name)",
@@ -75288,6 +75828,12 @@
     "text": "with their keys sorted, otherwise they will be displayed in insertion order (the default). underscore_numbers (bool) – If True, integers will be formatted with the _ character for a thousands separator, otherwise underscores are not displayed (the default).\n\n>>> import pprint\n>>> stuff = ['spam', 'eggs', 'lumberjack', 'knights', 'ni']\n>>> stuff.insert(0, stuff)\n>>> pprint.pp(stuff)\n[<Recursion on list with id=...>,\n 'spam',\n 'eggs',\n 'lumberjack',\n 'knights',\n 'ni']\n\nAdded in version 3.8."
   },
   {
+    "chunk_id": "3_library_pprint.html_003_000",
+    "source_file": "3_library_pprint.html.md",
+    "heading": "Parameters:",
+    "text": "object – The object to be printed. stream (file-like object | None) – A file-like object to which the output will be written by calling its write() method. If None (the default), sys.stdout is used. indent (int) – The amount of indentation added for each nesting level. width (int) – The desired maximum number of characters per line in the output. If a structure cannot be formatted within the width constraint, a best effort will be made. depth (int | None) – The number of nesting levels which may be printed. If the data structure being printed is too deep, the next contained level is replaced by .... If None (the default), there is no constraint on the depth of the objects being formatted. compact (bool) – Control the way long sequences are formatted. If False (the default), each item of a sequence will be formatted on a separate line, otherwise as many items as will fit within the width will be formatted on each output line. sort_dicts (bool) – If True, dictionaries will be formatted"
+  },
+  {
     "chunk_id": "3_library_pprint.html_003_001",
     "source_file": "3_library_pprint.html.md",
     "heading": "Parameters:",
@@ -75688,6 +76234,12 @@
     "source_file": "3_library_profile.html.md",
     "heading": "sort_stats(*keys)",
     "text": "'file'\nN/A\nfile name\n\n'filename'\nSortKey.FILENAME\nfile name\n\n'module'\nN/A\nfile name\n\n'ncalls'\nN/A\ncall count\n\n'pcalls'\nSortKey.PCALLS\nprimitive call count\n\n'line'\nSortKey.LINE\nline number\n\n'name'\nSortKey.NAME\nfunction name\n\n'nfl'\nSortKey.NFL\nname/file/line\n\n'stdname'\nSortKey.STDNAME\nstandard name\n\n'time'\nSortKey.TIME\ninternal time\n\n'tottime'\nN/A\ninternal time"
+  },
+  {
+    "chunk_id": "3_library_profile.html_029_002",
+    "source_file": "3_library_profile.html.md",
+    "heading": "sort_stats(*keys)",
+    "text": "Note that all sorts on statistics are in descending order (placing most\ntime consuming items first), where as name, file, and line number searches\nare in ascending order (alphabetical). The subtle distinction between\nSortKey.NFL and SortKey.STDNAME is that the standard name is a\nsort of the name as printed, which means that the embedded line numbers\nget compared in an odd way.  For example, lines 3, 20, and 40 would (if\nthe file names were the same) appear in the string order 20, 3 and 40.\nIn contrast, SortKey.NFL does a numeric compare of the line numbers.\nIn fact, sort_stats(SortKey.NFL) is the same as\nsort_stats(SortKey.NAME, SortKey.FILENAME, SortKey.LINE).\nFor backward-compatibility reasons, the numeric arguments -1, 0,\n1, and 2 are permitted.  They are interpreted as 'stdname',\n'calls', 'time', and 'cumulative' respectively.  If this old\nstyle format (numeric) is used, only one sort key (the numeric key) will\nbe used, and additional arguments will be silently ignored."
   },
   {
     "chunk_id": "3_library_profile.html_029_003",
@@ -76834,6 +77386,18 @@
     "source_file": "3_library_pyexpat.html.md",
     "heading": "xml.parsers.expat.errors.XML_ERROR_RESERVED_NAMESPACE_URI",
     "text": "An attempt was made to bind the URI of one the reserved namespace\nprefixes xml and xmlns to another namespace prefix."
+  },
+  {
+    "chunk_id": "3_library_pyexpat.html_120_000",
+    "source_file": "3_library_pyexpat.html.md",
+    "heading": "xml.parsers.expat.errors.XML_ERROR_INVALID_ARGUMENT",
+    "text": "This should not be reported to Python applications."
+  },
+  {
+    "chunk_id": "3_library_pyexpat.html_121_000",
+    "source_file": "3_library_pyexpat.html.md",
+    "heading": "xml.parsers.expat.errors.XML_ERROR_NO_BUFFER",
+    "text": "This should not be reported to Python applications."
   },
   {
     "chunk_id": "3_library_pyexpat.html_122_000",
@@ -78888,6 +79452,12 @@
     "text": "PEP written and implemented by Nick Coghlan."
   },
   {
+    "chunk_id": "3_library_runpy.html_004_000",
+    "source_file": "3_library_runpy.html.md",
+    "heading": "PEP 366 – Main module explicit relative imports",
+    "text": "PEP written and implemented by Nick Coghlan."
+  },
+  {
     "chunk_id": "3_library_runpy.html_005_000",
     "source_file": "3_library_runpy.html.md",
     "heading": "PEP 451 – A ModuleSpec Type for the Import System",
@@ -79066,6 +79636,12 @@
     "source_file": "3_library_select.html.md",
     "heading": "Introduction",
     "text": "# select — Waiting for I/O completion\n\nThis module provides access to the select() and poll() functions\navailable in most operating systems, devpoll() available on\nSolaris and derivatives, epoll() available on Linux 2.5+ and\nkqueue() available on most BSD.\nNote that on Windows, it only works for sockets; on other operating systems,\nit also works for other file types (in particular, on Unix, it works on pipes).\nIt cannot be used on regular files to determine whether a file has grown since\nit was last read.\n\nNote\n\nThe selectors module allows high-level and efficient I/O\nmultiplexing, built upon the select module primitives. Users are\nencouraged to use the selectors module instead, unless they want\nprecise control over the OS-level primitives used.\n\nAvailability: not WASI.\n\nThis module does not work or is not available on WebAssembly. See\nWebAssembly platforms for more information.\n\nThe module defines the following:"
+  },
+  {
+    "chunk_id": "3_library_select.html_001_000",
+    "source_file": "3_library_select.html.md",
+    "heading": "exception select.error",
+    "text": "A deprecated alias of OSError.\n\nChanged in version 3.3: Following PEP 3151, this class was made an alias of OSError."
   },
   {
     "chunk_id": "3_library_select.html_002_000",
@@ -79282,6 +79858,12 @@
     "source_file": "3_library_select.html.md",
     "heading": "kqueue.closed",
     "text": "True if the kqueue object is closed."
+  },
+  {
+    "chunk_id": "3_library_select.html_034_000",
+    "source_file": "3_library_select.html.md",
+    "heading": "kqueue.fileno()",
+    "text": "Return the file descriptor number of the control fd."
   },
   {
     "chunk_id": "3_library_select.html_035_000",
@@ -79924,6 +80506,12 @@
     "source_file": "3_library_shutil.html.md",
     "heading": "shutil.copy2(src, dst, *, follow_symlinks=True)",
     "text": "Identical to copy() except that copy2()\nalso attempts to preserve file metadata.\nWhen follow_symlinks is false, and src is a symbolic\nlink, copy2() attempts to copy all metadata from the\nsrc symbolic link to the newly created dst symbolic link.\nHowever, this functionality is not available on all platforms.\nOn platforms where some or all of this functionality is\nunavailable, copy2() will preserve all the metadata\nit can; copy2() never raises an exception because it\ncannot preserve file metadata.\ncopy2() uses copystat() to copy the file metadata.\nPlease see copystat() for more information\nabout platform support for modifying symbolic link metadata.\nRaises an auditing event shutil.copyfile with arguments src, dst.\nRaises an auditing event shutil.copystat with arguments src, dst.\n\nChanged in version 3.3: Added follow_symlinks argument, try to copy extended\nfile system attributes too (currently Linux only).\nNow returns path to the newly created file."
+  },
+  {
+    "chunk_id": "3_library_shutil.html_009_001",
+    "source_file": "3_library_shutil.html.md",
+    "heading": "shutil.copy2(src, dst, *, follow_symlinks=True)",
+    "text": "Changed in version 3.8: Platform-specific fast-copy syscalls may be used internally in order to\ncopy the file more efficiently. See\nPlatform-dependent efficient copy operations section."
   },
   {
     "chunk_id": "3_library_shutil.html_010_000",
@@ -80754,6 +81342,12 @@
     "text": "The error code."
   },
   {
+    "chunk_id": "3_library_smtplib.html_008_000",
+    "source_file": "3_library_smtplib.html.md",
+    "heading": "smtp_error",
+    "text": "The error message."
+  },
+  {
     "chunk_id": "3_library_smtplib.html_009_000",
     "source_file": "3_library_smtplib.html.md",
     "heading": "exception smtplib.SMTPSenderRefused",
@@ -81136,6 +81730,12 @@
     "source_file": "3_library_socket.html.md",
     "heading": "Module contents",
     "text": "The module socket exports the following elements.\n\n### Exceptions"
+  },
+  {
+    "chunk_id": "3_library_socket.html_005_000",
+    "source_file": "3_library_socket.html.md",
+    "heading": "exception socket.error",
+    "text": "A deprecated alias of OSError.\n\nChanged in version 3.3: Following PEP 3151, this class was made an alias of OSError."
   },
   {
     "chunk_id": "3_library_socket.html_006_000",
@@ -82638,6 +83238,18 @@
     "text": "Changed in version 3.13: Positional use of the parameters timeout, detect_types,\nisolation_level, check_same_thread, factory, cached_statements,\nand uri is deprecated.\nThey will become keyword-only parameters in Python 3.15."
   },
   {
+    "chunk_id": "3_library_sqlite3.html_007_000",
+    "source_file": "3_library_sqlite3.html.md",
+    "heading": "Parameters:",
+    "text": "database (path-like object) – The path to the database file to be opened. You can pass \":memory:\" to create an SQLite database existing only in memory, and open a connection to it. timeout (float) – How many seconds the connection should wait before raising an OperationalError when a table is locked. If another connection opens a transaction to modify a table, that table will be locked until the transaction is committed. Default five seconds. detect_types (int) – Control whether and how data types not natively supported by SQLite are looked up to be converted to Python types, using the converters registered with register_converter(). Set it to any combination (using |, bitwise or) of PARSE_DECLTYPES and PARSE_COLNAMES to enable this. Column names take precedence over declared types if both flags are set. By default (0), type detection is disabled. isolation_level (str | None) – Control legacy transaction handling behaviour. See Connection.isolation_level and Transaction control via the"
+  },
+  {
+    "chunk_id": "3_library_sqlite3.html_007_001",
+    "source_file": "3_library_sqlite3.html.md",
+    "heading": "Parameters:",
+    "text": "isolation_level attribute for more information. Can be \"DEFERRED\" (default), \"EXCLUSIVE\" or \"IMMEDIATE\"; or None to disable opening transactions implicitly. Has no effect unless Connection.autocommit is set to LEGACY_TRANSACTION_CONTROL (the default). check_same_thread (bool) – If True (default), ProgrammingError will be raised if the database connection is used by a thread other than the one that created it. If False, the connection may be accessed in multiple threads; write operations may need to be serialized by the user to avoid data corruption. See threadsafety for more information. factory (Connection) – A custom subclass of Connection to create the connection with, if not the default Connection class. cached_statements (int) – The number of statements that sqlite3 should internally cache for this connection, to avoid parsing overhead. By default, 128 statements. uri (bool) – If set to True, database is interpreted as a URI with a file path and an optional query string. The"
+  },
+  {
     "chunk_id": "3_library_sqlite3.html_007_002",
     "source_file": "3_library_sqlite3.html.md",
     "heading": "Parameters:",
@@ -83391,6 +84003,12 @@
     "chunk_id": "3_library_sqlite3.html_109_000",
     "source_file": "3_library_sqlite3.html.md",
     "heading": "setinputsizes(sizes, /)",
+    "text": "Required by the DB-API. Does nothing in sqlite3."
+  },
+  {
+    "chunk_id": "3_library_sqlite3.html_110_000",
+    "source_file": "3_library_sqlite3.html.md",
+    "heading": "setoutputsize(size, column=None, /)",
     "text": "Required by the DB-API. Does nothing in sqlite3."
   },
   {
@@ -84912,6 +85530,12 @@
     "text": "Write an EOF marker to the memory BIO. After this method has been called, it\nis illegal to call write(). The attribute eof will\nbecome true after all data currently in the buffer has been read."
   },
   {
+    "chunk_id": "3_library_ssl.html_165_000",
+    "source_file": "3_library_ssl.html.md",
+    "heading": "SSL session",
+    "text": "Added in version 3.6."
+  },
+  {
     "chunk_id": "3_library_ssl.html_166_000",
     "source_file": "3_library_ssl.html.md",
     "heading": "class ssl.SSLSession",
@@ -85428,10 +86052,28 @@
     "text": "The file may be archived."
   },
   {
+    "chunk_id": "3_library_stat.html_067_000",
+    "source_file": "3_library_stat.html.md",
+    "heading": "stat.SF_IMMUTABLE",
+    "text": "The file may not be changed."
+  },
+  {
+    "chunk_id": "3_library_stat.html_068_000",
+    "source_file": "3_library_stat.html.md",
+    "heading": "stat.SF_APPEND",
+    "text": "The file may only be appended to."
+  },
+  {
     "chunk_id": "3_library_stat.html_069_000",
     "source_file": "3_library_stat.html.md",
     "heading": "stat.SF_RESTRICTED",
     "text": "The file needs an entitlement to write to (macOS 10.13+)\n\nAdded in version 3.13."
+  },
+  {
+    "chunk_id": "3_library_stat.html_070_000",
+    "source_file": "3_library_stat.html.md",
+    "heading": "stat.SF_NOUNLINK",
+    "text": "The file may not be renamed or deleted."
   },
   {
     "chunk_id": "3_library_stat.html_071_000",
@@ -87360,6 +88002,12 @@
     "text": "Cast a memoryview to a new format or shape. shape defaults to\n[byte_length//new_itemsize], which means that the result view\nwill be one-dimensional. The return value is a new memoryview, but\nthe buffer itself is not copied. Supported casts are 1D -> C-contiguous\nand C-contiguous -> 1D.\nThe destination format is restricted to a single element native format in\nstruct syntax. One of the formats must be a byte format\n(‘B’, ‘b’ or ‘c’). The byte length of the result must be the same\nas the original length.\nNote that all byte lengths may depend on the operating system.\nCast 1D/long to 1D/unsigned bytes:\n>>> import array\n>>> a = array.array('l', [1,2,3])\n>>> x = memoryview(a)\n>>> x.format\n'l'\n>>> x.itemsize\n8\n>>> len(x)\n3\n>>> x.nbytes\n24\n>>> y = x.cast('B')\n>>> y.format\n'B'\n>>> y.itemsize\n1\n>>> len(y)\n24\n>>> y.nbytes\n24"
   },
   {
+    "chunk_id": "3_library_stdtypes.html_199_001",
+    "source_file": "3_library_stdtypes.html.md",
+    "heading": "cast(format, shape, /)",
+    "text": "Cast 1D/unsigned bytes to 1D/char:\n>>> b = bytearray(b'zyz')\n>>> x = memoryview(b)\n>>> x[0] = b'a'\nTraceback (most recent call last):\n  ...\nTypeError: memoryview: invalid type for format 'B'\n>>> y = x.cast('c')\n>>> y[0] = b'a'\n>>> b\nbytearray(b'ayz')\n\nCast 1D/bytes to 3D/ints to 1D/signed char:\n>>> import struct\n>>> buf = struct.pack(\"i\"*12, *list(range(12)))\n>>> x = memoryview(buf)\n>>> y = x.cast('i', shape=[2,2,3])\n>>> y.tolist()\n[[[0, 1, 2], [3, 4, 5]], [[6, 7, 8], [9, 10, 11]]]\n>>> y.format\n'i'\n>>> y.itemsize\n4\n>>> len(y)\n2\n>>> y.nbytes\n48\n>>> z = y.cast('b')\n>>> z.format\n'b'\n>>> z.itemsize\n1\n>>> len(z)\n48\n>>> z.nbytes\n48\n\nCast 1D/unsigned long to 2D/unsigned long:\n>>> buf = struct.pack(\"L\"*6, *list(range(6)))\n>>> x = memoryview(buf)\n>>> y = x.cast('L', shape=[2,3])\n>>> len(y)\n2\n>>> y.nbytes\n48\n>>> y.tolist()\n[[0, 1, 2], [3, 4, 5]]\n\nAdded in version 3.3.\n\nChanged in version 3.5: The source format is no longer restricted when casting to a byte view."
+  },
+  {
     "chunk_id": "3_library_stdtypes.html_199_002",
     "source_file": "3_library_stdtypes.html.md",
     "heading": "cast(format, shape, /)",
@@ -87376,6 +88024,12 @@
     "source_file": "3_library_stdtypes.html.md",
     "heading": "index(value, start=0, stop=sys.maxsize, /)",
     "text": "Return the index of the first occurrence of value (at or after\nindex start and before index stop).\nRaises a ValueError if value cannot be found.\n\nAdded in version 3.14.\n\nThere are also several readonly attributes available:\n\nobj¶\nThe underlying object of the memoryview:\n>>> b  = bytearray(b'xyz')\n>>> m = memoryview(b)\n>>> m.obj is b\nTrue\n\nAdded in version 3.3.\n\nnbytes¶\nnbytes == product(shape) * itemsize == len(m.tobytes()). This is\nthe amount of space in bytes that the array would use in a contiguous\nrepresentation. It is not necessarily equal to len(m):\n>>> import array\n>>> a = array.array('i', [1,2,3,4,5])\n>>> m = memoryview(a)\n>>> len(m)\n5\n>>> m.nbytes\n20\n>>> y = m[::2]\n>>> len(y)\n3\n>>> y.nbytes\n12\n>>> len(y.tobytes())\n12"
+  },
+  {
+    "chunk_id": "3_library_stdtypes.html_201_001",
+    "source_file": "3_library_stdtypes.html.md",
+    "heading": "index(value, start=0, stop=sys.maxsize, /)",
+    "text": "Multi-dimensional arrays:\n>>> import struct\n>>> buf = struct.pack(\"d\"*12, *[1.5*x for x in range(12)])\n>>> x = memoryview(buf)\n>>> y = x.cast('d', shape=[3,4])\n>>> y.tolist()\n[[0.0, 1.5, 3.0, 4.5], [6.0, 7.5, 9.0, 10.5], [12.0, 13.5, 15.0, 16.5]]\n>>> len(y)\n3\n>>> y.nbytes\n96\n\nAdded in version 3.3.\n\nreadonly¶\nA bool indicating whether the memory is read only.\n\nformat¶\nA string containing the format (in struct module style) for each\nelement in the view. A memoryview can be created from exporters with\narbitrary format strings, but some methods (e.g. tolist()) are\nrestricted to native single element formats.\n\nChanged in version 3.3: format 'B' is now handled according to the struct module syntax.\nThis means that memoryview(b'abc')[0] == b'abc'[0] == 97.\n\nitemsize¶\nThe size in bytes of each element of the memoryview:\n>>> import array, struct\n>>> m = memoryview(array.array('H', [32000, 32001, 32002]))\n>>> m.itemsize\n2\n>>> m[0]\n32000\n>>> struct.calcsize('H') == m.itemsize\nTrue"
   },
   {
     "chunk_id": "3_library_stdtypes.html_201_002",
@@ -94014,6 +94668,12 @@
     "text": "Handle uncaught exception raised by Thread.run().\nThe args argument has the following attributes:\n\nexc_type: Exception type.\nexc_value: Exception value, can be None.\nexc_traceback: Exception traceback, can be None.\nthread: Thread which raised the exception, can be None.\n\nIf exc_type is SystemExit, the exception is silently ignored.\nOtherwise, the exception is printed out on sys.stderr.\nIf  this function raises an exception, sys.excepthook() is called to\nhandle it.\nthreading.excepthook() can be overridden to control how uncaught\nexceptions raised by Thread.run() are handled.\nStoring exc_value using a custom hook can create a reference cycle. It\nshould be cleared explicitly to break the reference cycle when the\nexception is no longer needed.\nStoring thread using a custom hook can resurrect it if it is set to an\nobject which is being finalized. Avoid storing thread after the custom\nhook completes to avoid resurrecting objects.\n\nSee also\nsys.excepthook() handles uncaught exceptions."
   },
   {
+    "chunk_id": "3_library_threading.html_006_001",
+    "source_file": "3_library_threading.html.md",
+    "heading": "threading.excepthook(args, /)",
+    "text": "Added in version 3.8."
+  },
+  {
     "chunk_id": "3_library_threading.html_007_000",
     "source_file": "3_library_threading.html.md",
     "heading": "threading.__excepthook__",
@@ -94024,6 +94684,12 @@
     "source_file": "3_library_threading.html.md",
     "heading": "threading.get_ident()",
     "text": "Return the ‘thread identifier’ of the current thread.  This is a nonzero\ninteger.  Its value has no direct meaning; it is intended as a magic cookie\nto be used e.g. to index a dictionary of thread-specific data.  Thread\nidentifiers may be recycled when a thread exits and another thread is\ncreated.\n\nAdded in version 3.3."
+  },
+  {
+    "chunk_id": "3_library_threading.html_009_000",
+    "source_file": "3_library_threading.html.md",
+    "heading": "threading.get_native_id()",
+    "text": "Return the native integral Thread ID of the current thread assigned by the kernel.\nThis is a non-negative integer.\nIts value may be used to uniquely identify this particular thread system-wide\n(until the thread terminates, after which the value may be recycled by the OS).\n\nAvailability: Windows, FreeBSD, Linux, macOS, OpenBSD, NetBSD, AIX, DragonFlyBSD, GNU/kFreeBSD.\n\n\nAdded in version 3.8.\n\n\nChanged in version 3.13: Added support for GNU/kFreeBSD."
   },
   {
     "chunk_id": "3_library_threading.html_010_000",
@@ -94072,6 +94738,12 @@
     "source_file": "3_library_threading.html.md",
     "heading": "threading.getprofile()",
     "text": "Get the profiler function as set by setprofile().\n\nAdded in version 3.10."
+  },
+  {
+    "chunk_id": "3_library_threading.html_018_000",
+    "source_file": "3_library_threading.html.md",
+    "heading": "threading.stack_size([size])",
+    "text": "Return the thread stack size used when creating new threads. The optional size argument specifies the stack size to be used for subsequently created threads, and must be 0 (use platform or configured default) or a positive integer value of at least 32,768 (32 KiB). If size is not specified, 0 is used. If changing the thread stack size is unsupported, a RuntimeError is raised. If the specified stack size is invalid, a ValueError is raised and the stack size is unmodified. 32 KiB is currently the minimum supported stack size value to guarantee sufficient stack space for the interpreter itself. Note that some platforms may have particular restrictions on values for the stack size, such as requiring a minimum stack size > 32 KiB or requiring allocation in multiples of the system memory page size - platform documentation should be referred to for more information (4 KiB pages are common; using multiples of 4096 for the stack size is the suggested approach in the absence of more specific"
   },
   {
     "chunk_id": "3_library_threading.html_018_001",
@@ -95553,6 +96225,12 @@
     "chunk_id": "3_library_tkinter.font.html_012_000",
     "source_file": "3_library_tkinter.font.html.md",
     "heading": "ascent - distance between baseline and highest point that a",
+    "text": "character of the font can occupy"
+  },
+  {
+    "chunk_id": "3_library_tkinter.font.html_013_000",
+    "source_file": "3_library_tkinter.font.html.md",
+    "heading": "descent - distance between baseline and lowest point that a",
     "text": "character of the font can occupy"
   },
   {
@@ -97344,6 +98022,18 @@
     "text": "Query or set platform-specific attributes of the window.\nWith no arguments, return the platform-specific flags and their values;\npass return_python_dict as true to get them as a dictionary.\nA single option name such as 'alpha' returns the value of that\noption, and options are set using keyword arguments (alpha=0.5).\nThe available attributes differ by platform.\nAll platforms support:\n\nalphaThe window’s opacity, from 0.0 (fully transparent) to 1.0\n(opaque).\nWhere transparency is unsupported the value stays at 1.0.\n\nappearanceWhether the window is rendered in dark mode on Windows and macOS:\n'auto', 'light' or 'dark' (this has no effect on X11).\n\nfullscreenWhether the window takes up the entire screen and has no borders.\n\ntopmostWhether the window is displayed above all other windows.\n\nWindows additionally supports:\n\ndisabledWhether the window is in a disabled state.\n\ntoolwindowWhether the window uses the tool window style."
   },
   {
+    "chunk_id": "3_library_tkinter.html_209_001",
+    "source_file": "3_library_tkinter.html.md",
+    "heading": "attributes(*args, return_python_dict=False, **kwargs)",
+    "text": "transparentcolorThe color that is made fully transparent, or an empty string for none.\n\nmacOS additionally supports:\n\nclassWhether the underlying Aqua window is an nswindow or an\nnspanel; this can only be set before the window is created.\n\nmodifiedThe modification state shown by the window’s close button and proxy\nicon.\n\nnotifyWhether the application’s dock icon bounces to request attention.\n\nstylemaskThe style mask of the underlying Aqua window, given as a list of bit\nnames such as titled or resizable.\n\ntabbingidThe identifier of the tab group that the window belongs to.\n\ntabbingmodeWhether the window may be opened as a tab: 'auto', 'preferred'\nor 'disallowed'.\n\ntitlepathThe path of the file represented by the window’s proxy icon.\n\ntransparentWhether the content area is transparent and the window shadow is\nturned off.\n\nX11 additionally supports:"
+  },
+  {
+    "chunk_id": "3_library_tkinter.html_209_002",
+    "source_file": "3_library_tkinter.html.md",
+    "heading": "attributes(*args, return_python_dict=False, **kwargs)",
+    "text": "typeThe window type, or a list of types in order of preference, that the\nwindow manager should use to interpret the window, such as\n'dialog' or 'splash'.\n\nzoomedWhether the window is maximized.\n\nNote\nTk 8.6 added the type attribute, and Tk 9.0 added the appearance,\nclass, stylemask, tabbingid and tabbingmode attributes.\n\nOn X11 changes are applied asynchronously, so a queried value may not yet\nreflect the most recent request.\nwm_attributes() is an alias of attributes().\n\nChanged in version 3.13: A single attribute may now be queried by name without the leading\n-, and attributes may be set using keyword arguments.\nThe return_python_dict parameter was added.\n\nDeprecated since version 3.13: Setting an attribute by passing the option name (with a leading\n-) and its value as two positional arguments, as in\nw.attributes('-alpha', 0.5), is deprecated; use keyword arguments\ninstead."
+  },
+  {
     "chunk_id": "3_library_tkinter.html_210_000",
     "source_file": "3_library_tkinter.html.md",
     "heading": "alpha",
@@ -98278,6 +98968,30 @@
     "source_file": "3_library_tkinter.html.md",
     "heading": "create_window(*args, **kw)",
     "text": "polygon through the points x1, y1, ..., xn, yn); rectangle (a rectangle with corners x1, y1, x2, y2); text (a string of text positioned at a point x, y); and window (a child widget embedded in the canvas at a point x, y, specified with the window option). Most item types accept a common set of standard item options, plus a few options specific to each type. Option names are passed as keyword arguments, without the leading hyphen. The standard item options are:\n\nfillThe color used to fill the item’s interior, or to draw a line\nitem or the characters of a text item.\nAn empty string (the default for all types except line and text)\nleaves the item unfilled.\n\noutlineThe color used to draw the item’s outline.\nAn empty string draws no outline.\n\nwidthThe width of the outline, defaulting to 1.0.\nHas no effect if outline is empty."
+  },
+  {
+    "chunk_id": "3_library_tkinter.html_344_002",
+    "source_file": "3_library_tkinter.html.md",
+    "heading": "create_window(*args, **kw)",
+    "text": "dashA dash pattern for the outline, given either as a sequence of\nsegment lengths in pixels or as a string of the characters\n'.', ',', '-', '_' and space.\nAn empty pattern (the default) draws a solid outline.\n\ndashoffsetThe starting offset in pixels into the dash pattern.\nIgnored if there is no dash pattern.\n\nstippleA bitmap used as a stipple pattern when filling the item.\nOnly well supported on X11.\n\noutlinestippleA bitmap used as a stipple pattern when drawing the outline.\nHas no effect if outline is empty.\n\noffset, outlineoffsetThe offset of the fill and outline stipple patterns, given as\n'x,y' or as a side such as 'n', 'se' or 'center'.\nStipple offsets are only supported on X11.\n\nstateOverrides the canvas state for this item; one of 'normal',\n'disabled' or 'hidden'.\n\ntagsA single tag or a sequence of tags to associate with the item,\nreplacing any existing tags."
+  },
+  {
+    "chunk_id": "3_library_tkinter.html_344_003",
+    "source_file": "3_library_tkinter.html.md",
+    "heading": "create_window(*args, **kw)",
+    "text": "Many of these options have active… and disabled… variants\n(such as activefill, disabledfill, activewidth, disableddash,\nactiveoutline, disabledstipple) that override the base option when\nthe item is the active item (under the mouse pointer) or is in the\ndisabled state.\nThe following item types support additional options.\nFor arc items:\n\nstartThe start of the arc’s angular range, in degrees measured\ncounter-clockwise from the 3-o’clock position.\n\nextentThe size of the angular range, in degrees counter-clockwise from\nstart.\n\nstyleHow the arc is drawn: 'pieslice' (the default), 'chord' or\n'arc'.\n\nFor line items:\n\narrowWhere to draw arrowheads: 'none' (the default), 'first',\n'last' or 'both'.\n\narrowshapeA sequence of three distances describing the shape of the\narrowheads.\n\ncapstyleHow line ends are drawn: 'butt' (the default), 'projecting'\nor 'round'.\n\njoinstyleHow line vertices are drawn: 'round' (the default), 'bevel'\nor 'miter'."
+  },
+  {
+    "chunk_id": "3_library_tkinter.html_344_004",
+    "source_file": "3_library_tkinter.html.md",
+    "heading": "create_window(*args, **kw)",
+    "text": "smoothThe smoothing method: a false value (the default) for no smoothing,\nor 'true'/'bezier' or 'raw' to draw the line as a curve.\n\nsplinestepsThe number of line segments approximating each spline when\nsmooth is enabled.\n\nFor polygon items:\n\njoinstyle, smooth, splinestepsAs for line items, applied to the polygon’s outline.\n\nFor text items:\n\ntextThe string to display; newline characters start new lines.\n\nfontThe font used for the text.\n\njustifyHow lines are justified: 'left' (the default), 'right' or\n'center'.\n\nanchorHow the text is positioned relative to its point, defaulting to\n'center'.\n\nwidthThe maximum line length; if non-zero, lines are wrapped at spaces.\n\nangleHow many degrees to rotate the text counter-clockwise about its\npositioning point, from 0.0 to 360.0 (default 0.0).\n\nunderlineThe index of a character to underline, or -1 for none.\n\nFor bitmap items:\n\nbitmapThe bitmap to display.\n\nanchorHow the bitmap is positioned relative to its point."
+  },
+  {
+    "chunk_id": "3_library_tkinter.html_344_005",
+    "source_file": "3_library_tkinter.html.md",
+    "heading": "create_window(*args, **kw)",
+    "text": "background, foregroundThe colors used for the bitmap’s 0 and 1 pixels; an empty\nbackground makes the 0 pixels transparent.\nBoth have active… and disabled… variants, and bitmap has\nactivebitmap and disabledbitmap variants.\n\nFor image items:\n\nimageThe Tk image to display, previously created with the image\nprotocols.\n\nanchorHow the image is positioned relative to its point.\n\nBoth options have active… and disabled… variants\n(activeimage, disabledimage) used in the active and disabled\nstates.\nFor window items:\n\nwindowThe widget to embed; it must be a child of the canvas or of one of\nits ancestors, and may not be a top-level window.\n\nanchorHow the window is positioned relative to its point.\n\nwidth, heightThe size to assign to the window; if zero (the default), the window\nis given its requested size.\n\noval and rectangle items have no type-specific options; they\nuse only the standard item options.\n\nNote\nTk 8.6 added the angle option and Tk 9.0 added the underline\noption for text items."
   },
   {
     "chunk_id": "3_library_tkinter.html_345_000",
@@ -100054,6 +100768,12 @@
     "source_file": "3_library_tkinter.html.md",
     "heading": "tag_configure(tagName, cnf=None, **kw)",
     "text": "Query or modify the configuration options of the tag tagName.\nThis mirrors configure(), except that it applies to a tag\nrather than to the widget as a whole: with no options it returns a\ndictionary describing the current options, otherwise it sets the given\noptions.\nDefining a tag this way also gives it a priority higher than any existing\ntag.\nThe supported tag options, all controlling the appearance of the tagged\ntext, are:\n\nfontThe font to use for the text.\n\nforegroundThe color to use for the text.\n\nbackgroundThe color to use for the area behind the text.\n\nfgstipple, bgstippleBitmaps used to stipple the foreground (text) and the background;\nonly well supported on X11.\n\nborderwidthThe width of the border drawn around the text according to relief\n(default 0).\n\nreliefThe 3-D appearance of the text’s border: 'flat' (the default),\n'raised', 'sunken', 'ridge', 'groove' or 'solid'."
+  },
+  {
+    "chunk_id": "3_library_tkinter.html_594_001",
+    "source_file": "3_library_tkinter.html.md",
+    "heading": "tag_configure(tagName, cnf=None, **kw)",
+    "text": "offsetHow far the text is raised above (or, if negative, lowered below) the\nbaseline, for superscripts and subscripts.\n\nunderlineWhether to underline the text.\n\nunderlinefgThe color of the underline; it defaults to the text color.\n\noverstrikeWhether to draw a line through the middle of the text.\n\noverstrikefgThe color of the overstrike line; it defaults to the text color.\n\nelideWhether the text is elided (hidden).\n\njustifyHow to justify the first character of a display line: 'left' (the\ndefault), 'right' or 'center'.\n\nwrapHow to wrap lines that are too long: 'char', 'word' or\n'none'.\n\nlmargin1, lmargin2The indentation, in pixels, of the first display line of a logical\nline and of the remaining display lines.\n\nlmargincolorThe color of the left margin area.\n\nrmarginThe right-hand margin, in pixels.\n\nrmargincolorThe color of the right margin area."
   },
   {
     "chunk_id": "3_library_tkinter.html_594_002",
@@ -101958,6 +102678,18 @@
     "text": "If “vsapi” is used as the value of etype, element_create()\nwill create a new element in the current theme whose visual appearance\nis drawn using the Microsoft Visual Styles API which is responsible\nfor the themed styles on Windows XP and Vista.\nargs is expected to contain the Visual Styles class and part as\ngiven in the Microsoft documentation followed by an optional sequence\nof tuples of ttk states and the corresponding Visual Styles API state\nvalue.\nkw may have the following options:"
   },
   {
+    "chunk_id": "3_library_tkinter.ttk.html_090_003",
+    "source_file": "3_library_tkinter.ttk.html.md",
+    "heading": "element_create(elementname, etype, *args, **kw)",
+    "text": "padding=paddingSpecify the element’s interior padding.\npadding is a list of up to four integers specifying the left,\ntop, right and bottom padding quantities respectively.\nIf fewer than four elements are specified, bottom defaults to top,\nright defaults to left, and top defaults to left.\nIn other words, a list of three numbers specify the left, vertical,\nand right padding; a list of two numbers specify the horizontal\nand the vertical padding; a single number specifies the same\npadding all the way around the widget.\nThis option may not be mixed with any other options.\n\nmargins=paddingSpecifies the elements exterior padding.\npadding is a list of up to four integers specifying the left, top,\nright and bottom padding quantities respectively.\nThis option may not be mixed with any other options."
+  },
+  {
+    "chunk_id": "3_library_tkinter.ttk.html_090_004",
+    "source_file": "3_library_tkinter.ttk.html.md",
+    "heading": "element_create(elementname, etype, *args, **kw)",
+    "text": "width=widthSpecifies the width for the element.\nIf this option is set then the Visual Styles API will not be queried\nfor the recommended size or the part.\nIf this option is set then height should also be set.\nThe width and height options cannot be mixed with the padding\nor margins options.\n\nheight=heightSpecifies the height of the element.\nSee the comments for width.\n\nExample:\nstyle = ttk.Style(root)\nstyle.element_create('pin', 'vsapi', 'EXPLORERBAR', 3, [\n                     ('pressed', '!selected', 3),\n                     ('active', '!selected', 2),\n                     ('pressed', 'selected', 6),\n                     ('active', 'selected', 5),\n                     ('selected', 4),\n                     ('', 1)])\nstyle.layout('Explorer.Pin',\n             [('Explorer.Pin.pin', {'sticky': 'news'})])\npin = ttk.Checkbutton(style='Explorer.Pin')\npin.pack(expand=True, fill='both')\n\nChanged in version 3.13: Added support of the “vsapi” element factory."
+  },
+  {
     "chunk_id": "3_library_tkinter.ttk.html_091_000",
     "source_file": "3_library_tkinter.ttk.html.md",
     "heading": "border=padding",
@@ -102904,6 +103636,12 @@
     "source_file": "3_library_trace.html.md",
     "heading": "Command-Line Usage",
     "text": "The trace module can be invoked from the command line.  It can be as\nsimple as\n\n```\npython -m trace --count -C . somefile.py ...\n\n```\n\nThe above will execute somefile.py and generate annotated listings of\nall Python modules imported during the execution into the current directory."
+  },
+  {
+    "chunk_id": "3_library_trace.html_003_000",
+    "source_file": "3_library_trace.html.md",
+    "heading": "--help",
+    "text": "Display usage and exit."
   },
   {
     "chunk_id": "3_library_trace.html_004_000",
@@ -109290,6 +110028,12 @@
     "text": "This is a list of all the calls made to the mock object in sequence\n(so the length of the list is the number of times it has been\ncalled). Before any calls have been made it is an empty list. The\ncall object can be used for conveniently constructing lists of\ncalls to compare with call_args_list.\n>>> mock = Mock(return_value=None)\n>>> mock()\n>>> mock(3, 4)\n>>> mock(key='fish', next='w00t!')\n>>> mock.call_args_list\n[call(), call(3, 4), call(key='fish', next='w00t!')]\n>>> expected = [(), ((3, 4),), ({'key': 'fish', 'next': 'w00t!'},)]\n>>> mock.call_args_list == expected\nTrue\n\nMembers of call_args_list are call objects. These can be\nunpacked as tuples to get at the individual arguments. See\ncalls as tuples.\n\n```\n>>> mock = Mock(return_value=None)\n>>> mock()\n>>> mock(3, 4)\n>>> mock(key='fish', next='w00t!')\n>>> mock.call_args_list\n[call(), call(3, 4), call(key='fish', next='w00t!')]\n>>> expected = [(), ((3, 4),), ({'key': 'fish', 'next': 'w00t!'},)]\n>>> mock.call_args_list == expected\nTrue"
   },
   {
+    "chunk_id": "3_library_unittest.mock.html_022_001",
+    "source_file": "3_library_unittest.mock.html.md",
+    "heading": "call_args_list",
+    "text": "```"
+  },
+  {
     "chunk_id": "3_library_unittest.mock.html_023_000",
     "source_file": "3_library_unittest.mock.html.md",
     "heading": "method_calls",
@@ -110544,6 +111288,12 @@
     "text": "Handle authentication with the remote host. password_mgr, if given, should\nbe something that is compatible with HTTPPasswordMgr; refer to\nsection HTTPPasswordMgr Objects for information on the interface that must\nbe supported. When both Digest Authentication Handler and Basic\nAuthentication Handler are both added, Digest Authentication is always tried\nfirst. If the Digest Authentication returns a 40x response again, it is sent\nto Basic Authentication handler to Handle.  This Handler method will raise a\nValueError when presented with an authentication scheme other than\nDigest or Basic.\n\nChanged in version 3.3: Raise ValueError on unsupported Authentication Scheme."
   },
   {
+    "chunk_id": "3_library_urllib.request.html_022_000",
+    "source_file": "3_library_urllib.request.html.md",
+    "heading": "class urllib.request.ProxyDigestAuthHandler(password_mgr=None)",
+    "text": "Handle authentication with the proxy. password_mgr, if given, should be\nsomething that is compatible with HTTPPasswordMgr; refer to section\nHTTPPasswordMgr Objects for information on the interface that must be\nsupported."
+  },
+  {
     "chunk_id": "3_library_urllib.request.html_023_000",
     "source_file": "3_library_urllib.request.html.md",
     "heading": "class urllib.request.HTTPHandler",
@@ -110922,10 +111672,28 @@
     "text": "Retry the request with authentication information, if available."
   },
   {
+    "chunk_id": "3_library_urllib.request.html_088_000",
+    "source_file": "3_library_urllib.request.html.md",
+    "heading": "ProxyBasicAuthHandler.http_error_407(req, fp, code, msg, hdrs)",
+    "text": "Retry the request with authentication information, if available."
+  },
+  {
     "chunk_id": "3_library_urllib.request.html_090_000",
     "source_file": "3_library_urllib.request.html.md",
     "heading": "AbstractDigestAuthHandler.http_error_auth_reqed(authreq, host, req, headers)",
     "text": "authreq should be the name of the header where the information about the realm\nis included in the request, host should be the host to authenticate to, req\nshould be the (failed) Request object, and headers should be the\nerror headers.\nheaders must be a mapping-like object with case-insensitive lookup,\nsuch as email.message.Message or wsgiref.headers.Headers."
+  },
+  {
+    "chunk_id": "3_library_urllib.request.html_092_000",
+    "source_file": "3_library_urllib.request.html.md",
+    "heading": "HTTPDigestAuthHandler.http_error_401(req, fp, code, msg, hdrs)",
+    "text": "Retry the request with authentication information, if available."
+  },
+  {
+    "chunk_id": "3_library_urllib.request.html_094_000",
+    "source_file": "3_library_urllib.request.html.md",
+    "heading": "ProxyDigestAuthHandler.http_error_407(req, fp, code, msg, hdrs)",
+    "text": "Retry the request with authentication information, if available."
   },
   {
     "chunk_id": "3_library_urllib.request.html_096_000",
@@ -111114,6 +111882,12 @@
     "text": "url¶\nURL of the resource retrieved, commonly used to determine if a redirect was followed.\n\n\n\nheaders¶\nReturns the headers of the response in the form of an EmailMessage instance.\n\n\n\nstatus¶\n\nAdded in version 3.9.\n\nStatus code returned by server.\n\n\n\ngeturl()¶\n\nDeprecated since version 3.9: Deprecated in favor of url.\n\n\n\n\ninfo()¶\n\nDeprecated since version 3.9: Deprecated in favor of headers.\n\n\n\n\ncode¶\n\nDeprecated since version 3.9: Deprecated in favor of status.\n\n\n\n\ngetcode()¶\n\nDeprecated since version 3.9: Deprecated in favor of status."
   },
   {
+    "chunk_id": "3_library_urllib.request.html_119_000",
+    "source_file": "3_library_urllib.request.html.md",
+    "heading": "url",
+    "text": "URL of the resource retrieved, commonly used to determine if a redirect was followed."
+  },
+  {
     "chunk_id": "3_library_urllib.request.html_120_000",
     "source_file": "3_library_urllib.request.html.md",
     "heading": "headers",
@@ -111124,6 +111898,30 @@
     "source_file": "3_library_urllib.request.html.md",
     "heading": "status",
     "text": "Added in version 3.9.\n\nStatus code returned by server."
+  },
+  {
+    "chunk_id": "3_library_urllib.request.html_122_000",
+    "source_file": "3_library_urllib.request.html.md",
+    "heading": "geturl()",
+    "text": "Deprecated since version 3.9: Deprecated in favor of url."
+  },
+  {
+    "chunk_id": "3_library_urllib.request.html_123_000",
+    "source_file": "3_library_urllib.request.html.md",
+    "heading": "info()",
+    "text": "Deprecated since version 3.9: Deprecated in favor of headers."
+  },
+  {
+    "chunk_id": "3_library_urllib.request.html_124_000",
+    "source_file": "3_library_urllib.request.html.md",
+    "heading": "code",
+    "text": "Deprecated since version 3.9: Deprecated in favor of status."
+  },
+  {
+    "chunk_id": "3_library_urllib.request.html_125_000",
+    "source_file": "3_library_urllib.request.html.md",
+    "heading": "getcode()",
+    "text": "Deprecated since version 3.9: Deprecated in favor of status."
   },
   {
     "chunk_id": "3_library_urllib.robotparser.html_000_000",
@@ -111196,18 +111994,6 @@
     "source_file": "3_library_urllib.robotparser.html.md",
     "heading": "site_maps()",
     "text": "Returns the contents of the Sitemap parameter from\nrobots.txt in the form of a list(). If there is no such\nparameter or the robots.txt entry for this parameter has\ninvalid syntax, return None.\n\nAdded in version 3.8.\n\n\n\nThe following example demonstrates basic use of the RobotFileParser\nclass:\n\n```\n>>> import urllib.robotparser\n>>> rp = urllib.robotparser.RobotFileParser()\n>>> rp.set_url(\"http://www.pythontest.net/robots.txt\")\n>>> rp.read()\n>>> rrate = rp.request_rate(\"*\")\n>>> rrate.requests\n1\n>>> rrate.seconds\n1\n>>> rp.crawl_delay(\"*\")\n6\n>>> rp.can_fetch(\"*\", \"http://www.pythontest.net/\")\nTrue\n>>> rp.can_fetch(\"*\", \"http://www.pythontest.net/no-robots-here/\")\nFalse\n\n```"
-  },
-  {
-    "chunk_id": "3_library_urllib2_084_000",
-    "source_file": "3_library_urllib2.md",
-    "heading": "AbstractBasicAuthHandler.http_error_auth_reqed(authreq, host, req, headers)",
-    "text": "Handle an authentication request by getting a user/password pair, and re-trying\nthe request.  authreq should be the name of the header where the information\nabout the realm is included in the request, host specifies the URL and path to\nauthenticate for, req should be the (failed) Request object, and\nheaders should be the error headers.\nhost is either an authority (e.g. \"python.org\") or a URL containing an\nauthority component (e.g. \"https://python.org/\"). In either case, the\nauthority must not contain a userinfo component (so, \"python.org\" and\n\"python.org:80\" are fine, \"joe:password@python.org\" is not)."
-  },
-  {
-    "chunk_id": "3_library_urllib2_090_000",
-    "source_file": "3_library_urllib2.md",
-    "heading": "AbstractDigestAuthHandler.http_error_auth_reqed(authreq, host, req, headers)",
-    "text": "authreq should be the name of the header where the information about the realm\nis included in the request, host should be the host to authenticate to, req\nshould be the (failed) Request object, and headers should be the\nerror headers."
   },
   {
     "chunk_id": "3_library_uu.html_000_000",
@@ -111288,9 +112074,21 @@
     "text": "The next 16 bits of the UUID. Only relevant to version 1."
   },
   {
+    "chunk_id": "3_library_uuid.html_011_000",
+    "source_file": "3_library_uuid.html.md",
+    "heading": "UUID.time_hi_version",
+    "text": "The next 16 bits of the UUID. Only relevant to version 1."
+  },
+  {
     "chunk_id": "3_library_uuid.html_012_000",
     "source_file": "3_library_uuid.html.md",
     "heading": "UUID.clock_seq_hi_variant",
+    "text": "The next 8 bits of the UUID. Only relevant to versions 1 and 6."
+  },
+  {
+    "chunk_id": "3_library_uuid.html_013_000",
+    "source_file": "3_library_uuid.html.md",
+    "heading": "UUID.clock_seq_low",
     "text": "The next 8 bits of the UUID. Only relevant to versions 1 and 6."
   },
   {
@@ -111718,6 +112516,12 @@
     "source_file": "3_library_venv.html.md",
     "heading": "ensure_directories(env_dir)",
     "text": "Creates the environment directory and all necessary subdirectories that\ndon’t already exist, and returns a context object.  This context object\nis just a holder for attributes (such as paths) for use by the other\nmethods.  If the EnvBuilder is created with the arg\nclear=True, contents of the environment directory will be cleared\nand then all necessary subdirectories will be recreated.\nThe returned context object is a types.SimpleNamespace with the\nfollowing attributes:"
+  },
+  {
+    "chunk_id": "3_library_venv.html_016_001",
+    "source_file": "3_library_venv.html.md",
+    "heading": "ensure_directories(env_dir)",
+    "text": "env_dir - The location of the virtual environment. Used for __VENV_DIR__ in activation scripts (see install_scripts()). env_name - The name of the virtual environment. Used for __VENV_NAME__ in activation scripts (see install_scripts()). prompt - The prompt to be used by the activation scripts. Used for __VENV_PROMPT__ in activation scripts (see install_scripts()). executable - The underlying Python executable used by the virtual environment. This takes into account the case where a virtual environment is created from another virtual environment. inc_path - The include path for the virtual environment. lib_path - The purelib path for the virtual environment. bin_path - The script path for the virtual environment. bin_name - The name of the script path relative to the virtual environment location. Used for __VENV_BIN_NAME__ in activation scripts (see install_scripts()). env_exe - The name of the Python interpreter in the virtual environment. Used for __VENV_PYTHON__ in activation"
   },
   {
     "chunk_id": "3_library_venv.html_016_002",
@@ -112432,6 +113236,12 @@
     "source_file": "3_library_weakref.html.md",
     "heading": "class weakref.finalize(obj, func, /, *args, **kwargs)",
     "text": "the later part of the interpreter shutdown when module globals are liable to have been replaced by None.\n\n__call__()¶\nIf self is alive then mark it as dead and return the result of\ncalling func(*args, **kwargs).  If self is dead then return\nNone.\n\ndetach()¶\nIf self is alive then mark it as dead and return the tuple\n(obj, func, args, kwargs).  If self is dead then return\nNone.\n\npeek()¶\nIf self is alive then return the tuple (obj, func, args,\nkwargs).  If self is dead then return None.\n\nalive¶\nProperty which is true if the finalizer is alive, false otherwise.\n\natexit¶\nA writable boolean property which by default is true.  At\ninterpreter shutdown, all remaining live finalizers for which\natexit is true are called in reverse order of\ncreation.\n\nNote\nIt is important to ensure that func, args and kwargs do\nnot own any references to obj, either directly or indirectly,\nsince otherwise obj will never be garbage collected.  In\nparticular, func should not be a bound method of obj."
+  },
+  {
+    "chunk_id": "3_library_weakref.html_012_002",
+    "source_file": "3_library_weakref.html.md",
+    "heading": "class weakref.finalize(obj, func, /, *args, **kwargs)",
+    "text": "Added in version 3.4."
   },
   {
     "chunk_id": "3_library_weakref.html_013_000",
@@ -113178,6 +113988,12 @@
     "text": "Play the SystemQuestion sound."
   },
   {
+    "chunk_id": "3_library_winsound.html_021_000",
+    "source_file": "3_library_winsound.html.md",
+    "heading": "winsound.MB_OK",
+    "text": "Play the SystemDefault sound."
+  },
+  {
     "chunk_id": "3_library_winsound.html_022_000",
     "source_file": "3_library_winsound.html.md",
     "heading": "winsound.MB_ICONERROR",
@@ -113188,6 +114004,12 @@
     "source_file": "3_library_winsound.html.md",
     "heading": "winsound.MB_ICONINFORMATION",
     "text": "Play the SystemDefault sound.\n\nAdded in version 3.14."
+  },
+  {
+    "chunk_id": "3_library_winsound.html_024_000",
+    "source_file": "3_library_winsound.html.md",
+    "heading": "winsound.MB_ICONSTOP",
+    "text": "Play the SystemHand sound.\n\nAdded in version 3.14."
   },
   {
     "chunk_id": "3_library_winsound.html_025_000",
@@ -114204,6 +115026,12 @@
     "text": "Same as equivalent method in the Document class."
   },
   {
+    "chunk_id": "3_library_xml.dom.html_088_000",
+    "source_file": "3_library_xml.dom.html.md",
+    "heading": "Element.getElementsByTagNameNS(namespaceURI, localName)",
+    "text": "Same as equivalent method in the Document class."
+  },
+  {
     "chunk_id": "3_library_xml.dom.html_089_000",
     "source_file": "3_library_xml.dom.html.md",
     "heading": "Element.hasAttribute(name)",
@@ -115032,6 +115860,12 @@
     "text": "Added in version 3.10.\n\n[tag='text']\n\nSelects all elements that have a child named\ntag whose complete text content, including\ndescendants, equals the given text.\n\n[tag!='text']\n\nSelects all elements that have a child named\ntag whose complete text content, including\ndescendants, does not equal the given text.\n\nAdded in version 3.10.\n\n[position]\n\nSelects all elements that are located at the given\nposition.  The position can be either an integer\n(1 is the first position), the expression last()\n(for the last position), or a position relative to\nthe last position (e.g. last()-1).\n\nPredicates (expressions within square brackets) must be preceded by a tag\nname, an asterisk, or another predicate.  position predicates must be\npreceded by a tag name."
   },
   {
+    "chunk_id": "3_library_xml.etree.elementtree.html_003_000",
+    "source_file": "3_library_xml.etree.elementtree.html.md",
+    "heading": "Reference",
+    "text": "### Functions"
+  },
+  {
     "chunk_id": "3_library_xml.etree.elementtree.html_004_000",
     "source_file": "3_library_xml.etree.elementtree.html.md",
     "heading": "xml.etree.ElementTree.canonicalize(xml_data=None, *, out=None, from_file=None, **options)",
@@ -115056,9 +115890,21 @@
     "text": "(default: false)"
   },
   {
+    "chunk_id": "3_library_xml.etree.elementtree.html_006_000",
+    "source_file": "3_library_xml.etree.elementtree.html.md",
+    "heading": "rewrite_prefixes: set to true to replace namespace prefixes by “n{number}”",
+    "text": "(default: false)"
+  },
+  {
     "chunk_id": "3_library_xml.etree.elementtree.html_007_000",
     "source_file": "3_library_xml.etree.elementtree.html.md",
     "heading": "qname_aware_tags: a set of qname aware tag names in which prefixes",
+    "text": "should be replaced in text content (default: empty)"
+  },
+  {
+    "chunk_id": "3_library_xml.etree.elementtree.html_008_000",
+    "source_file": "3_library_xml.etree.elementtree.html.md",
+    "heading": "qname_aware_attrs: a set of qname aware attribute names in which prefixes",
     "text": "should be replaced in text content (default: empty)"
   },
   {
@@ -116592,6 +117438,12 @@
     "text": "The URI or URL that triggered the error."
   },
   {
+    "chunk_id": "3_library_xmlrpc.client.html_025_000",
+    "source_file": "3_library_xmlrpc.client.html.md",
+    "heading": "errcode",
+    "text": "The error code."
+  },
+  {
     "chunk_id": "3_library_xmlrpc.client.html_026_000",
     "source_file": "3_library_xmlrpc.client.html.md",
     "heading": "errmsg",
@@ -116766,6 +117618,12 @@
     "text": "The CGIXMLRPCRequestHandler class can be used to handle XML-RPC\nrequests sent to Python CGI scripts."
   },
   {
+    "chunk_id": "3_library_xmlrpc.server.html_011_000",
+    "source_file": "3_library_xmlrpc.server.html.md",
+    "heading": "CGIXMLRPCRequestHandler.register_function(function=None, name=None)",
+    "text": "Register a function that can respond to XML-RPC requests.  If name is given,\nit will be the method name associated with function, otherwise\nfunction.__name__ will be used.  name is a string, and may contain\ncharacters not legal in Python identifiers, including the period character.\nThis method can also be used as a decorator.  When used as a decorator,\nname can only be given as a keyword argument to register function under\nname.  If no name is given, function.__name__ will be used.\n\nChanged in version 3.7: register_function() can be used as a decorator."
+  },
+  {
     "chunk_id": "3_library_xmlrpc.server.html_012_000",
     "source_file": "3_library_xmlrpc.server.html.md",
     "heading": "CGIXMLRPCRequestHandler.register_instance(instance)",
@@ -116842,6 +117700,24 @@
     "source_file": "3_library_xmlrpc.server.html.md",
     "heading": "DocCGIXMLRPCRequestHandler",
     "text": "The DocCGIXMLRPCRequestHandler class is derived from\nCGIXMLRPCRequestHandler and provides a means of creating\nself-documenting, XML-RPC CGI scripts. HTTP POST requests are handled as XML-RPC\nmethod calls. HTTP GET requests are handled by generating pydoc-style HTML\ndocumentation. This allows a server to provide its own web-based documentation."
+  },
+  {
+    "chunk_id": "3_library_xmlrpc.server.html_025_000",
+    "source_file": "3_library_xmlrpc.server.html.md",
+    "heading": "DocCGIXMLRPCRequestHandler.set_server_title(server_title)",
+    "text": "Set the title used in the generated HTML documentation. This title will be used\ninside the HTML “title” element."
+  },
+  {
+    "chunk_id": "3_library_xmlrpc.server.html_026_000",
+    "source_file": "3_library_xmlrpc.server.html.md",
+    "heading": "DocCGIXMLRPCRequestHandler.set_server_name(server_name)",
+    "text": "Set the name used in the generated HTML documentation. This name will appear at\nthe top of the generated documentation inside a “h1” element."
+  },
+  {
+    "chunk_id": "3_library_xmlrpc.server.html_027_000",
+    "source_file": "3_library_xmlrpc.server.html.md",
+    "heading": "DocCGIXMLRPCRequestHandler.set_server_documentation(server_documentation)",
+    "text": "Set the description used in the generated HTML documentation. This description\nwill appear as a paragraph, below the server name, in the documentation."
   },
   {
     "chunk_id": "3_library_zipapp.html_000_000",
@@ -125316,6 +126192,12 @@
     "text": "(Objective) C/C++ preprocessor flags, e.g. -Iinclude_dir if you have\nheaders in a nonstandard directory include_dir.\nBoth CPPFLAGS and LDFLAGS need to contain the shell’s\nvalue to be able to build extension modules using the\ndirectories specified in the environment variables."
   },
   {
+    "chunk_id": "3_using_configure.html_131_000",
+    "source_file": "3_using_configure.html.md",
+    "heading": "BASECPPFLAGS",
+    "text": "Added in version 3.4."
+  },
+  {
     "chunk_id": "3_using_configure.html_132_000",
     "source_file": "3_using_configure.html.md",
     "heading": "PY_CPPFLAGS",
@@ -128412,6 +129294,36 @@
     "text": "The following APIs will be removed in the future,\nalthough there is currently no date scheduled for their removal.\n\nargparse:\n\nNesting argument groups and nesting mutually exclusive\ngroups are deprecated.\n\nPassing the undocumented keyword argument prefix_chars to\nadd_argument_group() is now\ndeprecated.\n\nThe argparse.FileType type converter is deprecated.\n\nbuiltins:\n\nGenerators: throw(type, exc, tb) and athrow(type, exc, tb)\nsignature is deprecated: use throw(exc) and athrow(exc) instead,\nthe single argument signature.\n\nCurrently Python accepts numeric literals immediately followed by keywords,\nfor example 0in x, 1or x, 0if 1else 2.  It allows confusing and\nambiguous expressions like [0x1for x in y] (which can be interpreted as\n[0x1 for x in y] or [0x1f or x in y]).  A syntax warning is raised\nif the numeric literal is immediately followed by one of keywords\nand, else, for, if,\nin, is and or.  In a future release it\nwill be changed to a syntax error. (gh-87999)"
   },
   {
+    "chunk_id": "3_whatsnew_3.13.html_009_021",
+    "source_file": "3_whatsnew_3.13.html.md",
+    "heading": "New Deprecations",
+    "text": "Support for __index__() and __int__() method returning non-int type:\nthese methods will be required to return an instance of a strict subclass of\nint.\n\nSupport for __float__() method returning a strict subclass of\nfloat: these methods will be required to return an instance of\nfloat.\n\nSupport for __complex__() method returning a strict subclass of\ncomplex: these methods will be required to return an instance of\ncomplex.\n\nPassing a complex number as the real or imag argument in the\ncomplex() constructor is now deprecated; it should only be passed\nas a single positional argument.\n(Contributed by Serhiy Storchaka in gh-109218.)\n\ncalendar: calendar.January and calendar.February constants are\ndeprecated and replaced by calendar.JANUARY and\ncalendar.FEBRUARY.\n(Contributed by Prince Roshan in gh-103636.)\n\ncodecs: use open() instead of codecs.open(). (gh-133038)\n\ncodeobject.co_lnotab: use the codeobject.co_lines() method\ninstead.\n\ndatetime:\n\nutcnow():\nuse datetime.datetime.now(tz=datetime.UTC)."
+  },
+  {
+    "chunk_id": "3_whatsnew_3.13.html_009_022",
+    "source_file": "3_whatsnew_3.13.html.md",
+    "heading": "New Deprecations",
+    "text": "utcfromtimestamp():\nuse datetime.datetime.fromtimestamp(timestamp, tz=datetime.UTC).\n\ngettext: Plural value must be an integer.\n\nimportlib:\n\ncache_from_source() debug_override parameter is\ndeprecated: use the optimization parameter instead.\n\nimportlib.metadata:\n\nEntryPoints tuple interface.\n\nImplicit None on return values.\n\nlogging: the warn() method has been deprecated\nsince Python 3.3, use warning() instead.\n\nmailbox: Use of StringIO input and text mode is deprecated, use\nBytesIO and binary mode instead.\n\nos: Calling os.register_at_fork() in multi-threaded process.\n\npydoc.ErrorDuringImport: A tuple value for exc_info parameter is\ndeprecated, use an exception instance."
+  },
+  {
+    "chunk_id": "3_whatsnew_3.13.html_009_023",
+    "source_file": "3_whatsnew_3.13.html.md",
+    "heading": "New Deprecations",
+    "text": "re: More strict rules are now applied for numerical group references\nand group names in regular expressions.  Only sequence of ASCII digits is now\naccepted as a numerical reference.  The group name in bytes patterns and\nreplacement strings can now only contain ASCII letters and digits and\nunderscore.\n(Contributed by Serhiy Storchaka in gh-91760.)\n\nsre_compile, sre_constants and sre_parse modules.\n\nshutil: rmtree()’s onerror parameter is deprecated in\nPython 3.12; use the onexc parameter instead.\n\nssl options and protocols:\n\nssl.SSLContext without protocol argument is deprecated.\n\nssl.SSLContext: set_npn_protocols() and\nselected_npn_protocol() are deprecated: use ALPN\ninstead.\n\nssl.OP_NO_SSL* options\n\nssl.OP_NO_TLS* options\n\nssl.PROTOCOL_SSLv3\n\nssl.PROTOCOL_TLS\n\nssl.PROTOCOL_TLSv1\n\nssl.PROTOCOL_TLSv1_1\n\nssl.PROTOCOL_TLSv1_2\n\nssl.TLSVersion.SSLv3\n\nssl.TLSVersion.TLSv1\n\nssl.TLSVersion.TLSv1_1\n\nthreading methods:\n\nthreading.Condition.notifyAll(): use notify_all()."
+  },
+  {
+    "chunk_id": "3_whatsnew_3.13.html_009_024",
+    "source_file": "3_whatsnew_3.13.html.md",
+    "heading": "New Deprecations",
+    "text": "threading.Event.isSet(): use is_set().\n\nthreading.Thread.isDaemon(), threading.Thread.setDaemon():\nuse threading.Thread.daemon attribute.\n\nthreading.Thread.getName(), threading.Thread.setName():\nuse threading.Thread.name attribute.\n\nthreading.currentThread(): use threading.current_thread().\n\nthreading.activeCount(): use threading.active_count().\n\ntyping.Text (gh-92332).\n\nThe internal class typing._UnionGenericAlias is no longer used to implement\ntyping.Union. To preserve compatibility with users using this private\nclass, a compatibility shim will be provided until at least Python 3.17. (Contributed by\nJelle Zijlstra in gh-105499.)\n\nunittest.IsolatedAsyncioTestCase: it is deprecated to return a value\nthat is not None from a test case.\n\nurllib.parse deprecated functions: urlparse() instead\n\nsplitattr()\n\nsplithost()\n\nsplitnport()\n\nsplitpasswd()\n\nsplitport()\n\nsplitquery()\n\nsplittag()\n\nsplittype()\n\nsplituser()\n\nsplitvalue()\n\nto_bytes()"
+  },
+  {
+    "chunk_id": "3_whatsnew_3.13.html_009_025",
+    "source_file": "3_whatsnew_3.13.html.md",
+    "heading": "New Deprecations",
+    "text": "wsgiref: SimpleHandler.stdout.write() should not do partial\nwrites.\n\nxml.etree.ElementTree: Testing the truth value of an\nElement is deprecated. In a future release it\nwill always return True. Prefer explicit len(elem) or\nelem is not None tests instead.\n\nsys._clear_type_cache() is deprecated:\nuse sys._clear_internal_caches() instead."
+  },
+  {
     "chunk_id": "3_whatsnew_3.13.html_010_000",
     "source_file": "3_whatsnew_3.13.html.md",
     "heading": "CPython Bytecode Changes",
@@ -130708,6 +131620,12 @@
     "source_file": "3_whatsnew_3.8.html.md",
     "heading": "Notable security feature in 3.8.14",
     "text": "Converting between int and str in bases other than 2\n(binary), 4, 8 (octal), 16 (hexadecimal), or 32 such as base 10 (decimal)\nnow raises a ValueError if the number of digits in string form is\nabove a limit to avoid potential denial of service attacks due to the\nalgorithmic complexity. This is a mitigation for CVE 2020-10735.\nThis limit can be configured or disabled by environment variable, command\nline flag, or sys APIs. See the integer string conversion\nlength limitation documentation.  The default limit\nis 4300 digits in string form."
+  },
+  {
+    "chunk_id": "3_whatsnew_3.8.html_021_000",
+    "source_file": "3_whatsnew_3.8.html.md",
+    "heading": "Notable changes in 3.8.17",
+    "text": "### tarfile\n\nThe extraction methods in tarfile, and shutil.unpack_archive(),\nhave a new a filter argument that allows limiting tar features than may be\nsurprising or dangerous, such as creating files outside the destination\ndirectory.\nSee Extraction filters for details.\nIn Python 3.12, use without the filter argument will show a\nDeprecationWarning.\nIn Python 3.14, the default will switch to 'data'.\n(Contributed by Petr Viktorin in PEP 706.)"
   },
   {
     "chunk_id": "3_whatsnew_changelog.html_000_000",
@@ -142074,6 +142992,12 @@
     "text": "bpo-32903: Fix a memory leak in os.chdir() on Windows if the current\ndirectory is set to a UNC path.\n\nbpo-31966: Fixed WindowsConsoleIO.write() for writing empty data.\n\nbpo-32409: Ensures activate.bat can handle Unicode contents.\n\nbpo-32457: Improves handling of denormalized executable path when\nlaunching Python.\n\nbpo-32370: Use the correct encoding for ipconfig output in the uuid\nmodule. Patch by Segev Finer.\n\nbpo-29248: Fix os.readlink() on Windows, which was mistakenly\ntreating the PrintNameOffset field of the reparse data buffer as a\nnumber of characters instead of bytes. Patch by Craig Holmquist and SSE4.\n\nbpo-32588: Create standalone _distutils_findvs module.\n\n### macOS\n\nbpo-32726: Provide an additional, more modern macOS installer variant that\nsupports macOS 10.9+ systems in 64-bit mode only. Upgrade the supplied\nthird-party libraries to OpenSSL 1.0.2n, XZ 5.2.3, and SQLite 3.22.0. The\n10.9+ installer now links with and supplies its own copy of Tcl/Tk 8.6.8.\n\n### IDLE"
   },
   {
+    "chunk_id": "3_whatsnew_changelog.html_083_010",
+    "source_file": "3_whatsnew_changelog.html.md",
+    "heading": "Python 3.6.5 release candidate 1",
+    "text": "bpo-32984: Set __file__ while running a startup file.  Like Python,\nIDLE optionally runs one startup file in the Shell window before\npresenting the first interactive input prompt.  For IDLE, -s runs a\nfile named in environmental variable  IDLESTARTUP or\nPYTHONSTARTUP; -r file runs file.  Python sets\n__file__ to the startup file name before running the file and unsets\nit before the first prompt.  IDLE now does the same when run normally,\nwithout the -n option.\n\nbpo-32940: Simplify and rename StringTranslatePseudoMapping in pyparse.\n\nbpo-32916: Change str to code in pyparse.\n\nbpo-32905: Remove unused code in pyparse module.\n\nbpo-32874: Add tests for pyparse.\n\nbpo-32837: Using the system and place-dependent default encoding for\nopen() is a bad idea for IDLE’s system and location-independent files."
+  },
+  {
     "chunk_id": "3_whatsnew_changelog.html_083_011",
     "source_file": "3_whatsnew_changelog.html.md",
     "heading": "Python 3.6.5 release candidate 1",
@@ -142170,6 +143094,12 @@
     "text": "bpo-28791: Update OS X installer to use SQLite 3.21.0.\n\nbpo-22140: Prevent double substitution of prefix in python-config.sh.\n\nbpo-31536: Avoid wholesale rebuild after make regen-all if nothing\nchanged.\n\n### Windows\n\nbpo-1102: Return None when View.Fetch() returns\nERROR_NO_MORE_ITEMS instead of raising MSIError. Initial patch by\nAnthony Tuininga.\n\nbpo-31944: Fixes Modify button in Apps and Features dialog.\n\n### macOS\n\nbpo-31392: Update macOS installer to use OpenSSL 1.0.2m\n\n### IDLE\n\nbpo-32207: Improve tk event exception tracebacks in IDLE. When tk event\nhandling is driven by IDLE’s run loop, a confusing and distracting\nqueue.EMPTY traceback context is no longer added to tk event exception\ntracebacks.  The traceback is now the same as when event handling is\ndriven by user code.  Patch based on a suggestion by Serhiy Storchaka.\n\nbpo-32164: Delete unused file idlelib/tabbedpages.py. Use of TabbedPageSet\nin configdialog was replaced by ttk.Notebook."
   },
   {
+    "chunk_id": "3_whatsnew_changelog.html_085_014",
+    "source_file": "3_whatsnew_changelog.html.md",
+    "heading": "Python 3.6.4 release candidate 1",
+    "text": "bpo-32100: IDLE: Fix old and new bugs in pathbrowser; improve tests. Patch\nmostly by Cheryl Sabella.\n\nbpo-31858: IDLE – Restrict shell prompt manipulation to the shell. Editor\nand output windows only see an empty last prompt line.  This simplifies\nthe code and fixes a minor bug when newline is inserted. Sys.ps1, if\npresent, is read on Shell start-up, but is not set or changed.\n\nbpo-31860: The font sample in the IDLE configuration dialog is now\neditable. Changes persist while IDLE remains open\n\nbpo-31836: Test_code_module now passes if run after test_idle, which sets\nps1. The code module uses sys.ps1 if present or sets it to ‘>>> ‘ if not.\nTest_code_module now properly tests both behaviors.  Ditto for ps2.\n\nbpo-28603: Fix a TypeError that caused a shell restart when printing a\ntraceback that includes an exception that is unhashable. Patch by Zane\nBitter."
+  },
+  {
     "chunk_id": "3_whatsnew_changelog.html_085_015",
     "source_file": "3_whatsnew_changelog.html.md",
     "heading": "Python 3.6.4 release candidate 1",
@@ -142264,6 +143194,48 @@
     "source_file": "3_whatsnew_changelog.html.md",
     "heading": "Python 3.6.3 release candidate 1",
     "text": "bpo-31421: Document how IDLE runs tkinter programs. IDLE calls tcl/tk\nupdate in the background in order to make live interaction and\nexperimentation with tkinter applications much easier.\n\nbpo-31414: IDLE – fix tk entry box tests by deleting first. Adding to an\nint entry is not the same as deleting and inserting because int(‘’) will\nfail.\n\nbpo-31051: Rearrange IDLE configdialog GenPage into Window, Editor, and\nHelp sections.\n\nbpo-30617: IDLE - Add docstrings and tests for outwin subclass of editor.\nMove some data and functions from the class to module level. Patch by\nCheryl Sabella.\n\nbpo-31287: IDLE - Do not modify tkinter.message in test_configdialog."
+  },
+  {
+    "chunk_id": "3_whatsnew_changelog.html_087_012",
+    "source_file": "3_whatsnew_changelog.html.md",
+    "heading": "Python 3.6.3 release candidate 1",
+    "text": "bpo-27099: Convert IDLE’s built-in ‘extensions’ to regular features. About 10 IDLE features were implemented as supposedly optional extensions. Their different behavior could be confusing or worse for users and not good for maintenance. Hence the conversion. The main difference for users is that user configurable key bindings for builtin features are now handled uniformly. Now, editing a binding in a keyset only affects its value in the keyset. All bindings are defined together in the system-specific default keysets in config-extensions.def. All custom keysets are saved as a whole in config-extension.cfg. All take effect as soon as one clicks Apply or Ok. The affected events are ‘<<force-open-completions>>’, ‘<<expand-word>>’, ‘<<force-open-calltip>>’, ‘<<flash-paren>>’, ‘<<format-paragraph>>’, ‘<<run-module>>’, ‘<<check-module>>’, and ‘<<zoom-height>>’. Any (global) customizations made before 3.6.3 will not affect their keyset-specific customization after 3.6.3. and vice versa."
+  },
+  {
+    "chunk_id": "3_whatsnew_changelog.html_087_013",
+    "source_file": "3_whatsnew_changelog.html.md",
+    "heading": "Python 3.6.3 release candidate 1",
+    "text": "Initial patch by Charles Wohlganger.\n\nbpo-31206: IDLE: Factor HighPage(Frame) class from ConfigDialog. Patch by\nCheryl Sabella.\n\nbpo-31001: Add tests for configdialog highlight tab.  Patch by Cheryl\nSabella.\n\nbpo-31205: IDLE: Factor KeysPage(Frame) class from ConfigDialog.  The\nslightly modified tests continue to pass.  Patch by Cheryl Sabella.\n\nbpo-31130: IDLE – stop leaks in test_configdialog. Initial patch by\nVictor Stinner.\n\nbpo-31002: Add tests for configdialog keys tab. Patch by Cheryl Sabella.\n\nbpo-19903: IDLE: Calltips use inspect.signature instead of\ninspect.getfullargspec. This improves calltips for builtins converted\nto use Argument Clinic. Patch by Louie Lu.\n\nbpo-31083: IDLE - Add an outline of a TabPage class in configdialog.\nUpdate existing classes to match outline. Initial patch by Cheryl Sabella.\n\nbpo-31050: Factor GenPage(Frame) class from ConfigDialog. The slightly\nmodified tests continue to pass. Patch by Cheryl Sabella."
+  },
+  {
+    "chunk_id": "3_whatsnew_changelog.html_087_014",
+    "source_file": "3_whatsnew_changelog.html.md",
+    "heading": "Python 3.6.3 release candidate 1",
+    "text": "bpo-31004: IDLE - Factor FontPage(Frame) class from ConfigDialog. Slightly\nmodified tests continue to pass. Fix General tests. Patch mostly by Cheryl\nSabella.\n\nbpo-30781: IDLE - Use ttk widgets in ConfigDialog. Patches by Terry Jan\nReedy and Cheryl Sabella.\n\nbpo-31060: IDLE - Finish rearranging methods of ConfigDialog Grouping\nmethods pertaining to each tab and the buttons will aid writing tests and\nimproving the tabs and will enable splitting the groups into classes.\n\nbpo-30853: IDLE – Factor a VarTrace class out of ConfigDialog. Instance\ntracers manages pairs consisting of a tk variable and a callback function.\nWhen tracing is turned on, setting the variable calls the function.  Test\ncoverage for the new class is 100%.\n\nbpo-31003: IDLE: Add more tests for General tab."
+  },
+  {
+    "chunk_id": "3_whatsnew_changelog.html_087_015",
+    "source_file": "3_whatsnew_changelog.html.md",
+    "heading": "Python 3.6.3 release candidate 1",
+    "text": "bpo-30993: IDLE - Improve configdialog font page and tests. In\nconfigdialog: Document causal pathways in create_font_tab docstring.\nSimplify some attribute names. Move set_samples calls to var_changed_font\n(idea from Cheryl Sabella).  Move related functions to positions after the\ncreate widgets function. In test_configdialog: Fix test_font_set so not\norder dependent.  Fix renamed test_indent_scale so it tests the widget.\nAdjust tests for movement of set_samples call.  Add tests for load\nfunctions.  Put all font tests in one class and tab indent tests in\nanother.  Except for two lines, these tests completely cover the related\nfunctions.\n\nbpo-30981: IDLE – Add more configdialog font page tests.\n\nbpo-28523: IDLE: replace ‘colour’ with ‘color’ in configdialog.\n\nbpo-30917: Add tests for idlelib.config.IdleConf. Increase coverage from\n46% to 96%. Patch by Louie Lu."
+  },
+  {
+    "chunk_id": "3_whatsnew_changelog.html_087_016",
+    "source_file": "3_whatsnew_changelog.html.md",
+    "heading": "Python 3.6.3 release candidate 1",
+    "text": "bpo-30934: Document coverage details for idlelib tests. Add section to\nidlelib/idle-test/README.txt. Include check that branches are taken both\nways. Exclude IDLE-specific code that does not run during unit tests.\n\nbpo-30913: IDLE: Document ConfigDialog tk Vars, methods, and widgets in\ndocstrings This will facilitate improving the dialog and splitting up the\nclass. Original patch by Cheryl Sabella.\n\nbpo-30899: IDLE: Add tests for ConfigParser subclasses in config. Patch by\nLouie Lu.\n\nbpo-30881: IDLE: Add docstrings to browser.py. Patch by Cheryl Sabella.\n\nbpo-30851: IDLE: Remove unused variables in configdialog.  One is a\nduplicate, one is set but cannot be altered by users. Patch by Cheryl\nSabella.\n\nbpo-30870: IDLE: In Settings dialog, select font with Up, Down keys as\nwell as mouse. Initial patch by Louie Lu.\n\nbpo-8231: IDLE: call config.IdleConf.GetUserCfgDir only once."
+  },
+  {
+    "chunk_id": "3_whatsnew_changelog.html_087_017",
+    "source_file": "3_whatsnew_changelog.html.md",
+    "heading": "Python 3.6.3 release candidate 1",
+    "text": "bpo-30779: IDLE: Factor ConfigChanges class from configdialog, put in\nconfig; test. * In config, put dump test code in a function; run it and\nunittest in   ‘if __name__ == ‘__main__’. * Add class config.ConfigChanges\nbased on changes_class_v4.py on bpo issue. * Add class\ntest_config.ChangesTest, partly using configdialog_tests_v1.py. * Revise\nconfigdialog to use ConfigChanges; see tracker msg297804. * Revise\ntest_configdialog to match configdialog changes. * Remove configdialog\nfunctions unused or moved to ConfigChanges. Cheryl Sabella contributed\nparts of the patch.\n\nbpo-30777: IDLE: configdialog - Add docstrings and fix comments. Patch by\nCheryl Sabella.\n\nbpo-30495: IDLE: Improve textview with docstrings, PEP8 names, and more\ntests. Patch by Cheryl Sabella."
+  },
+  {
+    "chunk_id": "3_whatsnew_changelog.html_087_018",
+    "source_file": "3_whatsnew_changelog.html.md",
+    "heading": "Python 3.6.3 release candidate 1",
+    "text": "bpo-30723: IDLE: Make several improvements to parenmatch. Add ‘parens’\nstyle to highlight both opener and closer. Make ‘default’ style, which is\nnot default, a synonym for ‘opener’. Make time-delay work the same with\nall styles. Add help for config dialog extensions tab, including help for\nparenmatch. Add new tests.  Original patch by Charles Wohlganger.\n\nbpo-30674: IDLE: add docstrings to grep module. Patch by Cheryl Sabella\n\nbpo-21519: IDLE’s basic custom key entry dialog now detects duplicates\nproperly. Original patch by Saimadhav Heblikar.\n\nbpo-29910: IDLE no longer deletes a character after commenting out a\nregion by a key shortcut.  Add return 'break' for this and other\npotential conflicts between IDLE and default key bindings.\n\nbpo-30728: Review and change idlelib.configdialog names. Lowercase method\nand attribute names. Replace ‘colour’ with ‘color’, expand overly cryptic\nnames, delete unneeded underscores. Replace import * with specific\nimports. Patches by Cheryl Sabella."
   },
   {
     "chunk_id": "3_whatsnew_changelog.html_087_019",
@@ -143278,6 +144250,12 @@
     "source_file": "3_whatsnew_changelog.html.md",
     "heading": "Python 3.5.4 release candidate 1",
     "text": "bpo-30061: Fixed crashes in IOBase methods __next__() and readlines() when\nreadline() or __next__() respectively return non-sizeable object. Fixed\npossible other errors caused by not checking results of PyObject_Size(),\nPySequence_Size(), or PyMapping_Size().\n\nbpo-30068: _io._IOBase.readlines will check if it’s closed first when hint\nis present.\n\nbpo-29694: Fixed race condition in pathlib mkdir with flags parents=True.\nPatch by Armin Rigo.\n\nbpo-29692: Fixed arbitrary unchaining of RuntimeError exceptions in\ncontextlib.contextmanager.  Patch by Siddharth Velankar.\n\nbpo-29998: Pickling and copying ImportError now preserves name and path\nattributes.\n\nbpo-29942: Fix a crash in itertools.chain.from_iterable when encountering\nlong runs of empty iterables.\n\nbpo-27863: Fixed multiple crashes in ElementTree caused by race conditions\nand wrong types."
+  },
+  {
+    "chunk_id": "3_whatsnew_changelog.html_107_009",
+    "source_file": "3_whatsnew_changelog.html.md",
+    "heading": "Python 3.5.4 release candidate 1",
+    "text": "bpo-28699: Fixed a bug in pools in multiprocessing.pool that raising an\nexception at the very first of an iterable may swallow the exception or\nmake the program hang. Patch by Davin Potts and Xiang Zhang.\n\nbpo-25803: Avoid incorrect errors raised by Path.mkdir(exist_ok=True) when\nthe OS gives priority to errors such as EACCES over EEXIST.\n\nbpo-29861: Release references to tasks, their arguments and their results\nas soon as they are finished in multiprocessing.Pool.\n\nbpo-29884: faulthandler: Restore the old sigaltstack during teardown.\nPatch by Christophe Zeitouny.\n\nbpo-25455: Fixed crashes in repr of recursive buffered file-like objects.\n\nbpo-29800: Fix crashes in partial.__repr__ if the keys of partial.keywords\nare not strings.  Patch by Michael Seifert.\n\nbpo-29742: get_extra_info() raises exception if get called on closed ssl\ntransport. Patch by Nikolay Kim."
   },
   {
     "chunk_id": "3_whatsnew_changelog.html_107_010",
@@ -144526,101 +145504,5 @@
     "source_file": "3_whatsnew_changelog.html.md",
     "heading": "Python 3.5.0 alpha 1",
     "text": "The bundled version of Tcl/Tk has been updated to 8.6.3.  The most visible\nresult of this change is the addition of new native file dialogs when\nrunning on Windows Vista or newer.  See Tcl/Tk’s TIP 432 for more\ninformation.  Also, this version of Tcl/Tk includes support for Windows\n10.\n\nbpo-17896: The Windows build scripts now expect external library sources\nto be in PCbuild\\..\\externals rather than PCbuild\\..\\...\n\nbpo-17717: The Windows build scripts now use a copy of NASM pulled from\nsvn.python.org to build OpenSSL.\n\nbpo-21907: Improved the batch scripts provided for building Python.\n\nbpo-22644: The bundled version of OpenSSL has been updated to 1.0.1j.\n\nbpo-10747: Use versioned labels in the Windows start menu. Patch by Olive\nKilburn.\n\nbpo-22980: .pyd files with a version and platform tag (for example,\n“.cp35-win32.pyd”) will now be loaded in preference to those without tags.\n\n(For information about older versions, consult the HISTORY file.)"
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_000",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "Release date: XXXX-XX-XX\n\n### Security\n\ngh-156723: Update bundled libexpat to\nversion 2.8.4.\n\ngh-155999: Fix the tarfile tar and data extraction filters\ncreating directories outside the destination for members whose name leaves\nthe destination and returns to it, such as ../evil/../dest/sub/file.\nThe containment check used the resolved path, but intermediate directories\nwere created from the name as given.\n\ngh-155694: Fix CVE 2026-15806 by scoping\nHTTPPasswordMgr credentials to the URL scheme,\npreventing credentials stored for an HTTPS URL from being used for a\nmatching HTTP URL, while URIs without a scheme continue to match any\nscheme.\n\n### Core and Builtins\n\ngh-156689: Fix an out-of-bounds read in compile() and\nast.parse() when an AST object is passed with mode='func_type'.\n\ngh-156371: Fix missing PyRefTracer_DESTROY events for trashcan\ndeferred objects. Patch by Donghee Na."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_001",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-156126: Fix a crash when importing a module whose name contains\ncharacters that cannot be encoded to UTF-8 (such as lone surrogates) while\n-X importtime is enabled.\n\ngh-129752: Don’t update adaptive counters in the free-threaded build when\nthread-local bytecode is disabled (-X tlbc=0). Patch by Donghee Na.\n\ngh-155515: Track the internal HAMT iterators, which back iteration over a\ncontextvars.Context, with the garbage collector.  A reference\ncycle running through such an iterator was never collected, leaking the\nwhole context it iterated over.\n\ngh-154902: Fix a crash when __conditional_annotations__ is rebound to\na non-set object.\n\ngh-153578: Fix an out-of-bounds write in bytearray.extend() when the\nbytearray is resized while the argument’s __buffer__() is\nbeing acquired, for example by another thread. Patch by tonghuaroot."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_002",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-148817: Fold large constant list and set literals used as the iterable\nof a for loop or in/not in test into a constant\ntuple or frozenset, restoring an optimization previously\ndone by the AST optimizer that was lost when constant folding moved to the\nCFG.\n\ngh-85260: compile() now raises ValueError instead of crashing\non a debug build if an identifier field of an AST node (such as the name\nof a function, a class, an imported module or a caught exception) is\n\"None\", \"True\" or \"False\".\n\n### Library\n\ngh-83895: xml.etree.ElementTree now accepts input larger than 2 GiB\nin the C implementation. The data is fed to Expat in chunks, as\nxml.parsers.expat already did, instead of raising\nOverflowError.\n\ngh-99064: Fix xml.etree.ElementTree.parse() with a text file or\nother source of str data in the C implementation. The encoding\ndeclared in the document was applied to the already decoded text, which\nproduced mojibake. It is now ignored, as when parsing with\nXMLParser.feed() or fromstring()."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_003",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-156658: xml.dom and xml.etree.ElementTree no longer treat\ncharacters which are not white space in XML (such as U+00A0) as white\nspace. Previously they could be lost in\nindent(),\ncanonicalize() with strip_text=True, and\nwhen parsing with the whitespace-in-element-content feature turned\noff.\n\ngh-156523: Fix asyncio.as_completed() not recording the awaiting\ntask in the call graph.\n\ngh-156476: The pure Python implementation of queue.SimpleQueue.get()\nnow ignores timeout when block is false, matching the documented\nbehavior and the C implementation. It previously raised ValueError.\n\ngh-156444: Fix matching of a negated character set in a bytes pattern\ncompiled with both re.IGNORECASE and re.LOCALE.  The\ncase closure is now applied to the members of the set, so that [^bc]\nno longer matches b'B'.\n\ngh-156408: Fix asyncio.print_call_graph() raising\nAttributeError when called on a task that has already finished.\n\ngh-156353: Fix configparser parsing when using whitespace in\ndelimiters."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_004",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-156166: ssl: A failed assignment or deletion of the\n_msg_callback attribute of ssl.SSLContext no longer removes\nthe current callback. Deleting it now raises AttributeError instead\nof TypeError.\n\ngh-156173: Calling zlib.Decompress.flush() on invalid compressed\ndata now raises zlib.error instead of being silently ignored.\n\ngh-152817: sqlite3: Disallow removing the row_factory attribute\nof a cursor to prevent a crash on a query.\n\ngh-156124: Fix a crash in the free-threaded build when deleting the\ncontents attribute of a ctypes pointer.\n\ngh-156112: _ios_support no longer fails to import when\nctypes.util.find_library() cannot resolve the ObjC runtime through\nthe dyld shared cache, as is the case on iOS 13. The runtime is now loaded\nby name, which dyld resolves against the cache directly.\n\ngh-156101: Fix sqlite3.Cursor.arraysize being set to 0 if the\nassigned value is too large. The attribute is now left unchanged if the\nassignment fails."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_005",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-156100: Fix crashes in sqlite3.Connection when deleting the\nautocommit attribute or setting it to an\ninteger which does not fit in C long. Both now raise an\nexception.\n\ngh-156099: Fix a crash when deleting the keylog_filename attribute of\nssl.SSLContext. It now raises AttributeError.\n\ngh-156067: Fix error handling in the zoneinfo accelerator module\nwhen a transition index is -1 or a TZ string’s __bool__ raises.\n\ngh-155997: Fix concurrent.interpreters.list_all().  It failed if an\ninterpreter was destroyed during the call, in particular by a garbage\ncollection which finalized the object owning the last reference to it.\n\ngh-155952: Fix the signatures of sqlite3.Connection.execute(),\nwarnings.warn() and locale.setlocale() which rendered\n<unrepresentable> instead of the correct defaults for parameters.\n\ngh-155888: Fix asyncio.WriteTransport.writelines() hanging the\ntransport when the last data chunk is empty."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_006",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-155775: Fix a regression in imaplib introduced in the fix for\ngh-63121: refreshing the capabilities after a successful\nlogin() or authenticate()\nconsumed the CAPABILITY response, so it could no longer be read with\nresponse().\n\ngh-113318: Fix crashes when deleting an attribute whose setter is\ngenerated by Argument Clinic and is not prepared for deletion, among them\nframe.f_trace_opcodes and the context, owner and\nsession attributes of _ssl._SSLSocket. Deleting such attribute now\nraises AttributeError.\n\ngh-155468: Fix netrc to distinguish empty quoted tokens from\nend-of-file, so malformed files no longer cause the remaining content to\nbe silently ignored.\n\ngh-155519: Avoid a data-race in free-threaded builds when reading and\nwriting context variables from different threads.\n\ngh-155336: Fix error handling in socket.gethostbyaddr() and\nsocket.gethostbyname_ex() when hostname resolution fails."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_007",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-102475: Fix os.path.realpath() on Windows: the unresolved part of\nthe path is now appended, not joined, so a file name which looks like a\ndrive (e.g. spam:eggs) no longer discards the resolved part.  A path\nrelative to another drive is now resolved against the root directory of\nthat drive.\n\ngh-89760: Fix os.path.realpath() on Windows: the \\\\?\\ prefix is\nno longer stripped from a volume GUID path, which made the result invalid.\n\ngh-84419: Fix os.stat() on Windows: trailing dots and spaces, which\nare ignored by the operating system, are no longer taken into account when\nthe execute permissions are guessed from the file extension.\n\ngh-155319: warnings.warn_explicit() now displays the source line\ntaken from the loader of the module whose globals are passed as\nmodule_globals.  It also no longer raises IndexError if lineno\nis out of the range of the module source."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_008",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-123011: warnings.warn_explicit() no longer emits a spurious\nDeprecationWarning or raises ImportError when it is called\nwith the globals of the __main__ module.\n\ngh-69370: python -m inspect --details no longer fails with\nUnicodeEncodeError if the path of the module contains characters\nunencodable in the encoding of sys.stdout.  Such characters are\nnow escaped with backslashes.\n\ngh-69371: Fix pydoc for modules whose path contains undecodable\nbytes. pydoc.writedoc() and the pydoc HTTP server no longer fail\nwith UnicodeEncodeError: the file URL is now percent-encoded using\nthe filesystem encoding, and characters unencodable in the generated HTML\npage are escaped with backslashes.\n\ngh-154871: Fixed a crash in asyncio.Task.get_context() when called\non an uninitialized task.\n\ngh-154855: Fix curses.window.instr() returning one character too few\nwhen the curses module is built against a curses library that\ncounts the terminator in the requested length, such as the NetBSD one."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_009",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-153970: Calling str() on a subprocess.CalledProcessError\nno longer raises TypeError when its returncode is not an\ninteger, such as None.\n\ngh-153005: concurrent.interpreters.Queue.get() and\nconcurrent.interpreters.Queue.put() now compute their timeout\ndeadline from time.monotonic() instead of the wall clock, so\nadjusting the system clock during the call no longer makes them over- or\nunder-wait.\n\ngh-153772: isinstance() checks against collections.abc\nclasses such as Mapping no longer raise\nAttributeError when the instance has no __class__.  The\nabstract base class machinery now falls back to the object’s type in that\ncase, matching the behaviour of the built-in isinstance().\n\ngh-153603: Fix a crash in the ISO-2022 decoders when decoding a byte after\nan unknown charset designation is set via the decoder’s setstate\nmethod. Patch by tonghuaroot."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_010",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-153539: Fix a crash in the C implementation of\nio.TextIOWrapper.tell() when the decoder’s getstate method\ntriggers a reentrant seek, or when another thread seeks the same stream\nconcurrently. Patch by tonghuaroot.\n\ngh-153133: Fix a socket leak in asyncio.loop.create_connection()\nwhen the transport cannot be created.\n\ngh-152204: Fix the pure-Python implementations of\ndatetime.date.fromisoformat(), datetime.time.fromisoformat()\nand datetime.datetime.fromisoformat() silently accepting some\nmalformed ISO 8601 strings, such as non-ASCII digits or a sign in a\nfixed-width field (for example '2020+12' or '20201212T0102٣٤').\nEach field is now required to be exactly N ASCII digits, matching the C\nimplementation.\n\ngh-151955: Allow more types to be used in the bound argument to\ntyping.ParamSpec.\n\ngh-113329: Fix OSError being raised when trying to run doctests on\na class objects in the REPL. Patch by Sten Wessel."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_011",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-102967: A bug in doctest._SpoofOut.truncate() was causing None\nto be passed to StringIO.seek() when no size was given. A simple\nfix skips the seek call when no size is given so the buffer can be\ntruncated from the current position.\n\ngh-82039: http.cookiejar.FileCookieJar.load() now checks the first,\nformat signature line in a case-insensitive manner. Patch by Ashley\nHarvey.\n\ngh-70758: Creating a new turtle screen after the previous one was\nclosed no longer raises turtle.Terminator on the first turtle command.\n\nbpo-44012: The exploded attribute of ipaddress.IPv6Address\nand ipaddress.IPv6Interface now supports addresses with a scope\nID (link-local addresses). Previously the former raised\nAddressValueError and the latter omitted the scope ID."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_012",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-83869: Fix tarfile reading an archive with a GNU sparse 1.0\nmember whose size is set in the pax extended header. The offset of the\nnext header was computed from the offset of the data, which is already\npast the sparse map, and from the size of the member, which can be the\napparent size of the sparse file. All following members were unreachable.\n\ngh-61366: http.cookiejar.MozillaCookieJar now reads session\ncookies written by curl and Wget, which use 0 in the expiration time\nfield. Contributed by Jérémie Detrey.\n\n### Tests\n\ngh-155411: Fix test.support.subTests() for asynchronous test\nmethods.  They were wrapped in a synchronous function, which discarded the\ncoroutine without awaiting it, so the test silently did not run at all."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_013",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-132581: The list of tests which altered the execution environment now\nincludes the reasons why the environment was considered altered, for\nexample an unraisable exception or a modified sys.path.  The final\nresult no longer repeats the same state twice (like ENV CHANGED then ENV\nCHANGED).\n\ngh-142414: Isolate reloading modules in test_interpreters to avoid having\nbroken references.\n\n### Build\n\ngh-156369: Update Android and iOS build scripts to use OpenSSL 3.5.8.\n\ngh-155911: Fix curses detection when a curses library is already in\nLIBS. Patch by Shamil Abdulaev.\n\ngh-156115: iOS simulator builds are now configured with\n-mios-simulator-version-min instead of the device’s\n-mios-version-min. The device flag made the linker reject libraries\nresolved from the simulator SDK, so library detection silently failed.\n\n### Windows\n\ngh-156369: Updated Windows builds to use OpenSSL 3.5.8."
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_014",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-72353: Reading from the console on Windows now continues if the read\nwas cancelled by Ctrl+C, but the SIGINT handler did not\nraise an exception.  Previously the read ended as if at end of file.\n\ngh-86427: Fix the encoding of the standard streams in the legacy Windows\nstdio mode (PYTHONLEGACYWINDOWSSTDIO).  It is now the code page\nof the console, as in Python 3.7, not the ANSI code page.\n\ngh-87587: os.device_encoding() on Windows now returns the code page\nof any console file descriptor, not only 0, 1 and 2, and returns None\nfor other character devices like NUL.  The UTF-8 code page is now\nreported as \"utf-8\" instead of \"cp65001\".\n\n### macOS\n\ngh-156369: Update macOS installer to use OpenSSL 3.5.8.\n\n### Tools/Demos"
-  },
-  {
-    "chunk_id": "3_whatsnew_changelog_001_015",
-    "source_file": "3_whatsnew_changelog.md",
-    "heading": "Python next",
-    "text": "gh-113318: Fix Argument Clinic for @getter and @setter in a\npreprocessor conditional block. It failed with an internal error. Argument\nClinic now also rejects the accessors of the same attribute with different\nC basenames, and the same accessor defined twice, which silently generated\ninvalid or duplicated entries of PyGetSetDef.\n\ngh-64502: Fix Argument Clinic support of parameters with a default value\nused together with optional groups. Such parameters were always required\nin the generated parsing code.\n\n### C API\n\ngh-156101: Don’t set the result in error in PyLong_AsInt32(),\nPyLong_AsUInt32(), PyLong_AsInt64() and\nPyLong_AsUInt64(). Leave the result unchanged in this case. Patch\nby Victor Stinner.\n\ngh-131740: On the free-threaded build,\nPyUnstable_GC_VisitObjects() now also visits frozen objects\n(objects moved to the permanent generation by gc.freeze()), matching\nthe behavior of the default build."
   }
 ]

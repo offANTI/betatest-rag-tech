@@ -1,7 +1,0 @@
-# Python Language Services
-
-Python provides a number of modules to assist in working with the Python
-language.  These modules support tokenizing, parsing, syntax analysis, bytecode
-disassembly, and various other facilities.
-
-These modules include:

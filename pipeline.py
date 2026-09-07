@@ -7,7 +7,7 @@ from src.retrieval.embed import embed_source
 from common.config import load_source_config
 logger = get_project_logger(__name__)
 
-def run_pipeline(source_name: str, skip_crawl: bool = False):
+def run_pipeline(source_name: str, skip_crawl: bool = False, device: str = None):
     logger.info("Pipeline start (requested source: %s)", source_name)
     config = load_source_config(source_name)
     raw_markdown = config.get("raw_markdown", False)
@@ -25,8 +25,8 @@ def run_pipeline(source_name: str, skip_crawl: bool = False):
     logger.info("[%s] Step 3/4: chunk", source_name)
     chunk_all(source_name)
 
-    logger.info("[%s] Step 4/4: embed", source_name)
-    embed_source(source_name)
+    logger.info("[%s] Step 4/4: embed (device=%s)", source_name, device or "auto")
+    embed_source(source_name, device=device)
 
     logger.info("[%s] Pipeline complete", source_name)
 
@@ -44,6 +44,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "--skip-crawl", action="store_true", help="Skip crawling step"
     )
+    parser.add_argument(
+        "--device", default=None, help="Device for embeddings, e.g. 'cuda' or 'cpu'"
+    )
     args = parser.parse_args()
 
-    run_pipeline(args.source, skip_crawl=args.skip_crawl)
+    run_pipeline(args.source, skip_crawl=args.skip_crawl, device=args.device)

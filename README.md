@@ -48,8 +48,8 @@ pytest -v
 
 At the moment, the pipeline follows a crawl → extract → embed workflow to prepare text and chunks for search and retrieval.
 
-The RAG system crawls documentation directly from websites. Currently, it contains around 465 pages and 36,953 text chunks - and that’s just Python!
-Search is performed using both dense retrieval and BM25. The results from both methods are then combined using the Reciprocal Rank Fusion (RRF) algorithm.
+The RAG system crawls documentation directly from websites. It currently indexes 24,104 chunks from Python documentation and 2,358 chunks from dbt documentation, with more sources planned.
+Search is performed using both dense retrieval and BM25. The results from both methods are combined using Reciprocal Rank Fusion (RRF) and then reranked by a cross-encoder for the final ranking.
 
 The system is managed and configured through a YAML configuration file.
 What’s Next
@@ -69,13 +69,12 @@ rag-tech-docs/
 │   └── sources.yaml
 ├── data/
 │   ├── raw/          # raw html per source
-│   ├── processed/     # clean markdown per source
-│   └── chunks/        # chunks + embeddings per source
+│   ├── processed/    # clean markdown per source
+│   └── chunks/       # chunks + embeddings per source
 ├── src/
-│   ├── crawler/        # crawl.py, extract.py
-│       ├── chunking/        # chunker.py
-        ├── crawler/
-│       └── retrieval/        # dense_search.py, bm25.py, hybrid.py, embed.py
+    ├── chunking/        # chunker.py
+    ├── crawler/         # crawl.py, extract.py
+│   └── retrieval/       # dense_search.py, bm25.py, hybrid.py, embed.py
 ├── tests/
 ├── utils/
 └── pipeline.py          # runs everything for one source

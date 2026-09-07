@@ -14,7 +14,7 @@ logger = get_project_logger(__name__)
 CURRENT_FILE = Path(__file__)
 PROJECT_ROOT = CURRENT_FILE.parent.parent.parent
 
-MAX_PAGES = 500
+MAX_PAGES = 2000
 REQUEST_DELAY = 0.5
 BINARY_EXT = (".png", ".jpg", ".jpeg", ".gif", ".svg", ".woff", ".woff2", ".pdf", ".zip", ".ico")
 
@@ -69,6 +69,10 @@ def extract_links(html: str, base_url: str) -> list[str]:
     for tag in soup.find_all("a", href=True):
         full_url = urljoin(base_url, tag["href"])
         full_url = full_url.split("#")[0]
+
+        if not full_url.endswith(("/", ".html")) and "." not in full_url.rsplit("/", 1)[-1]:
+            full_url += ".html"
+
         links.append(full_url)
     return links
 

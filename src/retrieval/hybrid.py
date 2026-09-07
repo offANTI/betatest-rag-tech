@@ -160,8 +160,8 @@ if __name__ == "__main__":
 
     chunks, dense_embeddings, bm25 = load_multi_source(args.sources)
 
-    model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1")
-    reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+    model = SentenceTransformer("multi-qa-MiniLM-L6-cos-v1", device="cuda")
+    reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2", device="cuda")
 
     print(f"Loaded {len(chunks)} chunks from {args.sources}. Empty line or 'exit' to quit.\n")
 
