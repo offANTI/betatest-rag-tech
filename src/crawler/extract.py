@@ -1,4 +1,3 @@
-import argparse
 from pathlib import Path
 from bs4 import BeautifulSoup
 from utils.logger import get_project_logger

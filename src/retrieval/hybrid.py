@@ -2,8 +2,8 @@ import numpy as np
 import argparse
 from sentence_transformers import SentenceTransformer, CrossEncoder
 from utils.logger import get_project_logger
-from .dense_search import cosine_similarity, load_data, load_multi_source
-from .bm25 import build_bm25_index, tokenize, batch_chunks
+from .dense_search import cosine_similarity, load_multi_source
+from .bm25 import  tokenize
 from .embed import clean_for_embedding
 
 logger = get_project_logger(__name__)
@@ -146,6 +146,13 @@ def hybrid_search(
                 "bm25_rank": int(bm25_ranks[idx]),
             }
         )
+
+    if reranker is not None:
+        before = len(final_results)
+        final_results = [r for r in final_results if r["rerank_score"] is None or r["rerank_score"] >= 0]
+        dropped = before - len(final_results)
+        if dropped:
+            logger.info("Dropped %d result(s) with negative rerank score", dropped)
 
     logger.info("Hybrid search returned %d results (top_k=%d)", len(final_results), top_k)
     return final_results
